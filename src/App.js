@@ -1,9 +1,11 @@
 // import logo from './logo.svg';
 import './App.scss';
 
+import { useState, useEffect } from 'react'
+
 // import LasEnterFont from './las-enter-font/LasEnterPersonalUseOnly-D301.ttf';
 
-let isDark = true;
+// let isDark = true;
 
 const ReactiveContainer = (props) => {
   return (
@@ -46,21 +48,26 @@ const ProjectCard = (props) => {
   );
 }
 
-const setDarkMode = () => {
-  if (document.body.classList.contains('darkMode')) {
-    document.body.classList.remove('darkMode');
-  } else {
-    document.body.classList.add('darkMode');
-  }
-}
+// const setDarkMode = () => {
+  
+// }
+
+
 
 function App() {
-  // setDarkMode();
+  const checkIfDarkMode = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const [darkMode, setDarkMode] = useState(checkIfDarkMode());
+
+  useEffect(() => {
+    document.body.classList.toggle('darkMode', darkMode);
+  }, [darkMode]);
+  
   return (
     <div className='App'>
       <header className='hp-app-header hp-flex-row hp-space-between'>
         <h1 className=''>ethan macdonald</h1>
-        <button className='hp-theme-button hp-center-y ' onClick={() => setDarkMode()}>
+        <button className='hp-theme-button hp-center-y ' onClick={() => setDarkMode(!darkMode)}>
           <img className='hp-no-margin hp-link-icon' src={'/icons8-night-mode-64.png'} width='32px' height='32px'></img>
         </button>
       </header>
@@ -77,14 +84,19 @@ function App() {
                       <img className='hp-no-margin' src={'/picture.jpg'} width='300px' height='300px'></img>
                       
                     </div>
+                    
                     <div className='hp-flex-col'>
                       <div>
+                        
                         {/* <h1 className='hp-profile-text hp-no-padding hp-no-margin'>ethan macdonald</h1> */}
                         <p className='hp-profile-text hp-no-padding hp-no-margin'>
-                          software developer, full-stack web developer, and student
+                          <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
+                          currently a full-time student at Dalhousie University.
                         </p>
                         <div className='hp-flex-row'>
-                          <img className='hp-link-icon' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+                          <a href='https://www.github.com/emd22/' className=''>
+                            <img className='hp-link-icon' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -107,8 +119,8 @@ function App() {
                       as well as <b>virtual machines</b> for personal projects, and to expand my learning.
                     </li>
                     <li>work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
-                    <li>I used Linux for about <b>7 years</b> as a desktop operating system, as well as headless as a server.</li>
-                    <li>web development experience with <b>Node.js</b>, <b>React</b>, <b>Go</b>, <b>Dart + Flutter</b>, and much more.</li>
+                    <li>worked with Linux for over <b>7 years</b> as a desktop operating system, as well as headless as a server.</li>
+                    <li>web and app development experience with <b>Node.js</b>, <b>React</b>, <b>Go</b>, <b>Dart + Flutter</b>, and much more.</li>
                     <li>negative letter spacing addict</li>
                   </ul>
                 </div>

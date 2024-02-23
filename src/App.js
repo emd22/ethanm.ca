@@ -67,6 +67,7 @@ function App() {
     <div className='App'>
       <header className='hp-app-header hp-flex-row hp-space-between'>
         <h1 className=''>ethan macdonald</h1>
+        {/* <h1 className=''>et</h1> */}
         <button className='hp-theme-button hp-center-y ' onClick={() => setDarkMode(!darkMode)}>
           <img className='hp-no-margin hp-link-icon' src={'/icons8-night-mode-64.png'} width='32px' height='32px'></img>
         </button>
@@ -94,8 +95,11 @@ function App() {
                           currently a full-time student at Dalhousie University.
                         </p>
                         <div className='hp-flex-row'>
-                          <a href='https://www.github.com/emd22/' className=''>
+                          <a href='https://www.github.com/emd22/' className='hp-social-link'>
                             <img className='hp-link-icon' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+                          </a>
+                          <a href='https://www.github.com/emd22/' className='hp-social-link'>
+                            <img className='hp-link-icon' src='/email.png' width='30px' height='30px'></img>
                           </a>
                         </div>
                       </div>
@@ -170,7 +174,7 @@ function App() {
             />
             <footer className='hp-footer hp-center-x hp-flex-col hp-center-text'>
               <div className=''>&copy; 2024 Ethan MacDonald</div>
-              <div className=''><a target="_blank" href="https://icons8.com/icon/i3XElI5CmcBP/email">Email</a>, <a target="_blank" href='https://icons8.com/icon/uKugxlcnkh3u/night-mode'>Night</a> icons from <a target="_blank" href="https://icons8.com">Icons8</a></div>
+              <div className=''><a target="_blank" href='https://icons8.com/icon/uKugxlcnkh3u/night-mode'>Night</a> icon from <a target="_blank" href="https://icons8.com">Icons8</a>, <a href="https://www.flaticon.com/free-icons/gmail" title="email icons">Email icon</a> created by rukanicon, on Flaticon</div>
             </footer>
 
 

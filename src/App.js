@@ -131,7 +131,7 @@ function App() {
 
 
           <section className='hp-project-section'>
-            <h1 className='hp-title-chunky'>personal projects</h1>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>personal projects</h1>
             <ProjectCard 
               title='belter'
               description={
@@ -168,13 +168,18 @@ function App() {
               }
               contentCaption='multiple point lights around a bumpy textured cube in a train tunnel.'
             />
+            <footer className='hp-footer hp-center-x hp-flex-col hp-center-text'>
+              <div className=''>&copy; 2024 Ethan MacDonald</div>
+              <div className=''><a target="_blank" href="https://icons8.com/icon/i3XElI5CmcBP/email">Email</a>, <a target="_blank" href='https://icons8.com/icon/uKugxlcnkh3u/night-mode'>Night</a> icons from <a target="_blank" href="https://icons8.com">Icons8</a></div>
+            </footer>
 
 
           </section>
+          
         </div>
       </div>
 
-      <div className='footer'></div>
+      
     </div>
   );
 }

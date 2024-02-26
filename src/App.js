@@ -47,7 +47,7 @@ const ProjectCard = (props) => {
           </div>
           {props.description}
         </div>
-        <div className='hp-flex-col hp-margin-top-4'>
+        <div className='hp-flex-col hp-project-card-content'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
         </div>
@@ -141,7 +141,27 @@ function App() {
 
 
           <section className='hp-project-section'>
-            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>personal projects</h1>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>projects</h1>
+            <ProjectCard 
+              title='hyperion engine'
+              links={{
+                'github': 'https://github.com/notomorrow/hyperion-engine'
+              }}
+              description={
+                <div>
+                  <p>
+                    A modern vulkan game engine written completely from the ground up. Supports multithreaded rendering, VCT, DDGI, raytracing, and much more.
+                  </p>
+                  <p>Built with my brother Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>), we've been working on this engine for the past 4 years and constantly implementing new technologies and features.</p>
+                  <p>I'm currently working on a level/game editor with a highly modified version of WxWidgets!</p>
+                </div>
+              }
+            
+              content={
+                <img src={hyperionDemo}></img>
+              }
+              contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
+            />
             <ProjectCard 
               title='belter'
               description={
@@ -163,26 +183,6 @@ function App() {
               contentCaption='a video of belter in action, demoed on MacOS.'
             />
             <ProjectCard 
-              title='hyperion engine'
-              links={{
-                'github': 'https://github.com/notomorrow/hyperion-engine'
-              }}
-              description={
-                <div>
-                  <p>
-                    A modern vulkan game engine written completely from the ground up. Supports multithreaded rendering, VCT, DDGI, raytracing, and much more.
-                  </p>
-                  <p>Built with my brother Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>), we've been working on this engine for the past 4 years and constantly implementing new technologies and features.</p>
-                  <p>I'm currently working on a level/game editor with a highly modified version of WxWidgets!</p>
-                </div>
-              }
-            
-              content={
-                <img src={hyperionDemo} width='400'></img>
-              }
-              contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
-            />
-            <ProjectCard 
               title='acheron engine'
               links={{
                 'github': 'https://github.com/emd22/acheron'
@@ -197,13 +197,13 @@ function App() {
               }
             
               content={
-                <img src={acheronTunnel} width='400'></img>
+                <img src={acheronTunnel}></img>
               }
               contentCaption='multiple point lights around a bumpy textured cube in a train tunnel.'
             />
           </section>
           <section className='hp-project-section'>
-            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>some cool things</h1>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>other cool things</h1>
             <ProjectCard 
               title='peach language'
               links={{

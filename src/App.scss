@@ -241,6 +241,10 @@ a {
     overflow:hidden;
     position: relative;
     // border: 1px solid rgb(34, 33, 33);
+
+    @include phone-size() {
+      padding: 10px 25px;
+    }
   
     &::before {
       content: "";
@@ -288,6 +292,9 @@ a {
 
     box-shadow: 0 0 20px -8px var(--primarySolid);
 
+    @include phone-size() {
+      padding: 10px 25px;
+    }
   
     &::before {
       content: "";
@@ -396,7 +403,7 @@ a {
   @media only screen and (max-width: 600px) { @include all-rules; @content; }
 }
 @mixin phone-size {
-  @media only screen and (max-width: 768px) { @content; }
+  @media only screen and (max-width: 600px) { @content; }
 }
 @mixin tablet {
   @media only screen and (max-width: 768px) { @include all-rules; @content; }
@@ -473,17 +480,24 @@ a {
   &-profile-picture-container {
   }
   &-project-card-content {
-    margin: 20px 0;
+    display:flex;
+    flex-direction: column;
+    margin: 20px auto;
+    align-items: center;
 
-    @include phone-size() {
-      margin: 0;
+    @include tablet-size() {
+      margin: 0 auto;
+      // width: 100%;
     }
 
-    img, video {
+    img {
       width: auto;
       max-width: 400px;
       max-height: 400px;
 
+      justify-self: center;
+
+      
       &::before {
         width: auto;
         max-width: 400px;
@@ -492,6 +506,19 @@ a {
 
       @include phone-size() {
         width: 100%;
+      }
+    }
+
+    video {
+      max-height: 400px;
+      max-width: 350px;
+      width: auto;
+
+      justify-self: center;
+
+
+      @include phone-size() {
+        // margin: 0 auto;
       }
     }
   }

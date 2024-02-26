@@ -47,7 +47,7 @@ const ProjectCard = (props) => {
           </div>
           {props.description}
         </div>
-        <div className='hp-flex-col hp-project-card-content'>
+        <div className='hp-project-card-content'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
         </div>

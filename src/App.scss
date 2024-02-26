@@ -345,6 +345,9 @@ a {
   &-hero-box {
     justify-content: space-between;
     gap: 30px;
+    @include phone-size {
+      align-items: center;
+    }
   }
   
   &-main-content {
@@ -363,36 +366,6 @@ a {
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-}
-
-@mixin phone {
-  @media only screen and (max-width: 600px) { @include all-rules; @content; }
-}
-@mixin tablet {
-  @media only screen and (max-width: 768px) { @include all-rules; @content; }
-}
-@mixin tablet-size {
-  @media only screen and (max-width: 768px) { @content; }
-}
-@mixin desktop {
-  @media only screen and (min-width: 992px) { @content; }
-}
-
-.hp {
-
-  @include all-rules;
-
-  &-tablet {
-    @include tablet();
-  }
-
-  &-theme-button {
-    background-color: transparent;
-    color: var(--onBackground);
-    border: none;
-    // flex: 1;
-    display:flex;
   }
 
   &-center-x {
@@ -420,6 +393,42 @@ a {
   }
 }
 
+@mixin phone {
+  @media only screen and (max-width: 600px) { @include all-rules; @content; }
+}
+@mixin phone-size {
+  @media only screen and (max-width: 768px) { @content; }
+}
+@mixin tablet {
+  @media only screen and (max-width: 768px) { @include all-rules; @content; }
+}
+@mixin tablet-size {
+  @media only screen and (max-width: 768px) { @content; }
+}
+@mixin desktop {
+  @media only screen and (min-width: 992px) { @content; }
+}
+
+.hp {
+
+  @include all-rules;
+
+  &-tablet {
+    @include tablet();
+  }
+  &-phone {
+    @include phone();
+  }
+
+  &-theme-button {
+    background-color: transparent;
+    color: var(--onBackground);
+    border: none;
+    // flex: 1;
+    display:flex;
+  }
+}
+
 @mixin create-padding-rules($class, $style, $step, $max) {
   $i: 0;
   @while $i <= 10 {
@@ -444,6 +453,26 @@ a {
 
 
 .hp {
+  &-profile-picture {
+    object-fit: cover;
+    // object-position: 0% 20%;
+    width: 300px;
+    height: 300px;
+
+    @include phone-size() {
+      width: 100%;
+      height: auto;
+      
+      margin: 0;
+      padding: 0;
+      // width: auto;
+      // object-fit: cover;
+      // height: 300px;
+    }
+    // height: 300px;
+  }
+  &-profile-picture-container {
+  }
   &-project-section {
     display: flex;
     flex-direction: column;

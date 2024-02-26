@@ -468,6 +468,8 @@ a {
     @include phone-size() {
       width: 100%;
       height: auto;
+      justify-self: center;
+      // align-self: center;
 
       margin: 0;
       padding: 0;

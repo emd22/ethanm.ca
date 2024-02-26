@@ -1,6 +1,6 @@
 import './App.scss';
 
-import profilePicture from './assets/picture.jpg'
+import profilePicture from './assets/picture.png'
 import nightModeIcon from './assets/icons8-night-mode-64.png'
 import githubIcon from './assets/github-mark/github-mark.svg'
 import emailIcon from './assets/email.png'
@@ -56,6 +56,62 @@ const ProjectCard = (props) => {
   );
 }
 
+const ProfileContainer = (props) => {
+  return (
+    <ReactiveContainer>
+      <div className=''>
+        <div className='hp-basic-container hp-profile-container'>
+          <div className='hp-phone-flex-col hp-tablet-flex-row hp-flex-col hp-hero-box hp-center-x'>
+            <div className='hp-flex-col hp-phone-center-x'>
+              <img className='hp-no-margin hp-phone-center-x hp-profile-picture' src={profilePicture}></img>
+            </div>
+            
+            <div className='hp-flex-col'>
+              <div>
+                {/* <h1 className='hp-profile-text hp-no-padding hp-no-margin'>ethan macdonald</h1> */}
+                <p className='hp-profile-text hp-no-padding hp-no-margin'>
+                  <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
+                  currently a full-time student at Dalhousie University.
+                </p>
+                <div className='hp-flex-row hp-margin-top-2'>
+                  <a href='https://www.github.com/emd22/' className='hp-social-link'>
+                    <img className='hp-link-icon' src={githubIcon} width='30px' height='30px'></img>
+                  </a>
+                  <a href='mailto:e@ethanm.ca' className='hp-social-link'>
+                    <img className='hp-link-icon' src={emailIcon} width='30px' height='30px'></img>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='hp-flex-one'>
+        <div className='hp-light-container'>
+          <h1>about me</h1>
+          <p>I am a software developer from Nova Scotia, Canada. I have over <b>9 years of experience</b> programming and working on projects. I am currently taking a Bachelors of Computer Science at Dalhousie University.</p>
+
+          <ul>
+            <h2>some quick info</h2>
+
+            <li>
+              developed <b>operating systems</b> and drivers,
+              <b> game engines</b>, 
+              <b> programming languages</b>, 
+              as well as <b>virtual machines</b> for personal projects, and to expand my learning.
+            </li>
+            <li>work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
+            <li>worked with Linux for over <b>7 years</b> as a desktop operating system, as well as headless as a server.</li>
+            <li>web and app development experience with <b>Node.js</b>, <b>React</b>, <b>Go</b>, <b>Dart + Flutter</b>, and much more.</li>
+            <li>negative letter spacing addict</li>
+          </ul>
+        </div>
+      </div>
+    </ReactiveContainer>
+  );
+}
+
 
 function App() {
   const checkIfDarkMode = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -80,60 +136,7 @@ function App() {
         <div className='hp-main-content'>
 
           <section>
-            <ReactiveContainer>
-              <div className=''>
-                <div className='hp-basic-container hp-profile-container'>
-                  <div className='hp-tablet-flex-row hp-flex-col hp-hero-box hp-center-x'>
-                    <div className='hp-flex-col'>
-                      <img className='hp-no-margin' src={profilePicture} width='300px' height='300px'></img>
-                      
-                    </div>
-                    
-                    <div className='hp-flex-col'>
-                      <div>
-                        
-                        {/* <h1 className='hp-profile-text hp-no-padding hp-no-margin'>ethan macdonald</h1> */}
-                        <p className='hp-profile-text hp-no-padding hp-no-margin'>
-                          <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
-                          currently a full-time student at Dalhousie University.
-                        </p>
-                        <div className='hp-flex-row hp-margin-top-2'>
-                          <a href='https://www.github.com/emd22/' className='hp-social-link'>
-                            <img className='hp-link-icon' src={githubIcon} width='30px' height='30px'></img>
-                          </a>
-                          <a href='mailto:e@ethanm.ca' className='hp-social-link'>
-                            <img className='hp-link-icon' src={emailIcon} width='30px' height='30px'></img>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className='hp-flex-one'>
-                <div className='hp-light-container'>
-                  <h1>about me</h1>
-                  <p>I am a software developer from Nova Scotia, Canada. I have over <b>9 years of experience</b> programming and working on projects. I am currently taking a Bachelors of Computer Science at Dalhousie University.</p>
-
-                  <ul>
-                    <h2>some quick info</h2>
-
-                    <li>
-                      developed <b>operating systems</b> and drivers,
-                      <b> game engines</b>, 
-                      <b> programming languages</b>, 
-                      as well as <b>virtual machines</b> for personal projects, and to expand my learning.
-                    </li>
-                    <li>work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
-                    <li>worked with Linux for over <b>7 years</b> as a desktop operating system, as well as headless as a server.</li>
-                    <li>web and app development experience with <b>Node.js</b>, <b>React</b>, <b>Go</b>, <b>Dart + Flutter</b>, and much more.</li>
-                    <li>negative letter spacing addict</li>
-                  </ul>
-                </div>
-              </div>
-              
-            </ReactiveContainer>
+            <ProfileContainer/>
           </section>
 
 

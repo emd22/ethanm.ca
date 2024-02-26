@@ -1,5 +1,16 @@
 import './App.scss';
 
+import profilePicture from './assets/picture.jpg'
+import nightModeIcon from './assets/icons8-night-mode-64.png'
+import githubIcon from './assets/github-mark/github-mark.svg'
+import emailIcon from './assets/email.png'
+import replitIcon from './assets/replit-logo.png'
+
+import peachDemo from './assets/peach.mov'
+import acheronTunnel from './assets/acheron-tunnel.png'
+import hyperionDemo from './assets/ddgi.gif'
+import belterDemo from './assets/belter-video.mp4'
+
 import { useState, useEffect } from 'react'
 
 const ReactiveContainer = (props) => {
@@ -26,11 +37,11 @@ const ProjectCard = (props) => {
 
             {props.links && <div className='hp-flex-row'>
               {props.links['github'] && <a href={props.links['github']} className='hp-social-link'>
-                <img className='hp-link-icon-light' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+                <img className='hp-link-icon-light' src={githubIcon} width='30px' height='30px'></img>
               </a>}
 
               {props.links['replit'] && <a href={props.links['replit']} className='hp-social-link'>
-                <img className='hp-link-icon-light' src='/replit-logo.png' width='30px' height='30px'></img>
+                <img className='hp-link-icon-light' src={replitIcon} width='30px' height='30px'></img>
               </a>}
             </div>}
           </div>
@@ -61,7 +72,7 @@ function App() {
         <h1 className=''>ethan macdonald</h1>
         {/* <h1 className=''>et</h1> */}
         <button className='hp-theme-button hp-center-y ' onClick={() => setDarkMode(!darkMode)}>
-          <img className='hp-no-margin hp-link-icon' src={'/icons8-night-mode-64.png'} width='32px' height='32px'></img>
+          <img className='hp-no-margin hp-link-icon' src={nightModeIcon} width='32px' height='32px'></img>
         </button>
       </header>
 
@@ -74,7 +85,7 @@ function App() {
                 <div className='hp-basic-container hp-profile-container'>
                   <div className='hp-tablet-flex-row hp-flex-col hp-hero-box hp-center-x'>
                     <div className='hp-flex-col'>
-                      <img className='hp-no-margin' src={'/picture.jpg'} width='300px' height='300px'></img>
+                      <img className='hp-no-margin' src={profilePicture} width='300px' height='300px'></img>
                       
                     </div>
                     
@@ -88,10 +99,10 @@ function App() {
                         </p>
                         <div className='hp-flex-row hp-margin-top-2'>
                           <a href='https://www.github.com/emd22/' className='hp-social-link'>
-                            <img className='hp-link-icon' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+                            <img className='hp-link-icon' src={githubIcon} width='30px' height='30px'></img>
                           </a>
                           <a href='mailto:e@ethanm.ca' className='hp-social-link'>
-                            <img className='hp-link-icon' src='/email.png' width='30px' height='30px'></img>
+                            <img className='hp-link-icon' src={emailIcon} width='30px' height='30px'></img>
                           </a>
                         </div>
                       </div>
@@ -144,7 +155,7 @@ function App() {
               }
             
               content={
-                <video src={'/belter-video.mp4'} width='300px' autoPlay loop muted></video>
+                <video src={belterDemo} width='300px' autoPlay loop muted></video>
               }
               contentCaption='a video of belter in action, demoed on MacOS.'
             />
@@ -164,7 +175,7 @@ function App() {
               }
             
               content={
-                <img src={'/ddgi.gif'} width='400'></img>
+                <img src={hyperionDemo} width='400'></img>
               }
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
             />
@@ -183,7 +194,7 @@ function App() {
               }
             
               content={
-                <img src={'/acheron-tunnel.png'} width='400'></img>
+                <img src={acheronTunnel} width='400'></img>
               }
               contentCaption='multiple point lights around a bumpy textured cube in a train tunnel.'
             />
@@ -210,7 +221,7 @@ function App() {
               }
             
               content={
-                <video src={'/peach.mov'} width='300px' autoPlay loop muted></video>
+                <video src={peachDemo} width='300px' autoPlay loop muted></video>
                 // <div></div>
               }
               contentCaption='(slowly) generating the mandlebrot fractal in PEACH'

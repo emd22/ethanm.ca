@@ -34,7 +34,7 @@
   
   --profileTextColor: var(--colorTitle);
 
-  --colorTitle: linear-gradient(-55deg, rgb(28, 128, 165) 20%, 40%, #75c2be 100%);
+  --colorTitle: linear-gradient(-55deg, rgb(41, 167, 176) 20%, 40%, #75c2be 100%);
 
   --isDark: 1
 }
@@ -67,7 +67,7 @@ body {
 
 img, video {
   border-radius: 15px;
-  margin-top: 20px;
+  // margin-top: 20px;
 }
 
 p, li {
@@ -90,7 +90,7 @@ ul {
 a {
   display: inline-block;
   text-decoration: none;
-  color: #0077dd;
+  color: #35c1e4;
 }
 
 @mixin all-rules {
@@ -101,12 +101,12 @@ a {
   }
   &-ref-link {
     display: inline-block;
-    color: #0077dd;
+    color: #35c1e4;
     text-decoration: none;
   }
 
   &-title-link {
-    color: #0077dd;
+    color: #35c1e4;
     text-decoration: none;
   }
 
@@ -214,6 +214,15 @@ a {
   }
 
   &-link-icon {
+    &-light {
+      filter: contrast(200%) grayscale(100) invert(1)
+    }
+
+    &-dark {
+      filter: contrast(200%) grayscale(100)
+    }
+
+
     filter: contrast(200%) grayscale(100) invert(var(--isDark))
   }
 
@@ -397,6 +406,12 @@ a {
     text-align: center;
   }
 
+  &-padding {
+    &-1 {
+      padding: 10px;
+    }
+  }
+
   &-no-padding {
     padding: 0;
   }
@@ -404,6 +419,28 @@ a {
     margin: 0;
   }
 }
+
+@mixin create-padding-rules($class, $style, $step, $max) {
+  $i: 0;
+  @while $i <= 10 {
+    #{$class + $i} {
+      #{$style}: #{($i * 10) + px};
+    }
+    $i: $i + 1;
+  }
+}
+
+@include create-padding-rules('.hp-padding-left-', 'padding-left', 5, 50);
+@include create-padding-rules('.hp-padding-right-', 'padding-right', 5, 50);
+@include create-padding-rules('.hp-padding-top-', 'padding-top', 5, 50);
+@include create-padding-rules('.hp-padding-bottom-', 'padding-bottom', 5, 50);
+@include create-padding-rules('.hp-padding-', 'padding', 5, 50);
+
+@include create-padding-rules('.hp-margin-left-', 'margin-left', 5, 50);
+@include create-padding-rules('.hp-margin-right-', 'margin-right', 5, 50);
+@include create-padding-rules('.hp-margin-top-', 'margin-top', 5, 50);
+@include create-padding-rules('.hp-margin-bottom-', 'margin-bottom', 5, 50);
+@include create-padding-rules('.hp-margin-', 'margin', 5, 50);
 
 
 .hp {

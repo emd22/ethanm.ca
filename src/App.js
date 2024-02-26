@@ -1,11 +1,6 @@
-// import logo from './logo.svg';
 import './App.scss';
 
 import { useState, useEffect } from 'react'
-
-// import LasEnterFont from './las-enter-font/LasEnterPersonalUseOnly-D301.ttf';
-
-// let isDark = true;
 
 const ReactiveContainer = (props) => {
   return (
@@ -21,25 +16,27 @@ const RefLink = (props) => {
   );
 }
 
-const RefCollection = (props) => {
-  return (
-    <div className='hp-ref-link'>
-      {props.links.map((link, index) => {
-        return link;
-      })}
-    </div>
-  );
-}
-
 const ProjectCard = (props) => {
   return (
     <div className='hp-dark-container hp-project-card'>
       <ReactiveContainer>
         <div className='hp-flex-col'>
-          <h1 className='hp-title-chunky hp-color-title'>{props.title}</h1>
+          <div className='hp-flex-col'>
+            <h1 className='hp-title-chunky hp-color-title'>{props.title}</h1>
+
+            {props.links && <div className='hp-flex-row'>
+              {props.links['github'] && <a href={props.links['github']} className='hp-social-link'>
+                <img className='hp-link-icon-light' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
+              </a>}
+
+              {props.links['replit'] && <a href={props.links['replit']} className='hp-social-link'>
+                <img className='hp-link-icon-light' src='/replit-logo.png' width='30px' height='30px'></img>
+              </a>}
+            </div>}
+          </div>
           {props.description}
         </div>
-        <div className='hp-flex-col'>
+        <div className='hp-flex-col hp-margin-top-4'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
         </div>
@@ -47,11 +44,6 @@ const ProjectCard = (props) => {
     </div>
   );
 }
-
-// const setDarkMode = () => {
-  
-// }
-
 
 
 function App() {
@@ -94,11 +86,11 @@ function App() {
                           <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
                           currently a full-time student at Dalhousie University.
                         </p>
-                        <div className='hp-flex-row'>
+                        <div className='hp-flex-row hp-margin-top-2'>
                           <a href='https://www.github.com/emd22/' className='hp-social-link'>
                             <img className='hp-link-icon' src='/github-mark/github-mark.svg' width='30px' height='30px'></img>
                           </a>
-                          <a href='https://www.github.com/emd22/' className='hp-social-link'>
+                          <a href='mailto:e@ethanm.ca' className='hp-social-link'>
                             <img className='hp-link-icon' src='/email.png' width='30px' height='30px'></img>
                           </a>
                         </div>
@@ -157,7 +149,30 @@ function App() {
               contentCaption='a video of belter in action, demoed on MacOS.'
             />
             <ProjectCard 
+              title='hyperion engine'
+              links={{
+                'github': 'https://github.com/notomorrow/hyperion-engine'
+              }}
+              description={
+                <div>
+                  <p>
+                    A modern vulkan game engine written completely from the ground up. Supports multithreaded rendering, VCT, DDGI, raytracing, and much more.
+                  </p>
+                  <p>Built with my brother Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>), we've been working on this engine for the past 4 years and constantly implementing new technologies and features.</p>
+                  <p>I'm currently working on a level/game editor with a highly modified version of WxWidgets!</p>
+                </div>
+              }
+            
+              content={
+                <img src={'/ddgi.gif'} width='400'></img>
+              }
+              contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
+            />
+            <ProjectCard 
               title='acheron engine'
+              links={{
+                'github': 'https://github.com/emd22/acheron'
+              }}
               description={
                 <div>
                   <p>
@@ -172,14 +187,39 @@ function App() {
               }
               contentCaption='multiple point lights around a bumpy textured cube in a train tunnel.'
             />
+          </section>
+          <section className='hp-project-section'>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>some cool things</h1>
+            <ProjectCard 
+              title='peach language'
+              links={{
+                'replit': 'https://replit.com/@mynameisjonas/jam2020#README.md',
+                'github': 'https://www.github.com/emd22/',
+              }}
+              description={
+                <div>
+                  <p>
+                    For a programming language jam from Repl.it in 2020, me and Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>) wrote PEACH in <b>less than a week</b>.
+                  </p>
+                  <p>
+                    PEACH is a prototypical interpreted language that is written in Python <b>from scratch</b>. Shown in the clip here is a mandlebrot fractal visualizer that I wrote <b>completely</b> in PEACH (<a href='https://github.com/emd22/jam2020/blob/master/mandle.peach'>link!</a>).
+                  </p>
+                  <p>Unfortunately, the original submission thread has been removed over the years.</p>
+                  {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
+                </div>
+              }
+            
+              content={
+                <video src={'/peach.mov'} width='300px' autoPlay loop muted></video>
+                // <div></div>
+              }
+              contentCaption='(slowly) generating the mandlebrot fractal in PEACH'
+            />
             <footer className='hp-footer hp-center-x hp-flex-col hp-center-text'>
               <div className=''>&copy; 2024 Ethan MacDonald</div>
               <div className=''><a target="_blank" href='https://icons8.com/icon/uKugxlcnkh3u/night-mode'>Night</a> icon from <a target="_blank" href="https://icons8.com">Icons8</a>, <a href="https://www.flaticon.com/free-icons/gmail" title="email icons">Email icon</a> created by rukanicon, on Flaticon</div>
             </footer>
-
-
           </section>
-          
         </div>
       </div>
 

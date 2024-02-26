@@ -1,6 +1,7 @@
 import './App.scss';
 
 import profilePicture from './assets/picture.png'
+import favicon from './assets/icon.ico'
 import nightModeIcon from './assets/icons8-night-mode-64.png'
 import githubIcon from './assets/github-mark/github-mark.svg'
 import emailIcon from './assets/email.png'

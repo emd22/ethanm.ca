@@ -12,6 +12,7 @@ import peachDemo from './assets/peach.mov'
 import acheronTunnel from './assets/acheron-tunnel.png'
 import hyperionDemo from './assets/ddgi.gif'
 import belterDemo from './assets/belter-video.mp4'
+import websiteDemo from './assets/website-screenshot2.png'
 
 import { useState, useEffect } from 'react'
 
@@ -78,7 +79,6 @@ const ProfileContainer = () => {
 
             <div className='hp-flex-col'>
               <div>
-                {/* <h1 className='hp-profile-text hp-no-padding hp-no-margin'>ethan macdonald</h1> */}
                 <p className='hp-profile-text hp-no-padding hp-no-margin'>
                   <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
                   currently a full-time student at Dalhousie University.
@@ -133,9 +133,8 @@ function App() {
     <div className='App'>
       <header className='hp-app-header hp-flex-row hp-space-between'>
         <h1 className=''>ethan macdonald</h1>
-        {/* <h1 className=''>et</h1> */}
         <button className='hp-theme-button hp-center-y ' onClick={() => setDarkMode(!darkMode)}>
-          <img className='hp-no-margin hp-link-icon' src={nightModeIcon} width='32px' height='32px'></img>
+          <img className='hp-no-margin hp-link-icon' alt='toggle dark mode' src={nightModeIcon} width='32px' height='32px'></img>
         </button>
       </header>
 
@@ -165,7 +164,7 @@ function App() {
               }
 
               content={
-                <img src={hyperionDemo}></img>
+                <img src={hyperionDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>
               }
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
             />
@@ -185,7 +184,7 @@ function App() {
               }
 
               content={
-                <video src={belterDemo} width='300px' autoPlay loop muted></video>
+                <video src={belterDemo} width='300px' autoPlay loop muted alt='demo of the belter app, signing in and going through multiple menus, and scrolling through posts.'></video>
               }
               contentCaption='a video of belter in action, demoed on MacOS.'
             />
@@ -215,7 +214,7 @@ function App() {
               title='peach language'
               links={{
                 'replit': 'https://replit.com/@mynameisjonas/jam2020#README.md',
-                'github': 'https://www.github.com/emd22/',
+                'github': 'https://www.github.com/emd22/jam2020',
               }}
               description={
                 <div>
@@ -231,10 +230,33 @@ function App() {
               }
 
               content={
-                <video src={peachDemo} width='300px' autoPlay loop muted></video>
+                <video src={peachDemo} width='300px' autoPlay loop muted alt='a video of a terminal generating the mandlebrot fractal, written completely in PEACH.'></video>
                 // <div></div>
               }
               contentCaption='(slowly) generating the mandlebrot fractal in PEACH'
+            />
+            <ProjectCard
+              title='personal website'
+              links={{
+                'github': 'https://www.github.com/emd22/ethanm.ca',
+              }}
+              description={
+                <div>
+                  <p>
+                    To showcase some of the project I have worked on, i've written this website using React.
+                  </p>
+                  <p>
+                    It is very dynamic to multiple devices, and also has a dark mode.
+                  </p>
+                  {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
+                </div>
+              }
+
+              content={
+                  <img src={websiteDemo} alt='an image of the website you are currently on'></img>
+                // <div></div>
+              }
+              contentCaption='screenshot of a familiar website'
             />
             <footer className='hp-footer hp-center-x hp-flex-col hp-center-text'>
               <div className=''>&copy; 2024 Ethan MacDonald</div>

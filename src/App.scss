@@ -31,7 +31,7 @@
   --onBackground: white;
   --primarySolid: #4d9a97;
   --onPrimary: black;
-  
+
   --profileTextColor: var(--colorTitle);
 
   --colorTitle: linear-gradient(-55deg, rgb(41, 167, 176) 20%, 40%, #75c2be 100%);
@@ -78,7 +78,7 @@ p, li {
 
 ul {
   padding: 0 1em;
-  
+
   h2 {
     padding: 0;
     margin: 0 0 5px -15px;
@@ -131,43 +131,43 @@ a {
   &-flex {
     display: flex;
     flex-direction: column;
-  
+
     &-one {
       flex: 1;
     }
-  
+
     &-zero {
       flex: 0;
     }
-  
+
     &-row {
       display: flex;
       flex-direction: row;
     }
-  
+
     &-col {
       display: flex;
       flex-direction: column;
     }
   }
-  
+
   &-basic-container {
-    
+
     // min-width: 250px;
-    width: 100%; 
+    width: 100%;
     // min-height: 450px;
     border-radius: 15px;
     box-sizing: border-box;
-  
+
     // padding: 20px 35px;
     // background-color: rgb(34, 33, 33);
     color:var(--onSecondary);
-  
+
     z-index: 1;
     overflow:hidden;
     position: relative;
     // border: 1px solid rgb(34, 33, 33);
-  
+
     &::before {
       content: "";
       position: absolute;
@@ -178,16 +178,16 @@ a {
       z-index: -1;
       transform: translateY(20%);
       transition: transform filter 0.2s ease;
-      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, rgb(57, 62, 73) 100%); 
-      // background: linear-gradient(-15deg, rgb(33, 32, 32) 10%, 40%, rgb(59, 60, 64) 100%); 
+      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, rgb(57, 62, 73) 100%);
+      // background: linear-gradient(-15deg, rgb(33, 32, 32) 10%, 40%, rgb(59, 60, 64) 100%);
     }
     &:hover::before {
       transform: translateY(-20%);
-      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%); 
+      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
-  
-    
-  
+
+
+
     h1 {
       padding: 0;
       margin: 10px 0;
@@ -205,7 +205,7 @@ a {
     }
     img {
       box-shadow: 0 0 20px -10px var(--primarySolid);
-    }    
+    }
   }
 
   &-social-link {
@@ -214,29 +214,28 @@ a {
 
   &-link-icon {
     &-light {
-      filter: contrast(200%) grayscale(100) invert(1)
+      filter: contrast(100) grayscale(1) invert(1)
     }
 
     &-dark {
-      filter: contrast(200%) grayscale(100)
+      filter: contrast(100) grayscale(1)
     }
 
-
-    filter: contrast(200%) grayscale(100) invert(var(--isDark))
+    filter: contrast(100) grayscale(1) invert(var(--isDark))
   }
 
   &-dark-container {
-    
+
     // min-width: 250px;
-    width: 100%; 
+    width: 100%;
     min-height: 450px;
     border-radius: 15px;
     box-sizing: border-box;
-  
+
     padding: 20px 35px;
     // background-color: rgb(34, 33, 33);
     color:white;
-  
+
     z-index: 1;
     overflow:hidden;
     position: relative;
@@ -245,7 +244,7 @@ a {
     @include phone-size() {
       padding: 10px 25px;
     }
-  
+
     &::before {
       content: "";
       position: absolute;
@@ -255,17 +254,17 @@ a {
       height: 200%;
       z-index: -1;
       transition: transform 0.2s ease;
-  
-      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, rgb(57, 62, 73) 100%); 
-      background: linear-gradient(-15deg, rgb(33, 32, 32) 10%, 40%, rgb(59, 60, 64) 100%); 
+
+      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, rgb(57, 62, 73) 100%);
+      background: linear-gradient(-15deg, rgb(33, 32, 32) 10%, 40%, rgb(59, 60, 64) 100%);
     }
     &:hover::before {
       transform: translateY(-10%);
-      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%); 
+      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
-  
-    
-  
+
+
+
     h1 {
       padding: 0;
       margin: 10px 0;
@@ -279,12 +278,12 @@ a {
   }
 
   &-light-container {
-    width: 100%; 
+    width: 100%;
     border-radius: 15px;
     box-sizing: border-box;
-  
+
     padding: 20px 35px;
-  
+
     z-index: 1;
     overflow:hidden;
     position: relative;
@@ -295,7 +294,7 @@ a {
     @include phone-size() {
       padding: 10px 25px;
     }
-  
+
     &::before {
       content: "";
       position: absolute;
@@ -305,18 +304,18 @@ a {
       height: 200%;
       z-index: -1;
       transition: transform 0.2s ease;
-  
-      background: var(--primary); 
-      // background: linear-gradient(-15deg, rgb(170, 190, 222) 20%, 40%, #dae5f3 100%); 
-      
+
+      background: var(--primary);
+      // background: linear-gradient(-15deg, rgb(170, 190, 222) 20%, 40%, #dae5f3 100%);
+
     }
     &:hover::before {
       transform: translateY(-0%);
-      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%); 
+      // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
-  
-    
-  
+
+
+
     h1 {
       padding: 0;
       margin: 10px 0;
@@ -346,8 +345,8 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
-  
+
+
   &-hero-box {
     justify-content: space-between;
     gap: 30px;
@@ -355,7 +354,7 @@ a {
       align-items: center;
     }
   }
-  
+
   &-main-content {
     display: flex;
     flex-direction: column;
@@ -365,7 +364,7 @@ a {
     text-align: start;
     width: 90%;
   }
-  
+
   &-content-container {
     align-items: center;
     justify-content: center;
@@ -457,6 +456,8 @@ a {
 @include create-padding-rules('.hp-margin-bottom-', 'margin-bottom', 5, 50);
 @include create-padding-rules('.hp-margin-', 'margin', 5, 50);
 
+@include create-padding-rules('.hp-rounded-', 'border-radius', 5, 25);
+
 
 .hp {
   &-profile-picture {
@@ -499,7 +500,7 @@ a {
 
       justify-self: center;
 
-      
+
       &::before {
         width: auto;
         max-width: 400px;

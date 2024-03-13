@@ -6,6 +6,7 @@ import nightModeIcon from './assets/icons8-night-mode-64.png'
 import githubIcon from './assets/github-mark/github-mark.svg'
 import emailIcon from './assets/email.png'
 import replitIcon from './assets/replit-logo.png'
+import linkedinIcon from './assets/LI-In-Bug.png'
 
 import peachDemo from './assets/peach.mov'
 import acheronTunnel from './assets/acheron-tunnel.png'
@@ -57,7 +58,15 @@ const ProjectCard = (props) => {
   );
 }
 
-const ProfileContainer = (props) => {
+const SocialLink = (props) => {
+    return (
+        <a href={props.link} target="_blank" className='hp-social-link'>
+            <img className={'hp-link-icon ' + props.className} src={props.icon} height='30px'></img>
+        </a>
+    );
+}
+
+const ProfileContainer = () => {
   return (
     <ReactiveContainer>
       <div className=''>
@@ -66,7 +75,7 @@ const ProfileContainer = (props) => {
             <div className='hp-flex-col hp-phone-center-x'>
               <img className='hp-no-margin hp-phone-center-x hp-profile-picture' src={profilePicture}></img>
             </div>
-            
+
             <div className='hp-flex-col'>
               <div>
                 {/* <h1 className='hp-profile-text hp-no-padding hp-no-margin'>ethan macdonald</h1> */}
@@ -75,12 +84,9 @@ const ProfileContainer = (props) => {
                   currently a full-time student at Dalhousie University.
                 </p>
                 <div className='hp-flex-row hp-margin-top-2'>
-                  <a href='https://www.github.com/emd22/' className='hp-social-link'>
-                    <img className='hp-link-icon' src={githubIcon} width='30px' height='30px'></img>
-                  </a>
-                  <a href='mailto:e@ethanm.ca' className='hp-social-link'>
-                    <img className='hp-link-icon' src={emailIcon} width='30px' height='30px'></img>
-                  </a>
+                  <SocialLink icon={githubIcon} link='https://www.github.com/emd22/'/>
+                  <SocialLink icon={emailIcon} link='mailto:e@ethanm.ca'/>
+                  <SocialLink icon={linkedinIcon} className='hp-rounded-0' link='https://www.linkedin.com/in/emd22'/>
                 </div>
               </div>
             </div>
@@ -98,8 +104,8 @@ const ProfileContainer = (props) => {
 
             <li>
               developed <b>operating systems</b> and drivers,
-              <b> game engines</b>, 
-              <b> programming languages</b>, 
+              <b> game engines</b>,
+              <b> programming languages</b>,
               as well as <b>virtual machines</b> for personal projects, and to expand my learning.
             </li>
             <li>work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
@@ -122,7 +128,7 @@ function App() {
   useEffect(() => {
     document.body.classList.toggle('darkMode', darkMode);
   }, [darkMode]);
-  
+
   return (
     <div className='App'>
       <header className='hp-app-header hp-flex-row hp-space-between'>
@@ -143,7 +149,7 @@ function App() {
 
           <section className='hp-project-section'>
             <h1 className='hp-title-chunky hp-no-margin hp-section-title'>projects</h1>
-            <ProjectCard 
+            <ProjectCard
               title='hyperion engine'
               links={{
                 'github': 'https://github.com/notomorrow/hyperion-engine'
@@ -157,13 +163,13 @@ function App() {
                   <p>I'm currently working on a level/game editor with a highly modified version of WxWidgets!</p>
                 </div>
               }
-            
+
               content={
                 <img src={hyperionDemo}></img>
               }
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
             />
-            <ProjectCard 
+            <ProjectCard
               title='belter'
               description={
                 <div>
@@ -172,18 +178,18 @@ function App() {
                   </p>
                   <p>
                     This project was started in <b>November 2023</b> to learn more about a few technologies that i've always wanted to give a try. I wrote the backend and API
-                    completely in <b>Go</b> and the frontend in <b>Dart</b>, using <b>Flutter</b> as the UI framework. Using Dart makes it much easier to have a consistent 
+                    completely in <b>Go</b> and the frontend in <b>Dart</b>, using <b>Flutter</b> as the UI framework. Using Dart makes it much easier to have a consistent
                     UI look over multiple platforms, and only have to worry about one codebase.
                   </p>
                 </div>
               }
-            
+
               content={
                 <video src={belterDemo} width='300px' autoPlay loop muted></video>
               }
               contentCaption='a video of belter in action, demoed on MacOS.'
             />
-            <ProjectCard 
+            <ProjectCard
               title='acheron engine'
               links={{
                 'github': 'https://github.com/emd22/acheron'
@@ -196,7 +202,7 @@ function App() {
                   <p>Acheron was a way to learn more about how game engines work internally, through one of the lowest level languages.</p>
                 </div>
               }
-            
+
               content={
                 <img src={acheronTunnel}></img>
               }
@@ -205,7 +211,7 @@ function App() {
           </section>
           <section className='hp-project-section'>
             <h1 className='hp-title-chunky hp-no-margin hp-section-title'>other cool things</h1>
-            <ProjectCard 
+            <ProjectCard
               title='peach language'
               links={{
                 'replit': 'https://replit.com/@mynameisjonas/jam2020#README.md',
@@ -223,7 +229,7 @@ function App() {
                   {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
                 </div>
               }
-            
+
               content={
                 <video src={peachDemo} width='300px' autoPlay loop muted></video>
                 // <div></div>
@@ -238,10 +244,9 @@ function App() {
         </div>
       </div>
 
-      
+
     </div>
   );
 }
 
 export default App;
- 

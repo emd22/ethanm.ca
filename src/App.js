@@ -243,7 +243,7 @@ function App() {
               description={
                 <div>
                   <p>
-                    To showcase some of the project I have worked on, i've written this website using React.
+                    To showcase some of the projects I have worked on, i've written this website using React.
                   </p>
                   <p>
                     It is very dynamic to multiple devices, and also has a dark mode.

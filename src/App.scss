@@ -351,7 +351,8 @@ a {
     justify-content: space-between;
     gap: 30px;
     @include phone-size {
-      align-items: center;
+      flex-direction: column-reverse;
+      /* align-items: center; */
     }
   }
 
@@ -467,13 +468,23 @@ a {
     height: 300px;
 
     @include phone-size() {
-      width: 100%;
-      height: auto;
-      justify-self: center;
-      // align-self: center;
+      max-width: 150px;
+      max-height: 150px;
+      /* width: 40%; */
+      /* height: 40%; */
+      /* height: auto; */
+      /* justify-self: center; */
+      border-radius: 40px;
+      border: 4px var(--primarySolid) solid;
+      /* align-self: center; */
 
       margin: 0;
-      padding: 0;
+      /* padding: 0; */
+
+      /* &::before { */
+        /* margin: 0; */
+        /* padding: 0; */
+      /* } */
       // width: auto;
       // object-fit: cover;
       // height: 300px;
@@ -481,6 +492,51 @@ a {
     // height: 300px;
   }
   &-profile-picture-container {
+  }
+
+  &-project-card-content-inline {
+    display:flex;
+    flex-direction: column;
+
+    align-items: start;
+    margin: 20px 0;
+
+    @include tablet-size() {
+      margin: 0 auto;
+      // width: 100%;
+    }
+
+    img {
+      width: auto;
+      max-width: 350px;
+      max-height: 350px;
+
+      justify-self: center;
+
+
+      &::before {
+        width: auto;
+        max-width: 400px;
+        max-height: 400px;
+      }
+
+      @include phone-size() {
+        width: 100%;
+      }
+    }
+
+    video {
+      max-height: 400px;
+      max-width: 350px;
+      width: auto;
+
+      justify-self: center;
+
+
+      @include phone-size() {
+        // margin: 0 auto;
+      }
+    }
   }
   &-project-card-content {
     display:flex;

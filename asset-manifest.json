@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.f41ee3e2.css",
-    "main.js": "/static/js/main.14561df4.js",
+    "main.css": "/static/css/main.700288e1.css",
+    "main.js": "/static/js/main.16915a8d.js",
     "static/js/787.01a3b091.chunk.js": "/static/js/787.01a3b091.chunk.js",
     "static/media/vm-hello-world.mov": "/static/media/vm-hello-world.d17c6abb1b6bdde0e796.mov",
     "static/media/peach.mov": "/static/media/peach.ed877626261964f69f0f.mov",
@@ -14,12 +14,12 @@
     "static/media/asm-code-screenshot2.png": "/static/media/asm-code-screenshot2.4f8dcb56fa87f0a10ab1.png",
     "static/media/github-mark.svg": "/static/media/github-mark.6fa18895f6e6c7772cab7049f7e05f59.svg",
     "index.html": "/index.html",
-    "main.f41ee3e2.css.map": "/static/css/main.f41ee3e2.css.map",
-    "main.14561df4.js.map": "/static/js/main.14561df4.js.map",
+    "main.700288e1.css.map": "/static/css/main.700288e1.css.map",
+    "main.16915a8d.js.map": "/static/js/main.16915a8d.js.map",
     "787.01a3b091.chunk.js.map": "/static/js/787.01a3b091.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f41ee3e2.css",
-    "static/js/main.14561df4.js"
+    "static/css/main.700288e1.css",
+    "static/js/main.16915a8d.js"
   ]
 }

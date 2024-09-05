@@ -12,6 +12,8 @@ import peachDemo from './assets/peach.mov'
 import acheronTunnel from './assets/acheron-tunnel.png'
 import hyperionDemo from './assets/ddgi.gif'
 import belterDemo from './assets/belter-video.mp4'
+import vmDemo from './assets/vm-hello-world.mov'
+import asmDemo from './assets/asm-code-screenshot2.png'
 import websiteDemo from './assets/website-screenshot2.png'
 
 import { useState, useEffect } from 'react'
@@ -53,7 +55,12 @@ const ProjectCard = (props) => {
         <div className='hp-project-card-content'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
+            <div >
+              {props.content2}
+              <p><i>{props.contentCaption2}</i></p>
+            </div>
         </div>
+
       </ReactiveContainer>
     </div>
   );
@@ -167,6 +174,30 @@ function App() {
                 <img src={hyperionDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>
               }
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
+            />
+            <ProjectCard
+              title='micro macro assembler'
+              description={
+                <div>
+                  <p>
+                    A custom CPU architecture, macro assembler, and VM written as a challenge to write the smallest assembler and VM that is still easy to program for.
+                  </p>
+
+                  <p>
+                    For this project, the entire assembler is programmed in Python (for speed of development), and the entire VM is programmed in C. It runs blazingly fast, and has a bunch of cool features!
+                  </p>
+                </div>
+              }
+
+              content={
+                  <video style={{width: 450}} src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
+              }
+
+              contentCaption='demo of the VM running in debug mode, printing "Hello, World"!'
+
+              content2={<img src={asmDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>}
+
+              contentCaption2='custom assembler that prints out text'
             />
             <ProjectCard
               title='belter'

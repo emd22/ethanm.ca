@@ -51,11 +51,12 @@ const ProjectCard = (props) => {
             </div>}
           </div>
           {props.description}
+
         </div>
         <div className='hp-project-card-content'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
-            <div >
+            <div>
               {props.content2}
               <p><i>{props.contentCaption2}</i></p>
             </div>
@@ -190,7 +191,7 @@ function App() {
               }
 
               content={
-                  <video style={{width: 450}} src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
+                  <video src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
               }
 
               contentCaption='demo of the VM running in debug mode, printing "Hello, World"!'

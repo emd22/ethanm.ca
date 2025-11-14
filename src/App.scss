@@ -9,12 +9,21 @@
   --onPrimary: black;
   --onSecondary: black;
   --primaryColor: #3abb23;
-  --colorTitle: linear-gradient(-15deg, rgb(182, 182, 182) 20%, 40%, #e8e8e8 100%);
+  --colorTitle: linear-gradient(
+    -15deg,
+    rgb(182, 182, 182) 20%,
+    40%,
+    #e8e8e8 100%
+  );
+
   --primarySolid: #e8e8e8;
+
+  --linkColorOnDark: skyblue;
+  --linkColorOnLight: #2299ff;
 
   --profileTextColor: black;
 
-  --isDark: 0
+  --isDark: 0;
 }
 
 .darkMode {
@@ -22,7 +31,6 @@
   // --background: #282c34;
   // --primary: linear-gradient(-15deg, rgb(182, 182, 182) 20%, 40%, #e8e8e8 100%);
   // --primary: linear-gradient(-15deg, rgb(43, 85, 48) 20%, 40%, #4e9d72 100%);
-
 
   // --primary: linear-gradient(-15deg, rgb(35, 94, 115) 20%, 40%, #4d9a6f 100%);
   --primary: linear-gradient(-15deg, rgb(35, 94, 115) 20%, 40%, #4d9a97 100%);
@@ -32,11 +40,19 @@
   --primarySolid: #4d9a97;
   --onPrimary: black;
 
+  --linkColorOnDark: skyblue;
+  --linkColorOnLight: #3344aa;
+
   --profileTextColor: var(--colorTitle);
 
-  --colorTitle: linear-gradient(-55deg, rgb(41, 167, 176) 20%, 40%, #75c2be 100%);
+  --colorTitle: linear-gradient(
+    -55deg,
+    rgb(41, 167, 176) 20%,
+    40%,
+    #75c2be 100%
+  );
 
-  --isDark: 1
+  --isDark: 1;
 }
 
 .App-logo {
@@ -51,11 +67,13 @@
 // }
 
 body {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     letter-spacing: -0.05em;
   }
   h1 {
-    font-size:2.0em;
+    font-size: 2em;
   }
   h2 {
     font-size: 1.5em;
@@ -65,15 +83,25 @@ body {
   color: var(--onBackground);
 }
 
-img, video {
+img,
+video {
   border-radius: 15px;
 }
 
-p, li {
+p,
+li {
   letter-spacing: -0.025em;
   line-height: 1.5em;
   font-weight: 500;
   font-size: 1.05em;
+}
+
+li {
+  padding: 5px 0;
+}
+
+b {
+  font-weight: 750;
 }
 
 ul {
@@ -88,12 +116,12 @@ ul {
 
 a {
   display: inline-block;
-  text-decoration: none;
-  color: #35c1e4;
+  text-decoration: underline;
+  font-weight: 650;
+  color: var(--linkColorOnLight);
 }
 
 @mixin all-rules {
-
   &-list-title {
     padding-bottom: 0;
     margin-bottom: 0;
@@ -152,7 +180,6 @@ a {
   }
 
   &-basic-container {
-
     // min-width: 250px;
     width: 100%;
     // min-height: 450px;
@@ -161,10 +188,10 @@ a {
 
     // padding: 20px 35px;
     // background-color: rgb(34, 33, 33);
-    color:var(--onSecondary);
+    color: var(--onSecondary);
 
     z-index: 1;
-    overflow:hidden;
+    overflow: hidden;
     position: relative;
     // border: 1px solid rgb(34, 33, 33);
 
@@ -186,15 +213,12 @@ a {
       // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
 
-
-
     h1 {
       padding: 0;
       margin: 10px 0;
       z-index: 2;
       // color: white;
       // color: var(--primaryColor);
-
     }
   }
 
@@ -214,18 +238,17 @@ a {
 
   &-link-icon {
     &-light {
-      filter: contrast(100) grayscale(1) invert(1)
+      filter: contrast(100) grayscale(1) invert(1);
     }
 
     &-dark {
-      filter: contrast(100) grayscale(1)
+      filter: contrast(100) grayscale(1);
     }
 
-    filter: contrast(100) grayscale(1) invert(var(--isDark))
+    filter: contrast(100) grayscale(1) invert(var(--isDark));
   }
 
   &-dark-container {
-
     // min-width: 250px;
     width: 100%;
     min-height: 450px;
@@ -234,15 +257,19 @@ a {
 
     padding: 20px 35px;
     // background-color: rgb(34, 33, 33);
-    color:white;
+    color: white;
 
     z-index: 1;
-    overflow:hidden;
+    overflow: hidden;
     position: relative;
     // border: 1px solid rgb(34, 33, 33);
 
     @include phone-size() {
       padding: 10px 25px;
+    }
+
+    a {
+      color: var(--linkColorOnDark);
     }
 
     &::before {
@@ -256,14 +283,17 @@ a {
       transition: transform 0.2s ease;
 
       // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, rgb(57, 62, 73) 100%);
-      background: linear-gradient(-15deg, rgb(33, 32, 32) 10%, 40%, rgb(59, 60, 64) 100%);
+      background: linear-gradient(
+        -15deg,
+        rgb(33, 32, 32) 10%,
+        40%,
+        rgb(59, 60, 64) 100%
+      );
     }
     &:hover::before {
       transform: translateY(-10%);
       // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
-
-
 
     h1 {
       padding: 0;
@@ -272,8 +302,6 @@ a {
       // color: white;
       color: white;
       // color: var(--primaryColor);
-
-
     }
   }
 
@@ -285,7 +313,7 @@ a {
     padding: 20px 35px;
 
     z-index: 1;
-    overflow:hidden;
+    overflow: hidden;
     position: relative;
     color: var(--onPrimary);
 
@@ -307,14 +335,11 @@ a {
 
       background: var(--primary);
       // background: linear-gradient(-15deg, rgb(170, 190, 222) 20%, 40%, #dae5f3 100%);
-
     }
     &:hover::before {
       transform: translateY(-0%);
       // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
-
-
 
     h1 {
       padding: 0;
@@ -345,7 +370,6 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
 
   &-hero-box {
     justify-content: space-between;
@@ -400,23 +424,34 @@ a {
 }
 
 @mixin phone {
-  @media only screen and (max-width: 600px) { @include all-rules; @content; }
+  @media only screen and (max-width: 600px) {
+    @include all-rules;
+    @content;
+  }
 }
 @mixin phone-size {
-  @media only screen and (max-width: 600px) { @content; }
+  @media only screen and (max-width: 600px) {
+    @content;
+  }
 }
 @mixin tablet {
-  @media only screen and (max-width: 768px) { @include all-rules; @content; }
+  @media only screen and (max-width: 768px) {
+    @include all-rules;
+    @content;
+  }
 }
 @mixin tablet-size {
-  @media only screen and (max-width: 768px) { @content; }
+  @media only screen and (max-width: 768px) {
+    @content;
+  }
 }
 @mixin desktop {
-  @media only screen and (min-width: 992px) { @content; }
+  @media only screen and (min-width: 992px) {
+    @content;
+  }
 }
 
 .hp {
-
   @include all-rules;
 
   &-tablet {
@@ -431,7 +466,7 @@ a {
     color: var(--onBackground);
     border: none;
     // flex: 1;
-    display:flex;
+    display: flex;
   }
 }
 
@@ -445,20 +480,19 @@ a {
   }
 }
 
-@include create-padding-rules('.hp-padding-left-', 'padding-left', 5, 50);
-@include create-padding-rules('.hp-padding-right-', 'padding-right', 5, 50);
-@include create-padding-rules('.hp-padding-top-', 'padding-top', 5, 50);
-@include create-padding-rules('.hp-padding-bottom-', 'padding-bottom', 5, 50);
-@include create-padding-rules('.hp-padding-', 'padding', 5, 50);
+@include create-padding-rules(".hp-padding-left-", "padding-left", 5, 50);
+@include create-padding-rules(".hp-padding-right-", "padding-right", 5, 50);
+@include create-padding-rules(".hp-padding-top-", "padding-top", 5, 50);
+@include create-padding-rules(".hp-padding-bottom-", "padding-bottom", 5, 50);
+@include create-padding-rules(".hp-padding-", "padding", 5, 50);
 
-@include create-padding-rules('.hp-margin-left-', 'margin-left', 5, 50);
-@include create-padding-rules('.hp-margin-right-', 'margin-right', 5, 50);
-@include create-padding-rules('.hp-margin-top-', 'margin-top', 5, 50);
-@include create-padding-rules('.hp-margin-bottom-', 'margin-bottom', 5, 50);
-@include create-padding-rules('.hp-margin-', 'margin', 5, 50);
+@include create-padding-rules(".hp-margin-left-", "margin-left", 5, 50);
+@include create-padding-rules(".hp-margin-right-", "margin-right", 5, 50);
+@include create-padding-rules(".hp-margin-top-", "margin-top", 5, 50);
+@include create-padding-rules(".hp-margin-bottom-", "margin-bottom", 5, 50);
+@include create-padding-rules(".hp-margin-", "margin", 5, 50);
 
-@include create-padding-rules('.hp-rounded-', 'border-radius', 5, 25);
-
+@include create-padding-rules(".hp-rounded-", "border-radius", 5, 25);
 
 .hp {
   &-profile-picture {
@@ -482,8 +516,8 @@ a {
       /* padding: 0; */
 
       /* &::before { */
-        /* margin: 0; */
-        /* padding: 0; */
+      /* margin: 0; */
+      /* padding: 0; */
       /* } */
       // width: auto;
       // object-fit: cover;
@@ -495,7 +529,7 @@ a {
   }
 
   &-project-card-content-inline {
-    display:flex;
+    display: flex;
     flex-direction: column;
 
     align-items: start;
@@ -513,7 +547,6 @@ a {
 
       justify-self: center;
 
-
       &::before {
         width: auto;
         max-width: 400px;
@@ -532,14 +565,13 @@ a {
 
       justify-self: center;
 
-
       @include phone-size() {
         // margin: 0 auto;
       }
     }
   }
   &-project-card-content {
-    display:flex;
+    display: flex;
     flex-direction: column;
     margin: 20px auto;
     align-items: center;
@@ -556,7 +588,6 @@ a {
 
       justify-self: center;
 
-
       &::before {
         width: auto;
         max-width: 400px;
@@ -574,7 +605,6 @@ a {
       width: auto;
 
       justify-self: center;
-
 
       @include phone-size() {
         // margin: 0 auto;

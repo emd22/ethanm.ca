@@ -15,6 +15,10 @@ import belterDemo from './assets/belter-video.mp4'
 import vmDemo from './assets/vm-hello-world.mov'
 import asmDemo from './assets/asm-code-screenshot2.png'
 import websiteDemo from './assets/website-screenshot2.png'
+import foxtrotDemo from './assets/foxtrot-demo.webm'
+import godotMovementDemo from './assets/godot-movement.webm'
+
+import pistolModel from './assets/pistol-model.png'
 
 import { useState, useEffect } from 'react'
 
@@ -88,8 +92,8 @@ const ProfileContainer = () => {
             <div className='hp-flex-col'>
               <div>
                 <p className='hp-profile-text hp-no-padding hp-no-margin'>
-                  <b>baremetal</b> programmer, <b>3d rendering</b> developer, and <b>full-stack</b> web.<br/><br/>
-                  currently a full-time student at Dalhousie University.
+                  <b>Graphics</b> and <b>Game Engine</b> developer.
+                  <p>Experienced with <b>Vulkan</b>, <b>C++</b>, and writing <b>NEON</b> and <b>SSE</b> optimized code.<br/> </p>
                 </p>
                 <div className='hp-flex-row hp-margin-top-2'>
                   <SocialLink icon={githubIcon} link='https://www.github.com/emd22/'/>
@@ -104,22 +108,26 @@ const ProfileContainer = () => {
 
       <div className='hp-flex-one'>
         <div className='hp-light-container'>
-          <h1>about me</h1>
-          <p>I am a software developer from Nova Scotia, Canada. I have over <b>9 years of experience</b> programming and working on projects. I am currently taking a Bachelors of Computer Science at Dalhousie University.</p>
+          <h1>About Me</h1>
+          <p>
+            I am a software developer from Nova Scotia, Canada. I spend most of my time working on my FPS game <a href='https://github.com/emd22/foxtrot'>Foxtrot</a> and its custom game engine, as well as <a href="https://github.com/notomorrow/hyperion-engine">Hyperion Engine</a> with my brother.
+          </p>
+          <p>As well, I am currently in my <b>final year</b> of my Bachelor's degree at Dalhousie University.</p>
 
+          <p>I am passionate about graphics and low-level programming, and very experienced with writing optimized C++. </p>
+
+            <h1>Skills</h1>
           <ul>
-            <h2>some quick info</h2>
 
             <li>
-              developed <b>operating systems</b> and drivers,
+              Developed
               <b> game engines</b>,
-              <b> programming languages</b>,
+              <b> programming languages</b>, <b>operating systems</b>
               as well as <b>virtual machines</b> for personal projects, and to expand my learning.
             </li>
-            <li>work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
-            <li>worked with Linux for over <b>7 years</b> as a desktop operating system, as well as headless as a server.</li>
-            <li>web and app development experience with <b>Node.js</b>, <b>React</b>, <b>Go</b>, <b>Dart + Flutter</b>, and much more.</li>
-            <li>negative letter spacing addict</li>
+            <li>Very experienced with <b>Godot engine</b>, and used <b>Unity</b> for game development courses in university.</li>
+            <li>Experienced with many programming languages such as <b>Zig</b>, <b>C#</b>, and <b>Golang</b>. </li>
+            <li>Work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
           </ul>
         </div>
       </div>
@@ -155,19 +163,38 @@ function App() {
 
 
           <section className='hp-project-section'>
-            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>projects</h1>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>Projects</h1>
+
             <ProjectCard
-              title='hyperion engine'
+              title='Foxtrot'
+              links={{
+                'github': 'https://github.com/emd22/foxtrot'
+              }}
+              description={
+                <div>
+                  <p>
+                    Foxtrot is an in-development FPS with a custom game engine written in C++. It uses Vulkan as a render backend and has a custom memory pooling system, multithreaded asset loading and integrates with Jolt physics.
+                  </p>
+                  <p>It contains a ton of custom containers and STL replacements, as well as an ARM Neon optimized math library with SSE support planned.</p>
+                </div>
+              }
+
+              content={
+                <video autoPlay loop src={foxtrotDemo} alt='demo of the realtime DDGI in Hyperion engine'></video>
+              }
+              contentCaption='Physics, lighting, and movement in Foxtrot'
+            />
+            <ProjectCard
+              title='Hyperion Engine'
               links={{
                 'github': 'https://github.com/notomorrow/hyperion-engine'
               }}
               description={
                 <div>
                   <p>
-                    A modern vulkan game engine written completely from the ground up. Supports multithreaded rendering, VCT, DDGI, raytracing, and much more.
+                    A modern Vulkan game engine. Supports multithreaded rendering, VCT, DDGI, raytracing, and much more.
                   </p>
-                  <p>Built with my brother Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>), we've been working on this engine for the past 4 years and constantly implementing new technologies and features.</p>
-                  <p>I'm currently working on a level/game editor with a highly modified version of WxWidgets!</p>
+                  <p>Built with my brother Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>), we are currently working towards building a game with Hyperion.</p>
                 </div>
               }
 
@@ -177,73 +204,73 @@ function App() {
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
             />
             <ProjectCard
-              title='micro macro assembler'
+              title='Godot FPS Movement'
+              links={{
+
+              }}
               description={
                 <div>
                   <p>
-                    A custom CPU architecture, macro assembler, and VM written as a challenge to write the smallest assembler and VM that is still easy to program for.
+                    Using Godot, I worked on a horror game movement system in C#.
                   </p>
-
-                  <p>
-                    For this project, the entire assembler is programmed in Python (for speed of development), and the entire VM is programmed in C. It runs blazingly fast, and has a bunch of cool features!
-                  </p>
+                  <p>This has head bob (before I knew about game-induced motion sickness...), click and drag to open doors a variable amount, sprint, jump and holding items.</p>
                 </div>
               }
 
               content={
-                  <video src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
+                <video src={godotMovementDemo} autoPlay loop alt='demo of the realtime DDGI in Hyperion engine'></video>
               }
-
-              contentCaption='demo of the VM running in debug mode, printing "Hello, World"!'
-
-              content2={<img src={asmDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>}
-
-              contentCaption2='custom assembler that prints out text'
+              contentCaption="Movement demo showing off custom models and lighting"
             />
-            <ProjectCard
-              title='belter'
-              description={
-                <div>
-                  <p>
-                    An audio focused <b>social media network</b>. Have a conversation with your friends, shout to the world, or just have fun.
-                  </p>
-                  <p>
-                    This project was started in <b>November 2023</b> to learn more about a few technologies that i've always wanted to give a try. I wrote the backend and API
-                    completely in <b>Go</b> and the frontend in <b>Dart</b>, using <b>Flutter</b> as the UI framework. Using Dart makes it much easier to have a consistent
-                    UI look over multiple platforms, and only have to worry about one codebase.
-                  </p>
-                </div>
-              }
 
-              content={
-                <video src={belterDemo} width='300px' autoPlay loop muted alt='demo of the belter app, signing in and going through multiple menus, and scrolling through posts.'></video>
-              }
-              contentCaption='a video of belter in action, demoed on MacOS.'
-            />
+
+
             <ProjectCard
-              title='acheron engine'
+              title='Acheron Engine'
               links={{
                 'github': 'https://github.com/emd22/acheron'
               }}
               description={
                 <div>
                   <p>
-                    A 3D OpenGL game engine written completely in C99 for speed, and to learn plain ANSI C better.
+                    Acheron was a 3D OpenGL game engine written completely in C99. This was my main project while I was going through high school, and helped me learn a lot about 3d rendering.
                   </p>
-                  <p>Acheron was a way to learn more about how game engines work internally, through one of the lowest level languages.</p>
+                  <p>Acheron was a way to learn more about how game engines work internally as well as learn how to structure large projects in C.</p>
                 </div>
               }
 
               content={
                 <img src={acheronTunnel}></img>
               }
-              contentCaption='multiple point lights around a bumpy textured cube in a train tunnel.'
+              contentCaption='multiple point lights around a normal mapped cube in a train tunnel.'
             />
           </section>
           <section className='hp-project-section'>
             <h1 className='hp-title-chunky hp-no-margin hp-section-title'>other cool things</h1>
             <ProjectCard
-              title='peach language'
+              title='3d modelling'
+              links={{
+              }}
+              description={
+                <div>
+                  <p>
+                    Using Blender and Substance Painter, I modelled and textured this pistol using multiple real-life image references to make a modular pistol for using in games.
+                  </p>
+                  <p>
+                    This sits at about 760 triangles total, with the whole GLTF model (including textures) being about 410 KiB.
+                  </p>
+                  {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
+                </div>
+              }
+
+              content={
+                  <img src={pistolModel} alt='an image of the website you are currently on'></img>
+                // <div></div>
+              }
+              contentCaption=''
+            />
+            <ProjectCard
+              title='Peach Language'
               links={{
                 'replit': 'https://replit.com/@mynameisjonas/jam2020#README.md',
                 'github': 'https://www.github.com/emd22/jam2020',
@@ -254,7 +281,7 @@ function App() {
                     For a programming language jam from Repl.it in 2020, me and Andrew(<a href='https://github.com/ajmd17'>@ajmd17</a>) wrote PEACH in <b>less than a week</b>.
                   </p>
                   <p>
-                    PEACH is a prototypical interpreted language that is written in Python <b>from scratch</b>. Shown in the clip here is a mandlebrot fractal visualizer that I wrote <b>completely</b> in PEACH (<a href='https://github.com/emd22/jam2020/blob/master/mandle.peach'>link!</a>).
+                    PEACH is a prototypical interpreted language that is written in Python. Shown in the clip here is a mandlebrot fractal visualizer that I wrote <b>completely</b> in PEACH (<a href='https://github.com/emd22/jam2020/blob/master/mandle.peach'>link!</a>).
                   </p>
                   <p>Unfortunately, the original submission thread has been removed over the years.</p>
                   {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
@@ -267,31 +294,46 @@ function App() {
               }
               contentCaption='(slowly) generating the mandlebrot fractal in PEACH'
             />
+
             <ProjectCard
-              title='personal website'
-              links={{
-                'github': 'https://www.github.com/emd22/ethanm.ca',
-              }}
+              title='Micro Macro Assembler'
               description={
                 <div>
                   <p>
-                    To showcase some of the projects I have worked on, i've written this website using React.
+                    A custom CPU architecture, macro assembler, and VM written as a challenge to write the smallest assembler and VM that is still easy to program for.
                   </p>
+
                   <p>
-                    It is very dynamic to multiple devices, and also has a dark mode.
+                    For this project, the assembler is programmed in Python, and the VM is programmed in C. It runs blazingly fast, and has a bunch of cool features!
                   </p>
-                  {/* <ProjectLinks github='https://www.github.com/emd22/' replit='https://replit.com/@mynameisjonas/jam2020#README.md'/> */}
                 </div>
               }
 
               content={
-                  <img src={websiteDemo} alt='an image of the website you are currently on'></img>
-                // <div></div>
+                  <video src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
               }
-              contentCaption='screenshot of a familiar website'
+
+              contentCaption='Demo of the VM running in debug mode with a slow processor speed printing "Hello, World"!'
+
+              content2={<img src={asmDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>}
+
+              contentCaption2='Custom assembler that prints out text'
+            />
+            <ProjectCard
+              title='Belter'
+              description={
+                <div>
+                  <p>Belter was a fun side project to try out Dart and Golang. It was an audio-focused social network that allowed you to share audio clips with friends.</p>
+                </div>
+              }
+
+              content={
+                <video src={belterDemo} width='300px' autoPlay loop muted alt='demo of the belter app, signing in and going through multiple menus, and scrolling through posts.'></video>
+              }
+              contentCaption='Demo of Belter on macOS'
             />
             <footer className='hp-footer hp-center-x hp-flex-col hp-center-text'>
-              <div className=''>&copy; 2024 Ethan MacDonald</div>
+              <div className=''>&copy; { new Date().getFullYear()} Ethan MacDonald</div>
               <div className=''><a target="_blank" href='https://icons8.com/icon/uKugxlcnkh3u/night-mode'>Night</a> icon from <a target="_blank" href="https://icons8.com">Icons8</a>, <a href="https://www.flaticon.com/free-icons/gmail" title="email icons">Email icon</a> created by rukanicon, on Flaticon</div>
             </footer>
           </section>

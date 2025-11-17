@@ -38,7 +38,7 @@ const RefLink = (props) => {
 
 const ProjectVideo = (props) => {
   return (
-    <video loop playsInline autoPlay muted src={props.src} alt={props.alt} width={ props.width } />
+    <video loop playsInline autoPlay muted src={props.src} alt={props.alt} />
   );
 }
 
@@ -46,8 +46,8 @@ const ProjectCard = (props) => {
   return (
     <div className='hp-dark-container hp-project-card'>
       <ReactiveContainer>
-        <div className='hp-flex-col'>
-          <div className='hp-flex-col'>
+        <div className='hp-flex-col hp-title-description-box'>
+          <div className='hp-flex-col '>
             <h1 className='hp-title-chunky hp-color-title'>{props.title}</h1>
 
             {props.links && <div className='hp-flex-row'>
@@ -66,10 +66,11 @@ const ProjectCard = (props) => {
         <div className='hp-project-card-content'>
           {props.content}
           <p><i>{props.contentCaption}</i></p>
-            <div>
-              {props.content2}
-              <p><i>{props.contentCaption2}</i></p>
-            </div>
+
+          <div>
+            {props.content2}
+            <p><i>{props.contentCaption2}</i></p>
+          </div>
         </div>
 
       </ReactiveContainer>
@@ -97,10 +98,10 @@ const ProfileContainer = () => {
 
             <div className='hp-flex-col'>
               <div>
-                <p className='hp-profile-text hp-no-padding hp-no-margin'>
+                <div className='hp-profile-text hp-no-padding hp-no-margin'>
                   <b>Graphics</b> and <b>Game Engine</b> developer.
                   <p>Experienced with <b>Vulkan</b>, <b>C++</b>, and writing <b>NEON</b> and <b>SSE</b> optimized code.<br/> </p>
-                </p>
+                </div>
                 <div className='hp-flex-row hp-margin-top-2'>
                   <SocialLink icon={githubIcon} link='https://www.github.com/emd22/'/>
                   <SocialLink icon={emailIcon} link='mailto:e@ethanm.ca'/>
@@ -143,12 +144,30 @@ const ProfileContainer = () => {
 
 
 function App() {
-  const checkIfDarkMode = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const checkIfDarkMode = () => {
+    let usesDarkTheme = localStorage.getItem("darkTheme");
+
+    if (usesDarkTheme == null) {
+      // Get if the OS is set to dark mode
+      usesDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      localStorage.setItem("darkTheme", usesDarkTheme);
+      return usesDarkTheme;
+    }
+    else {
+      // Convert value to bool
+      usesDarkTheme = usesDarkTheme === 'true';
+    }
+
+    return usesDarkTheme;
+  }
+
 
   const [darkMode, setDarkMode] = useState(checkIfDarkMode());
 
   useEffect(() => {
     document.body.classList.toggle('darkMode', darkMode);
+    localStorage.setItem("darkTheme", darkMode);
+    console.log('set dark theme', darkMode);
   }, [darkMode]);
 
   return (
@@ -297,7 +316,7 @@ function App() {
               }
 
               content={
-                <ProjectVideo src={peachDemo} width='300px' alt={'A terminal slowly printing the mandlebrot fractal, written in the PEACH language.'} />
+                <ProjectVideo src={peachDemo} alt={'A terminal slowly printing the mandlebrot fractal, written in the PEACH language.'} />
 
                 // <video src={peachDemo} width='300px' autoPlay loop muted alt='a video of a terminal generating the mandlebrot fractal, written completely in PEACH.'></video>
                 // <div></div>
@@ -306,7 +325,10 @@ function App() {
             />
 
             <ProjectCard
-              title='Micro Macro Assembler'
+              title='X16 Macro Assembler'
+              links={{
+                'github': 'https://github.com/emd22/x16'
+              }}
               description={
                 <div>
                   <p>
@@ -320,7 +342,7 @@ function App() {
               }
 
               content={
-                  <ProjectVideo src={vmDemo} width='400px' alt={'demo of the VM running in debug mode, printing "Hello, World"!'} />
+                  <ProjectVideo src={vmDemo} alt={'demo of the VM running in debug mode, printing "Hello, World"!'} />
               }
 
               contentCaption='Demo of the VM running in debug mode with a slow processor speed printing "Hello, World"!'
@@ -338,7 +360,7 @@ function App() {
               }
 
               content={
-                <video src={belterDemo} width='300px' autoPlay loop muted alt='demo of the belter app, signing in and going through multiple menus, and scrolling through posts.'></video>
+                <video src={belterDemo} autoPlay loop muted alt='demo of the belter app, signing in and going through multiple menus, and scrolling through posts.'></video>
               }
               contentCaption='Demo of Belter on macOS'
             />

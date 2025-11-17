@@ -36,6 +36,12 @@ const RefLink = (props) => {
   );
 }
 
+const ProjectVideo = (props) => {
+  return (
+    <video loop playsInline autoPlay muted src={props.src} alt={props.alt} width={ props.width } />
+  );
+}
+
 const ProjectCard = (props) => {
   return (
     <div className='hp-dark-container hp-project-card'>
@@ -122,8 +128,8 @@ const ProfileContainer = () => {
             <li>
               Developed
               <b> game engines</b>,
-              <b> programming languages</b>, <b>operating systems</b>
-              as well as <b>virtual machines</b> for personal projects, and to expand my learning.
+              <b> programming languages</b>, <b>operating systems </b>
+            as well as <b>virtual machines</b> for personal projects, and to expand my learning.
             </li>
             <li>Very experienced with <b>Godot engine</b>, and used <b>Unity</b> for game development courses in university.</li>
             <li>Experienced with many programming languages such as <b>Zig</b>, <b>C#</b>, and <b>Golang</b>. </li>
@@ -180,7 +186,7 @@ function App() {
               }
 
               content={
-                <video autoPlay loop src={foxtrotDemo} alt='demo of the realtime DDGI in Hyperion engine'></video>
+                <ProjectVideo src={foxtrotDemo} alt={'Demo of player movement and physics in Foxtrot'} />
               }
               contentCaption='Physics, lighting, and movement in Foxtrot'
             />
@@ -218,7 +224,9 @@ function App() {
               }
 
               content={
-                <video src={godotMovementDemo} autoPlay loop alt='demo of the realtime DDGI in Hyperion engine'></video>
+                // <video src={godotMovementDemo} autoPlay loop alt='demo of the realtime DDGI in Hyperion engine'></video>
+                <ProjectVideo src={godotMovementDemo} alt={'Demo of an FPS player controller with openable doors and a flashlight'} />
+
               }
               contentCaption="Movement demo showing off custom models and lighting"
             />
@@ -289,7 +297,9 @@ function App() {
               }
 
               content={
-                <video src={peachDemo} width='300px' autoPlay loop muted alt='a video of a terminal generating the mandlebrot fractal, written completely in PEACH.'></video>
+                <ProjectVideo src={peachDemo} width='300px' alt={'A terminal slowly printing the mandlebrot fractal, written in the PEACH language.'} />
+
+                // <video src={peachDemo} width='300px' autoPlay loop muted alt='a video of a terminal generating the mandlebrot fractal, written completely in PEACH.'></video>
                 // <div></div>
               }
               contentCaption='(slowly) generating the mandlebrot fractal in PEACH'
@@ -310,7 +320,7 @@ function App() {
               }
 
               content={
-                  <video src={vmDemo} width='450px' autoPlay loop muted alt='demo of the VM running in debug mode, printing "Hello, World"!'></video>
+                  <ProjectVideo src={vmDemo} width='400px' alt={'demo of the VM running in debug mode, printing "Hello, World"!'} />
               }
 
               contentCaption='Demo of the VM running in debug mode with a slow processor speed printing "Hello, World"!'

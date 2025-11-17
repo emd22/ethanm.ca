@@ -86,6 +86,7 @@ body {
 img,
 video {
   border-radius: 15px;
+  width: 100% !important;
 }
 
 p,
@@ -251,7 +252,6 @@ a {
   &-dark-container {
     // min-width: 250px;
     width: 100%;
-    min-height: 450px;
     border-radius: 15px;
     box-sizing: border-box;
 
@@ -570,11 +570,18 @@ a {
       }
     }
   }
+  &-title-description-box {
+    display: flex;
+    flex: 1;
+  }
   &-project-card-content {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    margin: 20px auto;
+    margin: auto;
+    margin-top: 20px;
     align-items: center;
+    width: 100%;
 
     @include tablet-size() {
       margin: 0 auto;

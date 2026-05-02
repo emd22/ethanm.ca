@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.efcc0a83.css",
-    "main.js": "/static/js/main.41b27b0d.js",
+    "main.js": "/static/js/main.24c4c179.js",
     "static/js/787.01a3b091.chunk.js": "/static/js/787.01a3b091.chunk.js",
-    "static/media/fxt.webm": "/static/media/fxt.9e16792450f3e5504fea.webm",
     "static/media/watermovement2.webm": "/static/media/watermovement2.5eda5cea10a0f4224894.webm",
     "static/media/vm-hello-world.mov": "/static/media/vm-hello-world.d17c6abb1b6bdde0e796.mov",
     "static/media/godot-movement.webm": "/static/media/godot-movement.70f5696cc544608f2995.webm",
     "static/media/peach.mov": "/static/media/peach.ed877626261964f69f0f.mov",
+    "static/media/SatelliteVis.webm": "/static/media/SatelliteVis.93e22216544b15d125ed.webm",
     "static/media/ddgi.gif": "/static/media/ddgi.79b5cf4e01b6a324f369.gif",
     "static/media/belter-video.mp4": "/static/media/belter-video.bb6500fb58b8aeb6d2f5.mp4",
+    "static/media/fxt2.webm": "/static/media/fxt2.3c1fc66bef8e760bf110.webm",
     "static/media/pistol-model.png": "/static/media/pistol-model.e556307df1a35bcd66d3.png",
     "static/media/website-screenshot2.png": "/static/media/website-screenshot2.5440888d0ffdf03d6459.png",
     "static/media/acheron-tunnel.png": "/static/media/acheron-tunnel.6a0bc8d830ddc249f963.png",
@@ -19,11 +20,11 @@
     "static/media/github-mark.svg": "/static/media/github-mark.6fa18895f6e6c7772cab7049f7e05f59.svg",
     "index.html": "/index.html",
     "main.efcc0a83.css.map": "/static/css/main.efcc0a83.css.map",
-    "main.41b27b0d.js.map": "/static/js/main.41b27b0d.js.map",
+    "main.24c4c179.js.map": "/static/js/main.24c4c179.js.map",
     "787.01a3b091.chunk.js.map": "/static/js/787.01a3b091.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.efcc0a83.css",
-    "static/js/main.41b27b0d.js"
+    "static/js/main.24c4c179.js"
   ]
 }

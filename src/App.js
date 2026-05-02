@@ -8,6 +8,10 @@ import emailIcon from './assets/email.png'
 import replitIcon from './assets/replit-logo.png'
 import linkedinIcon from './assets/LI-In-Bug.png'
 
+import foxtrotDemo from './assets/fxt2.webm'
+import satVis from './assets/SatelliteVis.webm'
+import waterMovement from './assets/watermovement3.webm'
+
 import peachDemo from './assets/peach.mov'
 import acheronTunnel from './assets/acheron-tunnel.png'
 import hyperionDemo from './assets/ddgi.gif'
@@ -15,12 +19,11 @@ import belterDemo from './assets/belter-video.mp4'
 import vmDemo from './assets/vm-hello-world.mov'
 import asmDemo from './assets/asm-code-screenshot2.png'
 import websiteDemo from './assets/website-screenshot2.png'
-import foxtrotDemo from './assets/foxtrot-demo.webm'
 import godotMovementDemo from './assets/godot-movement.webm'
 
 import pistolModel from './assets/pistol-model.png'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const ReactiveContainer = (props) => {
   return (
@@ -36,11 +39,29 @@ const RefLink = (props) => {
   );
 }
 
+// function VideoComponent({...props }) {
+//   const videoRef = useRef(null);
+
+//   useEffect(() => {
+//     const elem = videoRef.current;
+
+//     if (!elem) {
+//       return;
+//     }
+//     elem.muted = true;
+//     elem.defaultMuted = true;
+//   }, []);
+
+//   return <video ref={videoRef} muted={true} {...props}  />;
+// }
+
 const ProjectVideo = (props) => {
   return (
-    <video loop playsInline autoPlay muted src={props.src} alt={props.alt} />
+    <video src={props.src} loop playsInline autoPlay muted alt={props.alt} />
   );
 }
+
+
 
 const ProjectCard = (props) => {
   return (
@@ -99,8 +120,11 @@ const ProfileContainer = () => {
             <div className='hp-flex-col'>
               <div>
                 <div className='hp-profile-text hp-no-padding hp-no-margin'>
-                  <b>Graphics</b> and <b>Game Engine</b> developer.
-                  <p>Experienced with <b>Vulkan</b>, <b>C++</b>, and writing <b>NEON</b> and <b>SSE</b> optimized code.<br/> </p>
+                  <b>Game Engine</b> programmer
+                  <p>Experienced with <b>Vulkan</b>, <b>C++</b>, and writing <b>NEON</b> and <b>SSE</b> optimized code.<br />
+                  (check out my <a href="https://blog.ethanm.ca/2026/01/simd-or-not-to-be.html">blog post on SIMD!</a>)<br/>
+
+                  </p>
                 </div>
                 <div className='hp-flex-row hp-margin-top-2'>
                   <SocialLink icon={githubIcon} link='https://www.github.com/emd22/'/>
@@ -117,11 +141,12 @@ const ProfileContainer = () => {
         <div className='hp-light-container'>
           <h1>About Me</h1>
           <p>
-            I am a software developer from Nova Scotia, Canada. I spend most of my time working on my FPS game <a href='https://github.com/emd22/foxtrot'>Foxtrot</a> and its custom game engine, as well as <a href="https://github.com/notomorrow/hyperion-engine">Hyperion Engine</a> with my brother.
+            I am a programmer from Nova Scotia, Canada, currently waiting for my graduation for a Bachelor of Computer Science. I spend most of my time working on my FPS game <a href='https://github.com/emd22/foxtrot'>Foxtrot</a> and its custom game engine, as well as <a href="https://github.com/notomorrow/hyperion-engine">Hyperion Engine</a> with my brother.
           </p>
-          <p>As well, I am currently in my <b>final year</b> of my Bachelor's degree at Dalhousie University.</p>
 
-          <p>I am passionate about graphics and low-level programming, and very experienced with writing optimized C++. </p>
+          <p>I am passionate about graphics and low-level programming, and experienced with writing optimized C++.<br />
+
+          </p>
 
             <h1>Skills</h1>
           <ul>
@@ -133,7 +158,7 @@ const ProfileContainer = () => {
             as well as <b>virtual machines</b> for personal projects, and to expand my learning.
             </li>
             <li>Very experienced with <b>Godot engine</b>, and used <b>Unity</b> for game development courses in university.</li>
-            <li>Experienced with many programming languages such as <b>Zig</b>, <b>C#</b>, and <b>Golang</b>. </li>
+            <li>Experienced with many programming languages including <b>C++</b>, <b>C#</b>, <b>Zig</b>, and <b>Golang</b>. </li>
             <li>Work experience as a <b>full-stack web developer</b>, as well as developing <b>Unreal Engine 4 and 5 plugins and tools</b>.</li>
           </ul>
         </div>
@@ -167,7 +192,6 @@ function App() {
   useEffect(() => {
     document.body.classList.toggle('darkMode', darkMode);
     localStorage.setItem("darkTheme", darkMode);
-    console.log('set dark theme', darkMode);
   }, [darkMode]);
 
   return (
@@ -198,17 +222,87 @@ function App() {
               description={
                 <div>
                   <p>
-                    Foxtrot is an in-development FPS with a custom game engine written in C++. It uses Vulkan as a render backend and has a custom memory pooling system, multithreaded asset loading and integrates with Jolt physics.
+                    Foxtrot is an in-development FPS with a custom game engine written in C++.
+                    It has a Vulkan backend, a custom memory pooling system, multithreaded asset loading and integrates with Jolt physics. All objects here are loaded from a project file defined in a custom config language, and streamed in asynchronously.
+                    <br/>
+
                   </p>
-                  <p>It contains a ton of custom containers and STL replacements, as well as an ARM Neon optimized math library with SSE support planned.</p>
+                  <p>As well, Foxtrot has an in-house scripting language and a SSE+AVX and Arm NEON optimized math library.</p>
                 </div>
               }
 
               content={
                 <ProjectVideo src={foxtrotDemo} alt={'Demo of player movement and physics in Foxtrot'} />
               }
-              contentCaption='Physics, lighting, and movement in Foxtrot'
+              contentCaption='Movement and the basic in-game editor'
             />
+
+            <ProjectCard
+              title='Satellite Visualization'
+              links={{
+                'github': 'https://github.com/emd22/satellite'
+              }}
+              description={
+                <div>
+                  <p>
+                    For a final project in a visualization course I was tasked with building an interactive visualization using openly accessible data.
+
+                  </p>
+                  <p>
+                    Future positions and velocities are estimated with SGP4 and precomputed into keyframes. These keyframes are interpolated and combined with data loaded from satellite catalogues.
+                  </p>
+                </div>
+              }
+
+              content={
+                <ProjectVideo src={satVis} alt={'Earth with a visualization of satellites and debris orbiting'} />
+              }
+              contentCaption='Visualization of debris and satellites'
+            />
+
+
+
+            <ProjectCard
+              title='Godot Water Demo'
+              links={{
+              }}
+              description={
+                <div>
+                  <p>
+                    Tried to recreate the aesthetic of deep-sea underwater camera footage, and learned a ton of 3d modelling tricks here. This was built using the C# backend for Godot and did some cool lighting tricks by faking a layered fog, and had a few different movement systems for swimming, ladders, and seated.
+                  </p>
+                </div>
+              }
+
+              content={
+                <ProjectVideo src={waterMovement} alt={'Demo of an FPS player controller with openable doors and a flashlight'} />
+
+              }
+              contentCaption='Showing off movement types, particles and water effects'
+            />
+
+            <ProjectCard
+              title='Godot FPS Movement'
+              links={{
+
+              }}
+              description={
+                <div>
+                  <p>
+                    Using Godot, I worked on a horror game movement system in C#.
+                  </p>
+                  <p>This has head bob, click and drag to open doors a variable amount, sprint, jump and a basic player attachment system.</p>
+                </div>
+              }
+
+              content={
+                // <video src={godotMovementDemo} autoPlay loop alt='demo of the realtime DDGI in Hyperion engine'></video>
+                <ProjectVideo src={godotMovementDemo} alt={'Demo of an FPS player controller with openable doors and a flashlight'} />
+
+              }
+              contentCaption="Movement demo with interactable objects and a crude blockout"
+            />
+
             <ProjectCard
               title='Hyperion Engine'
               links={{
@@ -227,27 +321,6 @@ function App() {
                 <img src={hyperionDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>
               }
               contentCaption='Andrew showing off the realtime DDGI system in Hyperion'
-            />
-            <ProjectCard
-              title='Godot FPS Movement'
-              links={{
-
-              }}
-              description={
-                <div>
-                  <p>
-                    Using Godot, I worked on a horror game movement system in C#.
-                  </p>
-                  <p>This has head bob (before I knew about game-induced motion sickness...), click and drag to open doors a variable amount, sprint, jump and holding items.</p>
-                </div>
-              }
-
-              content={
-                // <video src={godotMovementDemo} autoPlay loop alt='demo of the realtime DDGI in Hyperion engine'></video>
-                <ProjectVideo src={godotMovementDemo} alt={'Demo of an FPS player controller with openable doors and a flashlight'} />
-
-              }
-              contentCaption="Movement demo showing off custom models and lighting"
             />
 
 
@@ -273,7 +346,7 @@ function App() {
             />
           </section>
           <section className='hp-project-section'>
-            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>other cool things</h1>
+            <h1 className='hp-title-chunky hp-no-margin hp-section-title'>Other things</h1>
             <ProjectCard
               title='3d modelling'
               links={{
@@ -316,7 +389,7 @@ function App() {
               }
 
               content={
-                <ProjectVideo src={peachDemo} alt={'A terminal slowly printing the mandlebrot fractal, written in the PEACH language.'} />
+                <ProjectVideo src={peachDemo} type={ "video/mp4" } alt={'A terminal slowly printing the mandlebrot fractal, written in the PEACH language.'} />
 
                 // <video src={peachDemo} width='300px' autoPlay loop muted alt='a video of a terminal generating the mandlebrot fractal, written completely in PEACH.'></video>
                 // <div></div>
@@ -345,11 +418,11 @@ function App() {
                   <ProjectVideo src={vmDemo} alt={'demo of the VM running in debug mode, printing "Hello, World"!'} />
               }
 
-              contentCaption='Demo of the VM running in debug mode with a slow processor speed printing "Hello, World"!'
+              contentCaption='Demo of the VM running with a slow step speed printing "Hello, World"!'
 
               content2={<img src={asmDemo} alt='demo of the realtime DDGI in Hyperion engine'></img>}
 
-              contentCaption2='Custom assembler that prints out text'
+              contentCaption2='Full program written in the custom assembler language'
             />
             <ProjectCard
               title='Belter'

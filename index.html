@@ -1,0 +1,1290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ethan MacDonald</title>
+    <style>
+      :root {
+        --background: white;
+        --onBackground: black;
+        --primary: linear-gradient(
+          -15deg,
+          rgb(182, 182, 182) 20%,
+          40%,
+          #e8e8e8 100%
+        );
+        --onPrimary: black;
+        --onSecondary: black;
+        --primaryColor: #3abb23;
+        --colorTitle: linear-gradient(
+          -15deg,
+          rgb(182, 182, 182) 20%,
+          40%,
+          #e8e8e8 100%
+        );
+        --primarySolid: #e8e8e8;
+        --linkColorOnDark: skyblue;
+        --linkColorOnLight: #2299ff;
+        --profileTextColor: black;
+        --isDark: 0;
+      }
+
+      .darkMode {
+        --background: #212124;
+        --primary: #4d9a97;
+        --primaryColor: #44b075;
+        --onSecondary: white;
+        --onBackground: white;
+        --primarySolid: #4d9a97;
+        --onPrimary: black;
+        --linkColorOnDark: skyblue;
+        --linkColorOnLight: #3344aa;
+        --profileTextColor: var(--colorTitle);
+        --colorTitle: #75c2be;
+        --isDark: 1;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--background);
+        color: var(--onBackground);
+        transition:
+          background-color 0.2s,
+          color 0.2s;
+
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+          "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body h1,
+      body h2,
+      body h3 {
+        letter-spacing: -0.05em;
+      }
+      body h1 {
+        font-size: 2em;
+      }
+      body h2 {
+        font-size: 1.5em;
+      }
+
+      img,
+      video {
+        border-radius: 15px;
+        width: 100% !important;
+      }
+
+      p,
+      li {
+        letter-spacing: -0.025em;
+        line-height: 1.5em;
+        font-weight: 500;
+        font-size: 1.05em;
+      }
+
+      li {
+        padding: 5px 0;
+      }
+
+      b {
+        font-weight: 750;
+      }
+
+      ul {
+        padding: 0 1em;
+      }
+
+      a {
+        display: inline-block;
+        text-decoration: underline;
+        font-weight: 650;
+        color: var(--linkColorOnDark);
+      }
+
+      /* ============================================================
+       LAYOUT UTILITIES
+    ============================================================ */
+      .hp-flex-row {
+        display: flex;
+        flex-direction: row;
+      }
+      .hp-flex-col {
+        display: flex;
+        flex-direction: column;
+      }
+      .hp-flex-one {
+        flex: 1;
+      }
+      .hp-flex-zero {
+        flex: 0;
+      }
+      .hp-space-between {
+        justify-content: space-between;
+      }
+      .hp-space-evenly {
+        justify-content: space-evenly;
+      }
+      .hp-center-x {
+        justify-content: center;
+      }
+      .hp-center-y {
+        align-items: center;
+      }
+      .hp-center-text {
+        text-align: center;
+      }
+      .hp-no-padding {
+        padding: 0;
+      }
+      .hp-no-margin {
+        margin: 0;
+      }
+
+      /* ============================================================
+       HERO BOX
+    ============================================================ */
+      .hp-hero-box {
+        justify-content: space-between;
+        gap: 30px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hp-hero-box {
+          flex-direction: column-reverse;
+        }
+        .hp-phone-flex-col {
+          flex-direction: column !important;
+        }
+        .hp-phone-center-x {
+          justify-content: center;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        .hp-tablet-flex-col {
+          flex-direction: column;
+        }
+        .hp-tablet-flex-row {
+          flex-direction: row;
+        }
+      }
+
+      /* ============================================================
+       HEADER
+    ============================================================ */
+      .hp-app-header {
+        text-align: start;
+        font-size: 1.5em;
+        max-width: 1024px;
+        line-height: 0.8;
+        padding-top: 10px;
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .hp-theme-button {
+        background-color: transparent;
+        color: var(--onBackground);
+        border: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      /* ============================================================
+       CONTENT CONTAINERS
+    ============================================================ */
+      .hp-content-container {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hp-main-content {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        max-width: 1024px;
+        margin: 0 auto;
+        text-align: start;
+        width: 90%;
+      }
+
+      /* ============================================================
+       BASIC CONTAINER
+    ============================================================ */
+      .hp-basic-container {
+        width: 100%;
+        border-radius: 15px;
+        color: var(--onSecondary);
+        z-index: 1;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hp-basic-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        z-index: -1;
+        transform: translateY(20%);
+        transition: transform 0.2s ease;
+      }
+
+      .hp-basic-container:hover::before {
+        transform: translateY(-20%);
+      }
+
+      .hp-basic-container h1 {
+        padding: 0;
+        margin: 10px 0;
+        z-index: 2;
+      }
+
+      .hp-dark-container {
+        width: 100%;
+        border-radius: 15px;
+        padding: 20px 35px;
+        color: white;
+        z-index: 1;
+        overflow: hidden;
+        position: relative;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hp-dark-container {
+          padding: 10px 25px;
+        }
+      }
+
+      .hp-dark-container a {
+        color: var(--linkColorOnDark);
+      }
+
+      .hp-dark-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        z-index: -1;
+        transition: transform 0.2s ease;
+        background: linear-gradient(
+          -15deg,
+          rgb(33, 32, 32) 10%,
+          40%,
+          rgb(59, 60, 64) 100%
+        );
+      }
+
+      .hp-dark-container:hover::before {
+        transform: translateY(-10%);
+      }
+
+      .hp-dark-container h1 {
+        padding: 0;
+        margin: 10px 0;
+        z-index: 2;
+        color: white;
+      }
+
+      .hp-light-container {
+        width: 100%;
+        border-radius: 15px;
+        padding: 20px 35px;
+        z-index: 1;
+        overflow: hidden;
+        position: relative;
+        color: var(--onPrimary);
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hp-light-container {
+          padding: 10px 25px;
+        }
+      }
+
+      .hp-light-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        z-index: -1;
+        transition: transform 0.2s ease;
+        background: var(--primary);
+      }
+
+      .hp-light-container a {
+        color: var(--linkColorOnLight);
+      }
+
+      .hp-light-container h1 {
+        padding: 0;
+        margin: 10px 0;
+        z-index: 2;
+      }
+
+      .hp-profile-container {
+        width: 300px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        .hp-profile-container {
+          width: 100%;
+        }
+      }
+
+      .hp-profile-picture {
+        object-fit: cover;
+        width: 300px;
+        height: 300px;
+        border-radius: 15px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hp-profile-picture {
+          max-width: 150px;
+          max-height: 150px;
+          border-radius: 40px;
+          border: 4px var(--primarySolid) solid;
+          margin: 0;
+        }
+      }
+
+      .hp-profile-text {
+        background: var(--profileTextColor);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Icons */
+      .hp-social-link {
+        padding-right: 10px;
+      }
+
+      .hp-link-icon {
+        filter: contrast(100) grayscale(1) invert(var(--isDark));
+        min-width: 32px;
+        min-height: 32px;
+      }
+
+      .hp-link-icon-light {
+        filter: contrast(100) grayscale(1) invert(1);
+      }
+
+      .hp-link-icon-dark {
+        filter: contrast(100) grayscale(1);
+      }
+
+      /* Font gubbins */
+      .hp-title-chunky {
+        font-size: 2.5em;
+      }
+
+      .hp-section-title {
+        padding-top: 40px;
+        padding-bottom: 10px;
+        font-size: 2.75em;
+      }
+
+      .hp-color-title {
+        background: var(--colorTitle);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hp-ref-link {
+        display: inline-block;
+        color: #35c1e4;
+        text-decoration: none;
+      }
+
+      .hp-title-link {
+        color: #35c1e4;
+        text-decoration: none;
+      }
+
+      /* Cards */
+      .hp-project-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .hp-project-card {
+        /* inherits hp-dark-container */
+      }
+
+      .hp-title-description-box {
+        display: flex;
+        flex: 1;
+      }
+
+      .hp-project-card-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        margin: auto;
+        margin-top: 20px;
+        align-items: center;
+        width: 100%;
+      }
+
+      @media only screen and (max-width: 768px) {
+        .hp-project-card-content {
+          margin: 0 auto;
+        }
+      }
+
+      .hp-project-card-content img {
+        width: auto;
+        max-width: 400px;
+        max-height: 400px;
+        justify-self: center;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .hp-project-card-content img {
+          width: 100%;
+        }
+      }
+
+      .hp-project-card-content video {
+        max-height: 400px;
+        max-width: 350px;
+        width: auto;
+        justify-self: center;
+      }
+
+      /* Footer */
+      .hp-footer {
+        padding-top: 20px;
+        padding-bottom: 50px;
+      }
+
+      .hp-footer div {
+        padding: 5px 0;
+      }
+
+      /* Helpers */
+      .hp-margin-top-0 {
+        margin-top: 0px;
+      }
+      .hp-margin-top-1 {
+        margin-top: 10px;
+      }
+      .hp-margin-top-2 {
+        margin-top: 20px;
+      }
+      .hp-margin-top-3 {
+        margin-top: 30px;
+      }
+      .hp-margin-top-4 {
+        margin-top: 40px;
+      }
+      .hp-margin-top-5 {
+        margin-top: 50px;
+      }
+      .hp-margin-top-6 {
+        margin-top: 60px;
+      }
+      .hp-margin-top-7 {
+        margin-top: 70px;
+      }
+      .hp-margin-top-8 {
+        margin-top: 80px;
+      }
+      .hp-margin-top-9 {
+        margin-top: 90px;
+      }
+      .hp-margin-top-10 {
+        margin-top: 100px;
+      }
+
+      .hp-margin-bottom-0 {
+        margin-bottom: 0px;
+      }
+      .hp-margin-bottom-1 {
+        margin-bottom: 10px;
+      }
+      .hp-margin-bottom-2 {
+        margin-bottom: 20px;
+      }
+      .hp-margin-bottom-3 {
+        margin-bottom: 30px;
+      }
+      .hp-margin-bottom-4 {
+        margin-bottom: 40px;
+      }
+      .hp-margin-bottom-5 {
+        margin-bottom: 50px;
+      }
+
+      .hp-margin-left-0 {
+        margin-left: 0px;
+      }
+      .hp-margin-left-1 {
+        margin-left: 10px;
+      }
+      .hp-margin-left-2 {
+        margin-left: 20px;
+      }
+
+      .hp-margin-right-0 {
+        margin-right: 0px;
+      }
+      .hp-margin-right-1 {
+        margin-right: 10px;
+      }
+      .hp-margin-right-2 {
+        margin-right: 20px;
+      }
+
+      .hp-padding-top-0 {
+        padding-top: 0px;
+      }
+      .hp-padding-top-1 {
+        padding-top: 10px;
+      }
+      .hp-padding-top-2 {
+        padding-top: 20px;
+      }
+
+      .hp-padding-bottom-0 {
+        padding-bottom: 0px;
+      }
+      .hp-padding-bottom-1 {
+        padding-bottom: 10px;
+      }
+      .hp-padding-bottom-2 {
+        padding-bottom: 20px;
+      }
+
+      .hp-rounded-0 {
+        border-radius: 0px;
+      }
+      .hp-rounded-1 {
+        border-radius: 5px;
+      }
+      .hp-rounded-2 {
+        border-radius: 10px;
+      }
+      .hp-rounded-3 {
+        border-radius: 15px;
+      }
+    </style>
+    <link rel="icon" href="./public/icon.ico" />
+  </head>
+  <body>
+    <div class="App">
+      <header class="hp-app-header hp-flex-row hp-space-between">
+        <h1>ethan macdonald</h1>
+        <button
+          class="hp-theme-button hp-center-y"
+          onclick="toggleDarkMode()"
+          aria-label="toggle dark mode"
+        >
+          <img
+            class="hp-no-margin hp-link-icon"
+            alt="toggle dark mode"
+            src="./src/assets/icons8-night-mode-64.png"
+            width="32px"
+            height="32px"
+          />
+        </button>
+      </header>
+
+      <!-- Profile -->
+      <div class="hp-content-container">
+        <div class="hp-main-content">
+          <section>
+            <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+              <!-- Profile card -->
+              <div>
+                <div class="hp-basic-container hp-profile-container">
+                  <div
+                    class="hp-phone-flex-col hp-tablet-flex-row hp-flex-col hp-hero-box hp-center-x"
+                  >
+                    <div class="hp-flex-col hp-phone-center-x">
+                      <img
+                        class="hp-no-margin hp-phone-center-x hp-profile-picture"
+                        src="./src/assets/picture.png"
+                        alt="Profile picture"
+                      />
+                    </div>
+
+                    <div class="hp-flex-col">
+                      <div>
+                        <div class="hp-profile-text hp-no-padding hp-no-margin">
+                          <b>Game Engine</b> programmer
+                          <p>
+                            Experienced with <b>Vulkan</b>, <b>C++</b>, and
+                            writing <b>NEON</b> and <b>SSE</b> optimized
+                            code.<br />
+                            (check out my
+                            <a
+                              href="https://blog.ethanm.ca/2026/01/simd-or-not-to-be.html"
+                              >blog post on SIMD!</a
+                            >)<br />
+                          </p>
+                        </div>
+                        <div class="hp-flex-row hp-margin-top-2">
+                          <a
+                            href="https://www.github.com/emd22/"
+                            target="_blank"
+                            class="hp-social-link"
+                          >
+                            <img
+                              class="hp-link-icon hp-rounded-0"
+                              src="./src/assets/github-mark/github-mark.svg"
+                              height="30px"
+                              alt="GitHub"
+                            />
+                          </a>
+                          <a
+                            href="mailto:e@ethanm.ca"
+                            target="_blank"
+                            class="hp-social-link"
+                          >
+                            <img
+                              class="hp-link-icon"
+                              src="./src/assets/email.png"
+                              height="30px"
+                              alt="Email"
+                            />
+                          </a>
+                          <a
+                            href="https://www.linkedin.com/in/emd22"
+                            target="_blank"
+                            class="hp-social-link"
+                          >
+                            <img
+                              class="hp-link-icon hp-rounded-0"
+                              src="./src/assets/LI-In-Bug.png"
+                              height="30px"
+                              alt="LinkedIn"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- About / Skills card -->
+              <div class="hp-flex-one">
+                <div class="hp-light-container">
+                  <h1>About Me</h1>
+                  <p>
+                    I am a programmer from Nova Scotia, Canada, currently
+                    waiting for my graduation for a Bachelor of Computer
+                    Science. I spend most of my time working on my FPS game
+                    <a href="https://github.com/emd22/foxtrot">Foxtrot</a> and
+                    its custom game engine, as well as
+                    <a href="https://github.com/notomorrow/hyperion-engine"
+                      >Hyperion Engine</a
+                    >
+                    with my brother.
+                  </p>
+                  <p>
+                    I am passionate about graphics and low-level programming,
+                    and experienced with writing optimized C++.
+                  </p>
+
+                  <h1>Skills</h1>
+                  <ul>
+                    <li>
+                      Developed <b>game engines</b>,
+                      <b>programming languages</b>, <b>operating systems</b> as
+                      well as <b>virtual machines</b> for personal projects, and
+                      to expand my learning.
+                    </li>
+                    <li>
+                      Very experienced with <b>Godot engine</b>, and used
+                      <b>Unity</b> for game development courses in university.
+                    </li>
+                    <li>
+                      Experienced with many programming languages including
+                      <b>C++</b>, <b>C#</b>, <b>Zig</b>, and <b>Golang</b>.
+                    </li>
+                    <li>
+                      Work experience as a <b>full-stack web developer</b>, as
+                      well as developing
+                      <b>Unreal Engine 4 and 5 plugins and tools</b>.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Projects -->
+          <section class="hp-project-section">
+            <h1 class="hp-title-chunky hp-no-margin hp-section-title">
+              Projects
+            </h1>
+
+            <!-- Foxtrot -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">Foxtrot</h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://github.com/emd22/foxtrot"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      Foxtrot is an in-development FPS with a custom game engine
+                      written in C++. It has a Vulkan backend, a custom memory
+                      pooling system, multithreaded asset loading and integrates
+                      with Jolt physics. All objects here are loaded from a
+                      project file defined in a custom config language, and
+                      streamed in asynchronously.
+                    </p>
+                    <p>
+                      As well, Foxtrot has an in-house scripting language and a
+                      SSE+AVX and Arm NEON optimized math library.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/fxt2.webm"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt="Demo of player movement and physics in Foxtrot"
+                  ></video>
+                  <p><i>Movement and the basic in-game editor</i></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Satellite Visualization -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Satellite Visualization
+                    </h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://github.com/emd22/satellite"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      For a final project in a visualization course I was tasked
+                      with building an interactive visualization using openly
+                      accessible data.
+                    </p>
+                    <p>
+                      Future positions and velocities are estimated with SGP4
+                      and precomputed into keyframes. These keyframes are
+                      interpolated and combined with data loaded from satellite
+                      catalogues.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/SatelliteVis.webm"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt="Earth with a visualization of satellites and debris orbiting"
+                  ></video>
+                  <p><i>Visualization of debris and satellites</i></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Godot Water Demo -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Godot Water Demo
+                    </h1>
+                  </div>
+                  <div>
+                    <p>
+                      Tried to recreate the aesthetic of deep-sea underwater
+                      camera footage, and learned a ton of 3d modelling tricks
+                      here. This was built using the C# backend for Godot and
+                      did some cool lighting tricks by faking a layered fog, and
+                      had a few different movement systems for swimming,
+                      ladders, and seated.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/watermovement3.webm"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt="Demo of an FPS player controller with openable doors and a flashlight"
+                  ></video>
+                  <p>
+                    <i
+                      >Showing off movement types, particles and water
+                      effects</i
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Godot FPS Movement -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Godot FPS Movement
+                    </h1>
+                  </div>
+                  <div>
+                    <p>
+                      Using Godot, I worked on a horror game movement system in
+                      C#.
+                    </p>
+                    <p>
+                      This has head bob, click and drag to open doors a variable
+                      amount, sprint, jump and a basic player attachment system.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/godot-movement.webm"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt="Demo of an FPS player controller with openable doors and a flashlight"
+                  ></video>
+                  <p>
+                    <i
+                      >Movement demo with interactable objects and a crude
+                      blockout</i
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hyperion Engine -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Hyperion Engine
+                    </h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://github.com/notomorrow/hyperion-engine"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      A modern Vulkan game engine. Supports multithreaded
+                      rendering, VCT, DDGI, raytracing, and much more.
+                    </p>
+                    <p>
+                      Built with my brother Andrew(<a
+                        href="https://github.com/ajmd17"
+                        >@ajmd17</a
+                      >), we are currently working towards building a game with
+                      Hyperion.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <img
+                    src="./src/assets/ddgi.gif"
+                    alt="demo of the realtime DDGI in Hyperion engine"
+                  />
+                  <p>
+                    <i
+                      >Andrew showing off the realtime DDGI system in
+                      Hyperion</i
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Acheron Engine -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Acheron Engine
+                    </h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://github.com/emd22/acheron"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      Acheron was a 3D OpenGL game engine written completely in
+                      C99. This was my main project while I was going through
+                      high school, and helped me learn a lot about 3d rendering.
+                    </p>
+                    <p>
+                      Acheron was a way to learn more about how game engines
+                      work internally as well as learn how to structure large
+                      projects in C.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <img
+                    src="./src/assets/acheron-tunnel.png"
+                    alt="multiple point lights around a normal mapped cube in a train tunnel"
+                  />
+                  <p>
+                    <i
+                      >multiple point lights around a normal mapped cube in a
+                      train tunnel.</i
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Other things -->
+          <section class="hp-project-section">
+            <h1 class="hp-title-chunky hp-no-margin hp-section-title">
+              Other things
+            </h1>
+
+            <!-- 3D Modelling -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">3d modelling</h1>
+                  </div>
+                  <div>
+                    <p>
+                      Using Blender and Substance Painter, I modelled and
+                      textured this pistol using multiple real-life image
+                      references to make a modular pistol for using in games.
+                    </p>
+                    <p>
+                      This sits at about 760 triangles total, with the whole
+                      GLTF model (including textures) being about 410 KiB.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <img
+                    src="./src/assets/pistol-model.png"
+                    alt="an image of a modelled pistol"
+                  />
+                  <p><i></i></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Peach Language -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      Peach Language
+                    </h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://replit.com/@mynameisjonas/jam2020#README.md"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/replit-logo.png"
+                          width="30px"
+                          height="30px"
+                          alt="Replit"
+                        />
+                      </a>
+                      <a
+                        href="https://www.github.com/emd22/jam2020"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      For a programming language jam from Repl.it in 2020, me
+                      and Andrew(<a href="https://github.com/ajmd17">@ajmd17</a
+                      >) wrote PEACH in <b>less than a week</b>.
+                    </p>
+                    <p>
+                      PEACH is a prototypical interpreted language that is
+                      written in Python. Shown in the clip here is a mandlebrot
+                      fractal visualizer that I wrote <b>completely</b> in PEACH
+                      (<a
+                        href="https://github.com/emd22/jam2020/blob/master/mandle.peach"
+                        >link!</a
+                      >).
+                    </p>
+                    <p>
+                      Unfortunately, the original submission thread has been
+                      removed over the years.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/peach.mov"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt="A terminal slowly printing the mandlebrot fractal, written in the PEACH language."
+                  ></video>
+                  <p>
+                    <i>(slowly) generating the mandlebrot fractal in PEACH</i>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- X16 Macro Assembler -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">
+                      X16 Macro Assembler
+                    </h1>
+                    <div class="hp-flex-row">
+                      <a
+                        href="https://github.com/emd22/x16"
+                        class="hp-social-link"
+                      >
+                        <img
+                          class="hp-link-icon-light"
+                          src="./src/assets/github-mark/github-mark.svg"
+                          width="30px"
+                          height="30px"
+                          alt="GitHub"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <p>
+                      A custom CPU architecture, macro assembler, and VM written
+                      as a challenge to write the smallest assembler and VM that
+                      is still easy to program for.
+                    </p>
+                    <p>
+                      For this project, the assembler is programmed in Python,
+                      and the VM is programmed in C. It runs blazingly fast, and
+                      has a bunch of cool features!
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/vm-hello-world.mov"
+                    loop
+                    playsinline
+                    autoplay
+                    muted
+                    alt='demo of the VM running in debug mode, printing "Hello, World"!'
+                  ></video>
+                  <p>
+                    <i
+                      >Demo of the VM running with a slow step speed printing
+                      "Hello, World"!</i
+                    >
+                  </p>
+                  <div>
+                    <img
+                      src="./src/assets/asm-code-screenshot2.png"
+                      alt="demo of the assembler language"
+                    />
+                    <p>
+                      <i
+                        >Full program written in the custom assembler
+                        language</i
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Belter -->
+            <div class="hp-dark-container hp-project-card">
+              <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+                <div class="hp-flex-col hp-title-description-box">
+                  <div class="hp-flex-col">
+                    <h1 class="hp-title-chunky hp-color-title">Belter</h1>
+                  </div>
+                  <div>
+                    <p>
+                      Belter was a fun side project to try out Dart and Golang.
+                      It was an audio-focused social network that allowed you to
+                      share audio clips with friends.
+                    </p>
+                  </div>
+                </div>
+                <div class="hp-project-card-content">
+                  <video
+                    src="./src/assets/belter-video.mp4"
+                    autoplay
+                    loop
+                    muted
+                    alt="demo of the belter app, signing in and going through multiple menus, and scrolling through posts."
+                  ></video>
+                  <p><i>Demo of Belter on macOS</i></p>
+                </div>
+              </div>
+            </div>
+
+            <footer class="hp-footer hp-center-x hp-flex-col hp-center-text">
+              <div>&copy; <span id="year"></span> Ethan MacDonald</div>
+              <div>
+                <a
+                  target="_blank"
+                  href="https://icons8.com/icon/uKugxlcnkh3u/night-mode"
+                  >Night</a
+                >
+                icon from
+                <a target="_blank" href="https://icons8.com">Icons8</a>,
+                <a
+                  href="https://www.flaticon.com/free-icons/gmail"
+                  title="email icons"
+                  >Email icon</a
+                >
+                created by rukanicon, on Flaticon
+              </div>
+            </footer>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Set copyright year
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Dark mode
+      function checkIfDarkMode() {
+        let stored = localStorage.getItem("darkTheme");
+        if (stored === null) {
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          localStorage.setItem("darkTheme", prefersDark);
+          return prefersDark;
+        }
+        return stored === "true";
+      }
+
+      function applyDarkMode(isDark) {
+        document.body.classList.toggle("darkMode", isDark);
+        localStorage.setItem("darkTheme", isDark);
+      }
+
+      function toggleDarkMode() {
+        const current = document.body.classList.contains("darkMode");
+        applyDarkMode(!current);
+      }
+
+      // Apply on load
+      applyDarkMode(checkIfDarkMode());
+    </script>
+  </body>
+</html>

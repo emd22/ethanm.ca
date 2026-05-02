@@ -33,7 +33,7 @@
   // --primary: linear-gradient(-15deg, rgb(43, 85, 48) 20%, 40%, #4e9d72 100%);
 
   // --primary: linear-gradient(-15deg, rgb(35, 94, 115) 20%, 40%, #4d9a6f 100%);
-  --primary: linear-gradient(-15deg, rgb(35, 94, 115) 20%, 40%, #4d9a97 100%);
+  --primary: #4d9a97;
   --primaryColor: #44b075;
   --onSecondary: white;
   --onBackground: white;
@@ -45,12 +45,7 @@
 
   --profileTextColor: var(--colorTitle);
 
-  --colorTitle: linear-gradient(
-    -55deg,
-    rgb(41, 167, 176) 20%,
-    40%,
-    #75c2be 100%
-  );
+  --colorTitle: #75c2be;
 
   --isDark: 1;
 }
@@ -119,7 +114,7 @@ a {
   display: inline-block;
   text-decoration: underline;
   font-weight: 650;
-  color: var(--linkColorOnLight);
+  color: var(--linkColorOnDark);
 }
 
 @mixin all-rules {
@@ -229,7 +224,7 @@ a {
       width: 100%;
     }
     img {
-      box-shadow: 0 0 20px -10px var(--primarySolid);
+      /* box-shadow: 0 0 20px -10px var(--primarySolid); */
     }
   }
 
@@ -317,7 +312,7 @@ a {
     position: relative;
     color: var(--onPrimary);
 
-    box-shadow: 0 0 20px -8px var(--primarySolid);
+    /* box-shadow: 0 0 20px -8px var(--primarySolid); */
 
     @include phone-size() {
       padding: 10px 25px;
@@ -341,6 +336,9 @@ a {
       // background: linear-gradient(-15deg, rgb(34, 33, 33) 10%, 40%, #616a79 100%);
     }
 
+    a {
+      color: var(--linkColorOnLight);
+    }
     h1 {
       padding: 0;
       margin: 10px 0;

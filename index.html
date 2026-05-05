@@ -8,31 +8,39 @@
       :root {
         --background: white;
         --onBackground: black;
-        --primary: linear-gradient(
+        /*--primary: linear-gradient(
           -15deg,
           rgb(182, 182, 182) 20%,
           40%,
           #e8e8e8 100%
-        );
+        );*/
+        --primary: black;
         --onPrimary: black;
         --onSecondary: black;
         --primaryColor: #3abb23;
-        --colorTitle: linear-gradient(
+        /*--colorTitle: linear-gradient(
           -15deg,
           rgb(182, 182, 182) 20%,
           40%,
           #e8e8e8 100%
-        );
+        );*/
+        --colorTitle: black;
         --primarySolid: #e8e8e8;
+        --borderPrimary: #000000;
+        --lightBackground: #fefefe;
         --linkColorOnDark: skyblue;
         --linkColorOnLight: #2299ff;
         --profileTextColor: black;
+        --projectContainerBackground: white;
+        --shadowColor: black;
         --isDark: 0;
+        --isLight: 1;
       }
 
       .darkMode {
         --background: #212124;
         --primary: #4d9a97;
+        --lightBackground: #4d9a97;
         --primaryColor: #44b075;
         --onSecondary: white;
         --onBackground: white;
@@ -42,7 +50,15 @@
         --linkColorOnLight: #3344aa;
         --profileTextColor: var(--colorTitle);
         --colorTitle: #75c2be;
+        --projectContainerBackground: linear-gradient(
+          -15deg,
+          rgb(33, 32, 32) 10%,
+          40%,
+          rgb(59, 60, 64) 100%
+        );
+        --shadowColor: #000000;
         --isDark: 1;
+        --isLight: 0;
       }
 
       * {
@@ -82,6 +98,7 @@
       video {
         border-radius: 15px;
         width: 100% !important;
+        border: 2px solid black;
       }
 
       p,
@@ -111,9 +128,7 @@
         color: var(--linkColorOnDark);
       }
 
-      /* ============================================================
-       LAYOUT UTILITIES
-    ============================================================ */
+      /* Layout */
       .hp-flex-row {
         display: flex;
         flex-direction: row;
@@ -150,9 +165,7 @@
         margin: 0;
       }
 
-      /* ============================================================
-       HERO BOX
-    ============================================================ */
+      /* Hero */
       .hp-hero-box {
         justify-content: space-between;
         gap: 30px;
@@ -179,9 +192,7 @@
         }
       }
 
-      /* ============================================================
-       HEADER
-    ============================================================ */
+      /* Header */
       .hp-app-header {
         text-align: start;
         font-size: 1.5em;
@@ -206,9 +217,7 @@
         cursor: pointer;
       }
 
-      /* ============================================================
-       CONTENT CONTAINERS
-    ============================================================ */
+      /* Content */
       .hp-content-container {
         align-items: center;
         justify-content: center;
@@ -227,9 +236,6 @@
         width: 90%;
       }
 
-      /* ============================================================
-       BASIC CONTAINER
-    ============================================================ */
       .hp-basic-container {
         width: 100%;
         border-radius: 15px;
@@ -265,10 +271,12 @@
         width: 100%;
         border-radius: 15px;
         padding: 20px 35px;
-        color: white;
+        /*color: white;*/
+        border: 2px var(--borderPrimary) solid;
         z-index: 1;
         overflow: hidden;
         position: relative;
+        box-shadow: 4px 4px var(--shadowColor);
       }
 
       @media only screen and (max-width: 600px) {
@@ -289,13 +297,8 @@
         width: 100%;
         height: 200%;
         z-index: -1;
+        background: var(--projectContainerBackground);
         transition: transform 0.2s ease;
-        background: linear-gradient(
-          -15deg,
-          rgb(33, 32, 32) 10%,
-          40%,
-          rgb(59, 60, 64) 100%
-        );
       }
 
       .hp-dark-container:hover::before {
@@ -312,10 +315,12 @@
       .hp-light-container {
         width: 100%;
         border-radius: 15px;
+        border: var(--borderPrimary) 2px solid;
         padding: 20px 35px;
         z-index: 1;
         overflow: hidden;
         position: relative;
+        box-shadow: 4px 4px var(--shadowColor);
         color: var(--onPrimary);
       }
 
@@ -334,7 +339,7 @@
         height: 200%;
         z-index: -1;
         transition: transform 0.2s ease;
-        background: var(--primary);
+        background: var(--lightBackground);
       }
 
       .hp-light-container a {
@@ -362,12 +367,13 @@
         width: 300px;
         height: 300px;
         border-radius: 15px;
+        border: 2px solid black;
       }
 
       @media only screen and (max-width: 600px) {
         .hp-profile-picture {
-          max-width: 150px;
-          max-height: 150px;
+          max-width: 170px;
+          max-height: 170px;
           border-radius: 40px;
           border: 4px var(--primarySolid) solid;
           margin: 0;
@@ -389,14 +395,17 @@
         filter: contrast(100) grayscale(1) invert(var(--isDark));
         min-width: 32px;
         min-height: 32px;
+        border: none;
       }
 
       .hp-link-icon-light {
-        filter: contrast(100) grayscale(1) invert(1);
+        filter: contrast(100) grayscale(1) invert(var(--isLight));
+        border: none;
       }
 
       .hp-link-icon-dark {
-        filter: contrast(100) grayscale(1);
+        filter: contrast(100) grayscale(1) invert(var(--isDark));
+        border: none;
       }
 
       /* Font gubbins */
@@ -760,7 +769,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -812,7 +821,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -941,7 +950,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -993,7 +1002,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -1080,7 +1089,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/replit-logo.png"
                           width="30px"
                           height="30px"
@@ -1092,7 +1101,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -1152,7 +1161,7 @@
                         class="hp-social-link"
                       >
                         <img
-                          class="hp-link-icon-light"
+                          class="hp-link-icon-dark"
                           src="./assets/github-mark/github-mark.svg"
                           width="30px"
                           height="30px"
@@ -1186,8 +1195,8 @@
                   <p>
                     <i
                       >Demo of the VM running with a slow step speed printing
-                      "Hello, World"!</i
-                    >
+                      "Hello, World"!
+                    </i>
                   </p>
                   <div>
                     <img

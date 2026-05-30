@@ -1,0 +1,235 @@
+%%post_template_begin%%
+
+<!--<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+/>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>-->
+<!--
+<script>
+  hljs.highlightAll();
+</script>-->
+
+%%heading(SIMD or not to be)%%
+
+<!-- -->
+%%posted-on(January 28th, 2026)%%
+
+<h2 style="text-align: left">Introduction</h2>
+<p style="text-align: left">
+  Welcome to my new blog on C++, Graphics, and SIMD!
+</p>
+<p style="text-align: left">
+  Due to my interest (obsession) with vectorizing code, I have been collecting a
+  little roster of tips and tricks that I would like to put in one organized
+  place for others to find.
+</p>
+<p style="text-align: left">
+  For this blog, I will be mainly focusing on presenting code as Neon or SSE
+  with some AVX sprinkled in, but expect some posts related to just one or the
+  others occasionally. As well, I am not a writer and some of the anecdotes in
+  here are just my own thoughts and should not be taken as fact (but I do work
+  hard to make sure everything is correct.)
+</p>
+<p style="text-align: left">
+  In these posts&nbsp; I will use "vector" and "register" interchangeably when
+  referring to the collection of data that is operated on by the vector unit in
+  the processor.&nbsp;&nbsp;
+</p>
+<h2 style="text-align: left">The Rules</h2>
+<p style="text-align: left">
+  SIMD (Single Instruction Multiple Data) is used for doing exactly that– doing
+  things on multiple bits of data in one instruction.
+</p>
+<p>The general process behind SIMD is:</p>
+<ol style="text-align: left">
+  <li style="text-align: left">Load data into vectors</li>
+  <li style="text-align: left">(Optionally) shuffle the vector</li>
+  <li style="text-align: left">Perform operations</li>
+  <li style="text-align: left">Store back to normal CPU registers</li>
+</ol>
+<p>
+  Seems simple enough, but the real trick to programming vectorized code is to
+  minimize the amount of loads and stores we do. Loads and stores
+  incur&nbsp;<b>latency</b>, which can cause the vector unit to wait for data
+  from the CPU to be transferred into vectors and vice versa. This often also
+  goes for operating with vectors and scalar values together.
+</p>
+<p>
+  An example of what&nbsp;<b>not</b>&nbsp;to do with loads would be:&nbsp;&nbsp;
+</p>
+<p style="text-align: left"></p>
+
+<pre><code class="language-cpp">for (int i = 0; i &lt; 128; i++) {
+    // Load a 4 component vector of 1.0's every iteration (BAD)
+    float4 one_v = Load4(1.0f);
+
+    // Increment a vector by {1.0, 1.0, 1.0, 1.0}
+    vectors[i] = Add4(vectors[i], one_v);
+}
+</code></pre>
+
+<p>
+  This code uses the pseudo-code `Load4`, which in a real system loads the
+  scalar value from the cache into a vector register and splats it across all
+  components. It is possible that a smart compiler will hoist this up to the top
+  of the function, but it is not something that you should expect to be there
+  when using intrinsics.
+</p>
+<p>Corrected code:&nbsp;</p>
+<p style="text-align: left"></p>
+
+<pre><code class="language-cpp">float4 one_v = Load4(1.0f);
+
+for (int i = 0; i &lt; 128; i++) {
+    // Increment a vector by {1.0, 1.0, 1.0, 1.0}
+    vectors[i] = Add4(vectors[i], one_v);
+}
+</code></pre>
+
+<p style="text-align: left">
+  &nbsp;Building onto this, one big easy to make mistake&nbsp;is to extract
+  every little operation to its own function, or use tons of external calls to
+  do vector operations. This can causing stalling, mess with the vector
+  pipeline, or be unpredictable performance-wise. Inline functions are generally
+  fine, but the best option is to just program vector stuff directly when you
+  need it.&nbsp;
+</p>
+<h2 style="text-align: left">The Intel shaped elephant in the room</h2>
+<p>
+  Intel's little gremlin SSE is somewhat equivalent to Neon. It is extremely
+  powerful, while also having its own unique set of limitations. For instance,
+  rearranging vectors is extremely easy with SSE using the `<span
+    style="font-family: courier"
+    >_mm_permute</span
+  >` or `<span style="font-family: courier">_mm_shuffle</span>` intrinsics,
+  while being much more granular and sometimes agonizing in Neon. A strange
+  limitation is that SSE does not have any instructions for horizontal
+  operations. Something like `vaddvq` in Neon adds all components of the vector
+  together, while you would need to employ liberal use of shuffles for SSE.
+</p>
+<p>
+  At the other end, Neon does not allow performing bitwise operations on
+  floating point numbers much like C++ or C. To do so, you need to use
+  a&nbsp;<span style="font-family: courier">reinterpret&nbsp;</span
+  ><span style="font-family: inherit"
+    >intrinsic&nbsp;or similar. SSE comes in with a zinger
+    with&nbsp;&nbsp;</span
+  ><span style="font-family: courier">_mm_xor_ps</span>.&nbsp;This might make
+  you wonder, why are there bitwise floating point operations?
+</p>
+<p>
+  The biggest reason for this is that Neon uses a pool of
+  <a href="https://developer.arm.com/documentation/dht0002/a/ch01s03s02"
+    >shared, arbitrarily typed 128 and 64 bit registers</a
+  >, while SSE employs separate floating point and integer vector registers.
+  This means if we only had access to integer bitwise operations, we would need
+  to transfer the value into an integer register, incurring latency, and then
+  transfer back after the bitwise operation is complete.
+</p>
+<p>
+  Something that I often hear is to never use bitwise operations on floating
+  point numbers. But when programming SSE or Neon, you might not have a choice,
+  and the cheapest way to flip the sign of a float is an OR or XOR.&nbsp;
+</p>
+<p>
+  The reasons behind the differences in limitations are the different goals of
+  each architecture. x64 prioritizes high performance applications with no real
+  worry about power consumption or heat constraints (*cough* Pentium 4) while
+  ARM is designed around mobile devices that have strict thermal and power
+  constraints. As well, many of the large instructions in x64 are handed
+  off&nbsp;nowadays&nbsp;to the microcode on the CPU which converts a large
+  instruction into a bunch of small instructions. ARM tries to move a lot of
+  this reinterpretation over to the developer and/or compiler, leading to the
+  sometimes verbose syntax of Neon.
+</p>
+<p>
+  This leads to an interesting challenge: Neon is focused on providing a solid
+  foundation to build custom implementations of all the staples (dot product,
+  matrix work, etc.), while SSE contains instructions for dot product, 4x4
+  matrix transposition, streaming extensions and more. This makes life a lot
+  easier, but can easily bring us to&nbsp;<b>implementation hell</b>, where
+  there can be
+  <a
+    href="https://robert.ocallahan.org/2021/09/rr-trace-portability-diverging-behavior.html"
+    >slightly different results across CPUs</a
+  >.<b>&nbsp;Sometimes the best option is to do it yourself</b>, and avoid the
+  intrinsics given certain platforms.
+</p>
+<h2 style="text-align: left">&nbsp;A Few Gotchas</h2>
+<h3 style="text-align: left">Vex Encoding&nbsp;</h3>
+<p style="text-align: left">
+  One of the biggest overlooked issues on the Intel side of things is about
+  VEX-encoding. VEX is something that came around about the time of the release
+  of AVX, which is essentially a next generation&nbsp; SSE with support for new
+  larger vector registers and many more instructions. To use the additional
+  instructions and new registers, a new 3 byte instruction prefix called the VEX
+  prefix was introduced to tell the CPU to operate in AVX mode.&nbsp;
+</p>
+<div style="text-align: left">&nbsp;</div>
+<p style="text-align: left">
+  While the legacy SSE instructions operate on the XMM registers, VEX SSE
+  operated on the lower half of AVX's YMM registers. This is great for new code
+  as there is no penalty between executing AVX and SSE, but how can we use the
+  legacy encoded instructions?
+</p>
+<p style="text-align: left">
+  When we begin to execute legacy code (non VEX-encoded instructions), we get
+  a&nbsp;<a
+    href="https://www.intel.com/content/dam/develop/external/us/en/documents/11mc12-avoiding-2bavx-sse-2btransition-2bpenalties-2brh-2bfinal-809104.pdf"
+    ><b>VEX-SSE transition</b></a
+  >&nbsp;that stalls the vector pipeline. This can lead to significant
+  performance loss, and it might not be an issue in your project, but keep this
+  in mind when using legacy libraries.
+</p>
+<h3 style="text-align: left">Global Constants</h3>
+<p style="text-align: left">
+  Here is a nasty one that I have encountered in the wild:
+</p>
+
+<pre><code class="language-cpp">// SSE
+static const __m128 scSomeSSE = *reinterpret_cast&lt;__m128*&gt;((float[4]){ 1.0f, 2.0f, 3.0f, 4.0f });
+// Neon
+static const float32x4_t scSomeNeon = {1.0f, 2.0f, 3.0f, 4.0f};</code></pre>
+<p style="text-align: left">
+  Storing constants like this does not cache any values from vector. On every
+  usage of these variables, it reloads the values into a register, even if its
+  in the same scope as a previous usage.&nbsp;<a
+    href="https://godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,selection:(endColumn:1,endLineNumber:14,positionColumn:1,positionLineNumber:14,selectionStartColumn:1,selectionStartLineNumber:14,startColumn:1,startLineNumber:14),source:'%23include+%3Cimmintrin.h%3E%0Astatic+const+__m128+scStaticConst+%3D+*reinterpret_cast%3C__m128*%3E((float%5B4%5D)%7B+1.0f,+2.0f,+3.0f,+4.0f+%7D)%3B%0A%0A__m128+NormalConsts()%0A%7B%0A++++__m128+value+%3D+_mm_set1_ps(10.0f)%3B%0A++++const+__m128+normal_const+%3D+_mm_setr_ps(1.0,+2.0,+3.0,+4.0)%3B%0A%0A++++__m128+v2+%3D+_mm_add_ps(value,+normal_const)%3B%0A++++__m128+c3+%3D+_mm_add_ps(value,+normal_const)%3B%0A%0A++++return+c3%3B%0A%7D%0A%0A__m128+StaticConst()%0A%7B%0A++++__m128+value+%3D+_mm_set1_ps(10.0f)%3B%0A%0A++++__m128+v2+%3D+_mm_add_ps(value,+scStaticConst)%3B%0A++++__m128+c3+%3D+_mm_add_ps(value,+scStaticConst)%3B%0A%0A++++return+c3%3B%0A%7D%0A%0A%0Aint+main()%0A%7B%0A++++return+0%3B%0A%7D'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),k:55.91798695246971,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((g:!((h:compiler,i:(compiler:g122,filters:(b:'0',binary:'1',binaryObject:'1',commentOnly:'0',debugCalls:'1',demangle:'0',directives:'0',execute:'0',intel:'0',libraryCode:'0',trim:'1',verboseDemangling:'0'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!(),options:'',overrides:!(),selection:(endColumn:1,endLineNumber:1,positionColumn:1,positionLineNumber:1,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:1),l:'5',n:'0',o:'+x86-64+gcc+12.2+(Editor+%231)',t:'0')),header:(),k:50,l:'4',m:50,n:'0',o:'',s:0,t:'0'),(g:!((h:output,i:(compilerName:'x86-64+gcc+12.2',editorid:1,fontScale:14,fontUsePx:'0',j:1,wrap:'1'),l:'5',n:'0',o:'Output+of+x86-64+gcc+12.2+(Compiler+%231)',t:'0')),header:(),l:'4',m:50,n:'0',o:'',s:0,t:'0')),k:44.08201304753029,l:'3',n:'0',o:'',t:'0')),l:'2',n:'0',o:'',t:'0')),version:4"
+    >Link to an example</a
+  >.&nbsp;
+</p>
+<p style="text-align: left">
+  Never do this! You can always store a static float array with the constant
+  values and load it at the start of the scope before usage, but never use the
+  vector as a global variable.
+</p>
+<h2 style="text-align: left">Conclusion</h2>
+<p style="text-align: left">
+  I'll likely update this page as time goes on and I have time to add some more
+  details or things I have missed.
+</p>
+<p style="text-align: left">Ethan&nbsp;</p>
+<p style="text-align: left">&nbsp;</p>
+<h3>Helpful Resources</h3>
+
+<ul>
+  <li>
+    <a
+      href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#"
+      >Intel Intrinsics Reference</a
+    >
+  </li>
+  <li>
+    <a href="https://arm-software.github.io/acle/neon_intrinsics/advsimd.html"
+      >ARM Neon Reference</a
+    >
+  </li>
+  <li>
+    <a href="https://www.felixcloutier.com/x86/"
+      >Felix Cloutier's x86 Reference</a
+    >&nbsp;
+  </li>
+</ul>
+
+%%post_template_end%%

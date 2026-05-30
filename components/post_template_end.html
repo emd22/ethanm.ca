@@ -1,0 +1,57 @@
+</div>
+
+
+<footer class="hp-footer hp-center-x hp-flex-col hp-center-text">
+  <div>&copy; <span id="year"></span> Ethan MacDonald</div>
+  <div>
+    <a
+      target="_blank"
+      href="https://icons8.com/icon/uKugxlcnkh3u/night-mode"
+      >Night</a
+    >
+    icon from
+    <a target="_blank" href="https://icons8.com">Icons8</a>,
+    <a
+      href="https://www.flaticon.com/free-icons/gmail"
+      title="email icons"
+      >Email icon</a
+    >
+    created by rukanicon, on Flaticon
+  </div>
+</footer>
+</div>
+</div>
+</div>
+
+<script>
+// Set copyright year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Dark mode
+function checkIfDarkMode() {
+let stored = localStorage.getItem("darkTheme");
+if (stored === null) {
+const prefersDark = window.matchMedia(
+  "(prefers-color-scheme: dark)",
+).matches;
+localStorage.setItem("darkTheme", prefersDark);
+return prefersDark;
+}
+return stored === "true";
+}
+
+function applyDarkMode(isDark) {
+document.body.classList.toggle("darkMode", isDark);
+localStorage.setItem("darkTheme", isDark);
+}
+
+function toggleDarkMode() {
+const current = document.body.classList.contains("darkMode");
+applyDarkMode(!current);
+}
+
+// Apply on load
+applyDarkMode(checkIfDarkMode());
+</script>
+</body>
+</html>

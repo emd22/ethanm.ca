@@ -1,0 +1,419 @@
+
+  <section>
+    <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+      <!-- Profile card -->
+      <div>
+        <div class="hp-basic-container hp-profile-container">
+          <div
+            class="hp-phone-flex-col hp-tablet-flex-row hp-flex-col hp-hero-box hp-center-x"
+          >
+            <div class="hp-flex-col hp-phone-center-x">
+              <img
+                class="hp-no-margin hp-phone-center-x hp-profile-picture"
+                src="./assets/picture.png"
+                alt="Profile picture"
+              />
+            </div>
+
+            <div class="hp-flex-col">
+              <div>
+                <div class="hp-profile-text hp-no-padding hp-no-margin">
+                  <b>Game Engine</b> programmer
+                  <p>
+                    Experienced with <b>Vulkan</b>, <b>C++</b>, and
+                    writing <b>NEON</b> and <b>SSE</b> optimized
+                    code.<br />
+                    (check out my
+                    <a
+                      href="https://blog.ethanm.ca/2026/01/simd-or-not-to-be.html"
+                      >blog post on SIMD!</a
+                    >)<br />
+                  </p>
+                </div>
+                <div class="hp-flex-row hp-margin-top-2">
+                  <!-- Github link -->
+                  %%social_link(https://www.github.com/emd22/ $ ./assets/github-mark/github-mark.svg $ GitHub)%%
+
+                  <!-- Email link -->
+                  %%social_link(mailto:e@ethanm.ca $ ./assets/email.png $ Email)%%
+
+                  <!-- LinkedIn link-->
+                  %%social_link(https://www.linkedin.com/in/emd22 $ ./assets/LI-In-Bug.png $ LinkedIn)%%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About / Skills card -->
+      <div class="hp-flex-one">
+        <div class="hp-light-container">
+          <h1>About Me</h1>
+          <p>
+            I am a programmer from Nova Scotia, Canada, currently
+            waiting for my graduation for a Bachelor of Computer
+            Science. I spend most of my time working on my FPS game
+            <a href="https://github.com/emd22/foxtrot">Foxtrot</a> and
+            its custom game engine, as well as
+            <a href="https://github.com/notomorrow/hyperion-engine"
+              >Hyperion Engine</a
+            >
+            with my brother.
+          </p>
+          <p>
+            I am passionate about graphics and low-level programming,
+            and experienced with writing optimized C++.
+          </p>
+
+          <h1>Skills</h1>
+          <ul>
+            <li>
+              Developed <b>game engines</b>,
+              <b>programming languages</b>, <b>operating systems</b> as
+              well as <b>virtual machines</b> for personal projects, and
+              to expand my learning.
+            </li>
+            <li>
+              Very experienced with <b>Godot engine</b>, and used
+              <b>Unity</b> for game development courses in university.
+            </li>
+            <li>
+              Experienced with many programming languages including
+              <b>C++</b>, <b>C#</b>, <b>Zig</b>, and <b>Golang</b>.
+            </li>
+            <li>
+              Work experience as a <b>full-stack web developer</b>, as
+              well as developing
+              <b>Unreal Engine 4 and 5 plugins and tools</b>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="hp-project-section">
+    %%heading(Projects)%%
+
+    <!-- Foxtrot -->
+    <div class="hp-dark-container hp-project-card">
+      <div class="hp-flex-col">
+        <div class="hp-flex-col hp-title-description-box">
+          <div class="hp-flex-col">
+            <h1 class="hp-title-chunky hp-color-title">Foxtrot</h1>
+            <div class="hp-flex-row">
+              <a
+                href="https://github.com/emd22/foxtrot"
+                class="hp-social-link"
+              >
+                <img
+                  class="hp-link-icon-dark"
+                  src="./assets/github-mark/github-mark.svg"
+                  width="30px"
+                  height="30px"
+                  alt="GitHub"
+                />
+              </a>
+            </div>
+          </div>
+          <div>
+            <p>
+              Foxtrot is an in-development FPS with a custom game engine
+              written in C++. It has a Vulkan backend, a custom memory
+              pooling system, multithreaded asset loading and integrates
+              with Jolt physics. All objects here are loaded from a
+              project file defined in a custom config language, and
+              streamed in asynchronously.
+            </p>
+            <p>
+              As well, Foxtrot has an in-house scripting language and a
+              SSE+AVX and Arm NEON optimized math library.
+            </p>
+          </div>
+        </div>
+        <div class="">
+          <div class="hp-flex-row hp-tablet-flex-col hp-double-images">
+            <div class="hp-project-card-content hp-center-x">
+              <video
+                src="./assets/fxt2.webm"
+                loop
+                playsinline
+                autoplay
+                muted
+                alt="Demo of player movement and physics in Foxtrot"
+              ></video>
+              <p><i>Movement and the basic in-game editor</i></p>
+            </div>
+            <div class="hp-project-card-content hp-center-x">
+              <img
+                src="./assets/foxtrot-sponza.png"
+                alt="Sponza test scene rendered in Foxtrot"
+              ></img>
+              <p><i>Sponza test scene</i></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    %%
+      project(
+        Test Visualization
+        $ link_gh(https://github.com/emd22/satellite)
+        $ mainpage/satellite
+        $ project_video(
+          SatelliteVis.webm
+          $ Earth with a visualization of satellites and debris orbiting
+          $ Visualization of debris and satellites
+        )
+      )
+    %%
+
+    %%
+      project(
+        Godot Water Demo
+        $ null
+        $ mainpage/godot_water_demo
+        $ project_video(
+          watermovement3.webm
+          $ Demo of an FPS player controller with openable doors and a flashlight
+          $ Showing off movement types, particles and water effects
+        )
+      )
+    %%
+
+    %%
+      project(
+        Godot FPS Movement
+        $ null
+        $ mainpage/godot_fps_demo
+        $ project_video(
+          godot-movement.webm
+          $ Demo of an FPS player controller with openable doors and a flashlight
+          $ Movement demo with interactable objects and a crude blockout
+        )
+      )
+    %%
+
+
+    %%
+      project(
+        Hyperion Engine
+        $ link_gh(https://github.com/ajmd17/hyperion-engine)
+        $ mainpage/hyperion-engine
+        $ project_image(
+          ddgi.gif
+          $ Demo of the realtime DDGI in Hyperion engine
+          $ Andrew showing off the realtime DDGI system in Hyperion
+        )
+      )
+    %%
+
+    %%
+      project(
+        Acheron Engine
+        $ link_gh(https://github.com/emd/acheron)
+        $ mainpage/acheron-engine
+        $ project_image(
+          acheron-tunnel.png
+          $ Multiple point lights around a normal mapped cube in a train tunnels
+          $ Acheron with multiple lights and normal mapping
+        )
+      )
+    %%
+  </section>
+
+  <!-- Other things -->
+  <section class="hp-project-section">
+    %%heading(Other things)%%
+
+
+    %%
+      project(
+        3D Modelling
+        $ null
+        $ mainpage/3d-modelling
+        $ project_image(
+          pistol-model.png
+          $ An image of a modelled pistol
+          $ Viewport screenshot
+        )
+      )
+    %%
+
+    <!-- Peach Language -->
+    <div class="hp-dark-container hp-project-card">
+      <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+        <div class="hp-flex-col hp-title-description-box">
+          <div class="hp-flex-col">
+            <h1 class="hp-title-chunky hp-color-title">
+              Peach Language
+            </h1>
+            <div class="hp-flex-row">
+              <a
+                href="https://replit.com/@mynameisjonas/jam2020#README.md"
+                class="hp-social-link"
+              >
+                <img
+                  class="hp-link-icon-dark"
+                  src="./assets/replit-logo.png"
+                  width="30px"
+                  height="30px"
+                  alt="Replit"
+                />
+              </a>
+              <a
+                href="https://www.github.com/emd22/jam2020"
+                class="hp-social-link"
+              >
+                <img
+                  class="hp-link-icon-dark"
+                  src="./assets/github-mark/github-mark.svg"
+                  width="30px"
+                  height="30px"
+                  alt="GitHub"
+                />
+              </a>
+            </div>
+          </div>
+          <div>
+            <p>
+              For a programming language jam from Repl.it in 2020, me
+              and Andrew(<a href="https://github.com/ajmd17">@ajmd17</a
+              >) wrote PEACH in <b>less than a week</b>.
+            </p>
+            <p>
+              PEACH is a prototypical interpreted language that is
+              written in Python. Shown in the clip here is a mandlebrot
+              fractal visualizer that I wrote <b>completely</b> in PEACH
+              (<a
+                href="https://github.com/emd22/jam2020/blob/master/mandle.peach"
+                >link!</a
+              >).
+            </p>
+            <p>
+              Unfortunately, the original submission thread has been
+              removed over the years.
+            </p>
+          </div>
+        </div>
+        <div class="hp-project-card-content">
+          <video
+            src="./assets/peach.mov"
+            loop
+            playsinline
+            autoplay
+            muted
+            alt="A terminal slowly printing the mandlebrot fractal, written in the PEACH language."
+          ></video>
+          <p>
+            <i>(slowly) generating the mandlebrot fractal in PEACH</i>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- X16 Macro Assembler -->
+    <div class="hp-dark-container hp-project-card">
+      <div class="hp-flex-col hp-tablet-flex-col">
+        <div class="hp-flex-col hp-title-description-box">
+          <div class="hp-flex-col">
+            <h1 class="hp-title-chunky hp-color-title">
+              X16 Macro Assembler
+            </h1>
+            <div class="hp-flex-row">
+              <a
+                href="https://github.com/emd22/x16"
+                class="hp-social-link"
+              >
+                <img
+                  class="hp-link-icon-dark"
+                  src="./assets/github-mark/github-mark.svg"
+                  width="30px"
+                  height="30px"
+                  alt="GitHub"
+                />
+              </a>
+            </div>
+          </div>
+          <div>
+            <p>
+              A custom CPU architecture, macro assembler, and VM written
+              as a challenge to write the smallest assembler and VM that
+              is still easy to program for.
+            </p>
+            <p>
+              For this project, the assembler is programmed in Python,
+              and the VM is programmed in C. It runs blazingly fast, and
+              has a bunch of cool features!
+            </p>
+          </div>
+        </div>
+        <div>
+          <div class="hp-flex-row hp-tablet-flex-col hp-double-images">
+            <div class="hp-project-card-content hp-center-x">
+              <video
+                src="./assets/vm-hello-world.mov"
+                loop
+                playsinline
+                autoplay
+                muted
+                alt='demo of the VM running in debug mode, printing "Hello, World"!'
+              ></video>
+              <p>
+                <i
+                  >Demo of the VM running with a slow step speed printing
+                  "Hello, World"!
+                </i>
+              </p>
+            </div>
+            <div class="hp-project-card-content hp-center-x">
+              <img
+                src="./assets/asm-code-screenshot2.png"
+                alt="demo of the assembler language"
+              />
+              <p>
+                <i
+                  >Full program written in the custom assembler
+                  language</i
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Belter -->
+    <div class="hp-dark-container hp-project-card">
+      <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+        <div class="hp-flex-col hp-title-description-box">
+          <div class="hp-flex-col">
+            <h1 class="hp-title-chunky hp-color-title">Belter</h1>
+          </div>
+          <div>
+            <p>
+              Belter was a fun side project to try out Dart and Golang.
+              It was an audio-focused social network that allowed you to
+              share audio clips with friends.
+            </p>
+          </div>
+        </div>
+        <div class="hp-project-card-content">
+          <video
+            src="./assets/belter-video.mp4"
+            autoplay
+            loop
+            muted
+            alt="demo of the belter app, signing in and going through multiple menus, and scrolling through posts."
+          ></video>
+          <p><i>Demo of Belter on macOS</i></p>
+        </div>
+      </div>
+    </div>
+
+  </section>

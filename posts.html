@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ethan MacDonald</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="icon" href="./public/icon.ico" />
+  </head>
+
+  <body>
+    <div class="App">
+      <header class="hp-app-header hp-flex-row hp-space-between">
+  <div>
+    <h1>
+      ethan macdonald <a class="hp-blog-button" href="./posts.html">blog</a>
+    </h1>
+  </div>
+  <button
+    class="hp-theme-button hp-center-y"
+    onclick="toggleDarkMode()"
+    aria-label="toggle dark mode"
+  >
+    <img
+      class="hp-no-margin hp-link-icon"
+      alt="toggle dark mode"
+      src="./assets/icons8-night-mode-64.png"
+      width="32px"
+      height="32px"
+    />
+  </button>
+</header>
+
+
+      <!-- Profile -->
+      <div class="hp-content-container">
+        <div class="hp-main-content">
+
+<!-- Content -->
+<section class="hp-project-section">
+  <div class="hp-dark-container hp-project-card">
+  <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+    <div class="hp-flex-col hp-title-description-box">
+      <div class="hp-flex-col">
+        <h1 class="hp-link hp-title-chunky hp-color-title">
+          <a href="posts/01_simd_or_not.html">SIMD or not to be</a>
+        </h1>
+        <p>The basics and some
+  caveats when programming with SIMD</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!---->
+</section>
+
+<!-- Footer -->
+
+<footer class="hp-footer hp-center-x hp-flex-col hp-center-text">
+  <div>&copy; <span id="year"></span> Ethan MacDonald</div>
+  <div>
+    <a
+      target="_blank"
+      href="https://icons8.com/icon/uKugxlcnkh3u/night-mode"
+      >Night</a
+    >
+    icon from
+    <a target="_blank" href="https://icons8.com">Icons8</a>,
+    <a
+      href="https://www.flaticon.com/free-icons/gmail"
+      title="email icons"
+      >Email icon</a
+    >
+    created by rukanicon, on Flaticon
+  </div>
+</footer>
+</div>
+</div>
+</div>
+
+<script>
+// Set copyright year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Dark mode
+function checkIfDarkMode() {
+let stored = localStorage.getItem("darkTheme");
+if (stored === null) {
+const prefersDark = window.matchMedia(
+  "(prefers-color-scheme: dark)",
+).matches;
+localStorage.setItem("darkTheme", prefersDark);
+return prefersDark;
+}
+return stored === "true";
+}
+
+function applyDarkMode(isDark) {
+document.body.classList.toggle("darkMode", isDark);
+localStorage.setItem("darkTheme", isDark);
+}
+
+function toggleDarkMode() {
+const current = document.body.classList.contains("darkMode");
+applyDarkMode(!current);
+}
+
+// Apply on load
+applyDarkMode(checkIfDarkMode());
+</script>
+</body>
+</html>
+
+

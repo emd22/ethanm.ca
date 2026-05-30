@@ -327,7 +327,15 @@ a {
 
 @media only screen and (max-width: 600px) {
   .hp-light-container {
-    padding: 10px 25px;
+    padding: 8px 20px;
+  }
+
+  .hp-dark-container {
+    padding: 8px 20px;
+  }
+
+  .hp-main-content {
+    width: 95%;
   }
 }
 

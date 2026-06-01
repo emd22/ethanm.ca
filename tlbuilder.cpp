@@ -1,13 +1,223 @@
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
 #include <vector>
 
 namespace fs = std::filesystem;
 
-// Forward declarations
+enum class eListType
+{
+    None,
+    Unordered,
+    Ordered,
+};
+
+
+class Md2Html
+{
+private:
+    // Trim whitespace from the right side of the string
+    std::string Trim(std::string s)
+    {
+        s.erase(s.find_last_not_of(" \t\n\r\f\v") + 1);
+        return s;
+    }
+
+    std::string ParseInline(const std::string& line)
+    {
+        std::string output = line;
+
+        // Match [text](link)
+        std::regex link_re(R"(\[(\s*[^\]]+)\]\((.+)\))");
+        if (std::regex_search(line, link_re)) {
+            output = std::regex_replace(output, link_re, "<a href=\"$2\">$1</a>");
+        }
+
+        // Match `inline code`
+        std::regex inline_code_re(R"(\`(\s*[^\`]+)\`)");
+        if (std::regex_search(line, inline_code_re)) {
+            output = std::regex_replace(output, inline_code_re, "<span class=\"hp-inl-code\">$1</span>");
+        }
+
+        std::regex bold_re(R"(\*\*([^\*]+)\*\*)");
+        if (std::regex_search(line, bold_re)) {
+            output = std::regex_replace(output, bold_re, "<b>$1</b>");
+        }
+
+        return output;
+    }
+
+    // Process a single line of Markdown
+    std::string ProcessLine(const std::string& raw_line, const std::string& next_line)
+    {
+        std::string line = Trim(raw_line);
+
+        // Code blocks
+        if (line.rfind("```", 0) == 0) {
+            std::string language_spec = "";
+
+            if (line.ends_with("cpp")) {
+                language_spec = "language-cpp";
+            }
+
+            std::string prefix = "";
+            // If a paragraph was active, we must close it before starting a code block
+            if (mbEmittingParagraph) {
+                mbEmittingParagraph = false;
+                prefix = "</p>\n";
+            }
+
+            if (!mbInCodeBlock) {
+                mbInCodeBlock = true;
+                return std::format("{}<pre><code class=\"{}\">", prefix, language_spec);
+            }
+            else {
+                mbInCodeBlock = false;
+                return prefix + "</code></pre>\n";
+            }
+        }
+
+        // Code blocks treat lines literally
+        if (mbInCodeBlock) {
+            return raw_line + "\n";
+        }
+
+        // Close the paragraph if we have an empty line
+        if (line.empty()) {
+            if (mbEmittingParagraph) {
+                mbEmittingParagraph = false;
+                return "</p>\n";
+            }
+            return "";
+        }
+
+        // Headings
+        if (line[0] == '#') {
+            size_t hash_count = 0;
+            while (hash_count < line.length() && line[hash_count] == '#') {
+                hash_count++;
+            }
+
+            if (hash_count <= 6 && hash_count < line.length() && line[hash_count] == ' ') {
+                std::string prefix = "";
+                // If a paragraph was active, close it before emitting the heading
+                if (mbEmittingParagraph) {
+                    mbEmittingParagraph = false;
+                    prefix = "</p>\n";
+                }
+
+                std::string content = line.substr(hash_count + 1);
+                std::string tag = "h" + std::to_string(hash_count);
+                return prefix + "<" + tag + ">" + content + "</" + tag + ">\n";
+            }
+        }
+
+
+        // Paragraph blocks
+        std::string prefix = "";
+        std::string suffix = "";
+
+
+        // Ordered list
+        if (line.length() > 3 && (line[1] == '.' || line[2] == '.')) {
+            if (mListType != eListType::Ordered) {
+                prefix = "<ol>";
+            }
+            auto list_content = line.find_first_not_of(" \t", 2);
+            mListType = eListType::Ordered;
+            return prefix + std::format("<li>{}</li>", line.substr(list_content));
+        }
+        else if (line.length() > 3 && (line[0] == '-' && line[1] == ' ')) {
+            if (mListType != eListType::Unordered) {
+                prefix = "<ul>";
+            }
+            auto list_content = line.find_first_not_of(" \t", 2);
+            mListType = eListType::Unordered;
+            prefix += "<li>";
+            suffix += "</li>";
+            line = line.substr(list_content);
+        }
+        else {
+            if (mListType == eListType::Unordered) {
+                prefix = "</ul>";
+            }
+            else if (mListType == eListType::Ordered) {
+                prefix = "</ol>";
+            }
+            mListType = eListType::None;
+        }
+
+
+        // This is the start of a new paragraph block
+        if (!mbEmittingParagraph && mListType == eListType::None) {
+            mbEmittingParagraph = true;
+            prefix += "<p>\n";
+        }
+        else {
+            // If we are continuing an ongoing paragraph block,
+            // prepend a space to cleanly join it with the previous line
+            prefix += "\n";
+        }
+
+        // Look ahead, if the next line is empty, a heading or a code block,
+        // this current line is the end of the paragraph.
+        std::string trimmed_next = Trim(next_line);
+        if (trimmed_next.empty() || trimmed_next[0] == '#' || trimmed_next.rfind("```", 0) == 0) {
+            mbEmittingParagraph = false;
+            suffix += "\n</p>\n";
+        }
+
+        line = ParseInline(line);
+
+        return prefix + line + suffix;
+    }
+
+public:
+    std::string Convert(const std::string& path)
+    {
+        std::ifstream input_file("templates/posts/" + path);
+        if (!input_file.is_open()) {
+            return "";
+        }
+
+        std::string line;
+        std::vector<std::string> lines;
+
+        while (std::getline(input_file, line)) {
+            lines.push_back(line);
+        }
+
+        std::string html = "";
+
+        for (size_t i = 0; i < lines.size(); i++) {
+            std::string next_line = (i + 1 < lines.size()) ? lines[i + 1] : "";
+            html += ProcessLine(lines[i], next_line);
+        }
+
+        // Cleanup any stragglers
+        if (mbEmittingParagraph) {
+            html += "</p>\n";
+            mbEmittingParagraph = false;
+        }
+        if (mbInCodeBlock) {
+            html += "</code></pre>\n";
+            mbInCodeBlock = false;
+        }
+
+        return html;
+    }
+
+private:
+    bool mbInCodeBlock = false;
+    bool mbEmittingParagraph = false;
+
+    eListType mListType = eListType::None;
+};
+
 std::string ProcessHTML(const std::string& content, const std::vector<std::string>& args = {});
 std::string LoadTemplate(const std::string& name, const std::vector<std::string>& args);
 std::vector<std::string> ParseArgs(const std::string& args_str);
@@ -74,7 +284,7 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
     std::string result = content;
 
     // Substitute positional placeholders: {{0}}, {{1}}, ...
-    for (size_t i = 0; i < args.size(); ++i) {
+    for (size_t i = 0; i < args.size(); i++) {
         const std::string placeholder = "{{" + std::to_string(i) + "}}";
         size_t pos = 0;
         while ((pos = result.find(placeholder, pos)) != std::string::npos) {
@@ -108,6 +318,20 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
             name = TrimWhitespace(macro);
         }
 
+        if (name == "loadmd") {
+            if (next_args.size() < 1) {
+                std::cerr << "loadmd requires path\n";
+            }
+            else {
+                Md2Html md2html;
+                std::string html_repr = md2html.Convert(next_args[0]);
+                result.replace(pos, end - pos + 2, html_repr);
+                pos += html_repr.size();
+
+                continue;
+            }
+        }
+
         const std::string replacement = LoadTemplate(name, next_args);
         result.replace(pos, end - pos + 2, replacement);
         pos += replacement.size();
@@ -115,6 +339,33 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
 
     return result;
 }
+
+
+enum class eHeadingLevel
+{
+    Normal,
+    H1,
+    H2,
+    H3,
+    H4,
+};
+
+
+std::string AsHtml(eHeadingLevel level, bool emit_p, const std::string& text)
+{
+    if (level == eHeadingLevel::Normal) {
+        if (emit_p) {
+            return std::format("<p>{}</p>", text);
+        }
+
+        return text;
+    }
+
+    int level_num = static_cast<int>(level);
+
+    return std::format("<h{}>{}</h{}>", level_num, text, level_num);
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -143,6 +394,8 @@ int main(int argc, char* argv[])
         std::cerr << "Error: could not open output file '" << argv[2] << "'\n";
         return 1;
     }
+
+    output_file << "<!-- Generated by Ethan's C++ HTML Preprocessor :) -->";
 
     output_file << output;
     return 0;

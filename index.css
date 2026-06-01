@@ -188,6 +188,10 @@ a {
   }
 }
 
+.hp-inl-code {
+  font-family: courier;
+}
+
 /* Header */
 .hp-app-header {
   text-align: start;
@@ -230,6 +234,16 @@ a {
   margin: 0 auto;
   text-align: start;
   width: 90%;
+}
+
+.hp-post-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: start;
+  width: 95%;
 }
 
 .hp-basic-container {

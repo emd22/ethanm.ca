@@ -98,6 +98,24 @@ return prefersDark;
 return stored === "true";
 }
 
+// Pause all videos on focus loss
+document.addEventListener("blur", function () {
+  const elements = document.getElementsByTagName("video");
+  for (const element of elements) {
+    element.pause();
+  }
+  console.log("Pausing videos")
+});
+
+// Play all videos when focus is returned
+document.addEventListener("focus", function () {
+  const elements = document.getElementsByTagName("video");
+  for (const element of elements) {
+    element.play();
+  }
+  console.log("Playing videos")
+});
+
 function applyDarkMode(isDark) {
 document.body.classList.toggle("darkMode", isDark);
 localStorage.setItem("darkTheme", isDark);

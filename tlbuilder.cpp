@@ -402,6 +402,21 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
             continue;
         }
 
+        else if (name == "loadlinkedmd") {
+            std::string current_path = std::string(spCurrentPath);
+            std::string trimmed_path = current_path.substr(current_path.find_last_of('/') + 1);
+            trimmed_path = trimmed_path.substr(0, trimmed_path.find_last_of('.')) + ".md";
+
+            Md2Html md2html;
+            std::string html_repr = md2html.Convert(trimmed_path);
+            result.replace(pos, end - pos + 2, html_repr);
+            pos += html_repr.size();
+
+            std::cout << "Loading MD " << trimmed_path << '\n';
+
+            continue;
+        }
+
         const std::string replacement = LoadTemplate(name, next_args);
         result.replace(pos, end - pos + 2, replacement);
         pos += replacement.size();

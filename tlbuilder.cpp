@@ -1,3 +1,4 @@
+#include <chrono>
 #include <filesystem>
 #include <format>
 #include <fstream>
@@ -9,12 +10,47 @@
 
 namespace fs = std::filesystem;
 
+static const char* spCurrentPath = nullptr;
+
 enum class eListType
 {
     None,
     Unordered,
     Ordered,
 };
+
+std::string get_day_suffix(int day)
+{
+    if (day >= 11 && day <= 13)
+        return "th";
+    switch (day % 10) {
+    case 1:
+        return "st";
+    case 2:
+        return "nd";
+    case 3:
+        return "rd";
+    default:
+        return "th";
+    }
+}
+
+std::string TimeStringFromPostPath(const std::string& path)
+{
+    using namespace std::chrono;
+    std::string date_str = path.substr(0, path.find_first_of('_'));
+
+    // Convert 260702 to 26, 07, 02
+    int yy = std::stoi(date_str.substr(0, 2));
+    int mm = std::stoi(date_str.substr(2, 2));
+    int dd = std::stoi(date_str.substr(4, 2));
+
+    auto parsed_date = year(2000 + yy) / month(mm) / day(dd);
+    unsigned int day = static_cast<unsigned int>(parsed_date.day());
+
+    // Output in the format of June 2nd, 2026
+    return std::format("{:L%B} {}{}, {:%Y}", parsed_date.month(), day, get_day_suffix(day), parsed_date.year());
+}
 
 
 class Md2Html
@@ -58,6 +94,7 @@ private:
 
         return output;
     }
+
 
     // Process a single line of Markdown
     std::string ProcessLine(const std::string& raw_line, const std::string& next_line)
@@ -187,7 +224,7 @@ private:
 public:
     std::string Convert(const std::string& path)
     {
-        std::ifstream input_file("pages/posts/" + path);
+        std::ifstream input_file("pages/posts/markdown/" + path);
         if (!input_file.is_open()) {
             std::cerr << "Cannot find md file at pages/posts/" << path << '\n';
             return "";
@@ -341,6 +378,30 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
             }
         }
 
+        else if (name == "getpathdate") {
+            if (next_args.size() < 1) {
+                std::cerr << "getpathdate requires path\n";
+            }
+            else {
+                std::string date_result = TimeStringFromPostPath(next_args[0]);
+                result.replace(pos, end - pos + 2, date_result);
+                pos += date_result.size();
+
+                continue;
+            }
+        }
+
+        else if (name == "getcurpathdate") {
+            std::string current_path = std::string(spCurrentPath);
+            std::string trimmed_date_path = current_path.substr(current_path.find_last_of('/') + 1);
+
+            std::string date_result = TimeStringFromPostPath(trimmed_date_path);
+            result.replace(pos, end - pos + 2, date_result);
+            pos += date_result.size();
+
+            continue;
+        }
+
         const std::string replacement = LoadTemplate(name, next_args);
         result.replace(pos, end - pos + 2, replacement);
         pos += replacement.size();
@@ -378,6 +439,8 @@ std::string AsHtml(eHeadingLevel level, bool emit_p, const std::string& text)
 
 void BuildFile(const char* path, const std::string& output_path)
 {
+    spCurrentPath = path;
+
     std::cout << "Building " << path << " to " << output_path << '\n';
 
     std::ifstream input_file(path);

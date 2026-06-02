@@ -10,26 +10,58 @@
 
   <body>
     <div class="App">
-      <header class="hp-app-header hp-flex-row hp-space-between">
-  <div>
-    <h1>
+      <header class="hp-app-header">
+  <div class="hp-flex-row hp-space-between hp-center-y hp-width-100">
+    <h1 class="hp-flex-col hp-header-link-head">
       <a class="hp-header-link" href="./index.html">ethan macdonald</a>
-      <a class="hp-blog-button" href="./posts.html">blog</a>
     </h1>
+    <button
+      class="hp-theme-button hp-flex-col"
+      onclick="toggleDarkMode()"
+      aria-label="toggle dark mode"
+    >
+      <img
+        class="hp-no-margin hp-link-icon hp-header-link-head"
+        alt="toggle dark mode"
+        src="./assets/icons8-night-mode-64.png"
+        width="32px"
+        height="32px"
+      />
+    </button>
   </div>
-  <button
-    class="hp-theme-button hp-center-y"
-    onclick="toggleDarkMode()"
-    aria-label="toggle dark mode"
-  >
-    <img
-      class="hp-no-margin hp-link-icon"
-      alt="toggle dark mode"
-      src="./assets/icons8-night-mode-64.png"
-      width="32px"
-      height="32px"
-    />
-  </button>
+
+  <div class="hp-flex-row hp-width-100 hp-align-y hp-nav-subitems">
+    <span class="hp-flex-col hp-margin-left-0_5">
+  <a class="hp-nav-item" href="./index.html">home</a>
+</span>
+
+    <!---->
+    <span class="hp-flex-col hp-margin-left-0_5">
+  <a class="hp-nav-item" href="./posts.html">blog</a>
+</span>
+
+    <!---->
+    <span class="hp-flex-col hp-margin-left-0_5">
+  <a class="hp-nav-item" href="https://github.com/emd22">github</a>
+</span>
+
+    <!---->
+    <span class="hp-flex-col hp-margin-left-0_5">
+  <a class="hp-nav-item" href="mailto:e@ethanm.ca">contact</a>
+</span>
+
+
+    <!--<span class="hp-flex-col">
+      <a class="hp-blog-button" href="./posts.html">blog</a>
+    </span>
+
+    <span class="hp-flex-col">
+      <a class="hp-blog-button" href="https://github.com/emd22">github</a>
+    </span>
+    <span class="hp-flex-col">
+      <a class="hp-blog-button" href="mailto:e@ethanm.ca">contact</a>
+    </span>-->
+  </div>
 </header>
 
 

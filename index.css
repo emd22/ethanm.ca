@@ -11,6 +11,8 @@
   --onPrimary: black;
   --onSecondary: black;
   --primaryColor: #3abb23;
+
+  --navLinkColor: #2b3b3b;
   /*--colorTitle: linear-gradient(
      -15deg,
      rgb(182, 182, 182) 20%,
@@ -37,6 +39,8 @@
   --codeBlock: #444444;
   --lightBackground: #4d9a97;
   --primaryColor: #44b075;
+  --navLinkColor: #cbebeb;
+
   --onSecondary: white;
   --onBackground: white;
   --primarySolid: #4d9a97;
@@ -136,6 +140,9 @@ a {
 .hp-flex-one {
   flex: 1;
 }
+.hp-flex-half {
+  flex: 0.5;
+}
 .hp-flex-zero {
   flex: 0;
 }
@@ -167,6 +174,10 @@ a {
   gap: 30px;
 }
 
+.hp-gap-30 {
+  gap: 30px;
+}
+
 @media only screen and (max-width: 600px) {
   .hp-hero-box {
     flex-direction: column-reverse;
@@ -192,18 +203,23 @@ a {
   font-family: courier;
 }
 
+.hp-header-link-head {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
 /* Header */
 .hp-app-header {
   text-align: start;
   font-size: 1.5em;
   max-width: 1024px;
   line-height: 0.8;
-  padding-top: 10px;
+  padding-top: 0.5em;
+  padding-bottom: 1.5em;
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
@@ -322,9 +338,15 @@ a {
   color: var(--onSecondary);
 }
 
-.hp-blog-button {
+.hp-nav-item {
   align-content: center;
-  font-size: 0.6em;
+  font-size: 1em;
+  text-decoration: none;
+  color: var(--navLinkColor);
+}
+
+.hp-nav-item:hover {
+  text-decoration: underline;
 }
 
 .hp-light-container {
@@ -346,6 +368,10 @@ a {
 
   .hp-dark-container {
     padding: 8px 20px;
+  }
+
+  .hp-app-header {
+    width: 95%;
   }
 
   .hp-main-content {
@@ -465,6 +491,15 @@ pre {
   -webkit-text-fill-color: transparent;*/
 }
 
+.hp-nav-subitems {
+  max-width: 400px;
+  width: auto;
+  justify-self: left;
+  align-self: start;
+  padding-right: 5px;
+  justify-content: space-between;
+}
+
 .hp-ref-link {
   display: inline-block;
   color: #35c1e4;
@@ -530,6 +565,10 @@ video {
   max-height: 350px;
   max-width: 350px;
   justify-self: center;
+}
+
+.hp-width-100 {
+  width: 100%;
 }
 
 /* Footer */
@@ -603,6 +642,9 @@ video {
 
 .hp-margin-left-0 {
   margin-left: 0px;
+}
+.hp-margin-left-0_5 {
+  margin-left: 5px;
 }
 .hp-margin-left-1 {
   margin-left: 10px;

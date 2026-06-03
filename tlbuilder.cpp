@@ -19,7 +19,7 @@ enum class eListType
     Ordered,
 };
 
-std::string get_day_suffix(int day)
+std::string GetDaySuffix(int day)
 {
     if (day >= 11 && day <= 13)
         return "th";
@@ -285,9 +285,6 @@ static std::string TrimWhitespace(const std::string& s)
     return s.substr(start, end - start + 1);
 }
 
-// Splits a comma-separated argument string into trimmed values.
-// Commas inside nested parentheses are treated as literal text, e.g.:
-//   "foo, bar(a, b), baz"  becomes  ["foo", "bar(a, b)", "baz"]
 std::vector<std::string> ParseArgs(const std::string& args_str)
 {
     std::vector<std::string> args;

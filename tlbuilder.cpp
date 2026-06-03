@@ -49,7 +49,7 @@ std::string TimeStringFromPostPath(const std::string& path)
     unsigned int day = static_cast<unsigned int>(parsed_date.day());
 
     // Output in the format of June 2nd, 2026
-    return std::format("{:L%B} {}{}, {:%Y}", parsed_date.month(), day, get_day_suffix(day), parsed_date.year());
+    return std::format("{:L%B} {}{}, {:%Y}", parsed_date.month(), day, GetDaySuffix(day), parsed_date.year());
 }
 
 

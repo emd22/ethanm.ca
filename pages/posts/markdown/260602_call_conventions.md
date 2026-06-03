@@ -79,7 +79,7 @@ test:
   ret
 ```
 
-The hardest part of programming x64 assembler is ensuring that offsets are correct. If the value at `[rbp]` was modified as opposed to `[rbp - 4]`, then the return address would be clobbered and likely leading to an interrupt being thrown.
+An easy to make mistake when programming x64 assembler is using a wrong offset when accessing memory. If the value at `[rbp]` was modified as opposed to `[rbp - 4]`, then the return address would be clobbered and likely leading to an interrupt being thrown.
 
 ## ARM64: 2 Fast 2 Hard to compile
 

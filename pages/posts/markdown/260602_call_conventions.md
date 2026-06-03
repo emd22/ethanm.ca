@@ -56,7 +56,7 @@ Because of this design, loading values from the stack pointer (`rsp`) or the bas
 
 For example:
 
-```
+```x86asm
 ; int test(int a, int b)
 test:
   ; Setup stack frame
@@ -95,7 +95,7 @@ Using a register for return addresses greatly reduces latency as there is no nee
 
 For example:
 
-```
+```armasm
 ; Leaf function, no need to preserve any values or locations
 F_Leaf:
   mov     w0, #5

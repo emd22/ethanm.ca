@@ -173,7 +173,7 @@ test:
   ret
 </code></pre>
 <p>
-The hardest part of programming x64 assembler is ensuring that offsets are correct. If the value at <span class="hp-inl-code">[rbp]</span> was modified as opposed to <span class="hp-inl-code">[rbp - 4]</span>, then the return address would be clobbered and likely leading to an interrupt being thrown.
+An easy to make mistake when programming x64 assembler is using a wrong offset when accessing memory. If the value at <span class="hp-inl-code">[rbp]</span> was modified as opposed to <span class="hp-inl-code">[rbp - 4]</span>, then the return address would be clobbered and likely leading to an interrupt being thrown.
 </p>
 <h2>ARM64: 2 Fast 2 Hard to compile</h2>
 <p>

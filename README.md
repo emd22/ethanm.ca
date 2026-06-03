@@ -9,4 +9,6 @@ Rebuild the website by running `./build_site.sh`.
 
 ## File Structure
 
-Since this website uses a custom template building system and preprocessor, the file structure is not standard.
+- `pages/` – The pages for the website. Each one will be processed by the preprocessor.
+- `assets/` – All media for the website
+- `public/` – All publicly available files

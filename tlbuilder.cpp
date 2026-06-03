@@ -502,7 +502,7 @@ void CompileAllInFolder(const char* folder_path)
 
         // Remove the root dir from the path:
         // root/posts/something.html -> posts/something.html
-        fs::path local_path = entry.path().lexically_relative(*entry.path().begin());
+        fs::path local_path = "public" / entry.path().lexically_relative(*entry.path().begin());
 
         BuildFile(entry.path().c_str(), local_path.c_str());
     }

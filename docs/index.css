@@ -1,35 +1,26 @@
 :root {
-  --background: white;
-  --onBackground: black;
-  /*--primary: linear-gradient(
-     -15deg,
-     rgb(182, 182, 182) 20%,
-     40%,
-     #e8e8e8 100%
-   );*/
-  --primary: black;
-  --onPrimary: black;
-  --onSecondary: black;
+  --background: #f5f5f5;
+  --lightBackground: #f5f5f5;
+  --projectContainerBackground: #f5f5f5;
+
+  --onBackground: #444;
+  --primary: #444;
+  --onPrimary: #444;
+  --onSecondary: #444;
+  --colorTitle: #444;
+
   --primaryColor: #3abb23;
   --postedOnColor: #666666;
 
   --navLinkColor: #2b3b3b;
-  /*--colorTitle: linear-gradient(
-     -15deg,
-     rgb(182, 182, 182) 20%,
-     40%,
-     #e8e8e8 100%
-   );*/
-  --colorTitle: black;
+
   --primarySolid: #e8e8e8;
   --codeBlock: #f4f4f4;
   --borderPrimary: #000000;
-  --lightBackground: #fefefe;
   --linkColorOnDark: #2299ff;
   --linkColorOnLight: #2299ff;
-  --profileTextColor: black;
-  --projectContainerBackground: white;
-  --shadowColor: black;
+  --profileTextColor: #444;
+  --shadowColor: #444;
   --isDark: 0;
   --isLight: 1;
 }
@@ -48,6 +39,7 @@
   --onBackground: white;
   --primarySolid: #4d9a97;
   --onPrimary: black;
+  --borderPrimary: #000000;
   --linkColorOnDark: skyblue;
   --linkColorOnLight: #3344aa;
   --profileTextColor: var(--colorTitle);
@@ -436,7 +428,7 @@ a {
   width: 300px;
   height: 300px;
   border-radius: 15px;
-  border: 2px solid black;
+  border: 2px solid var(--borderPrimary);
 }
 
 @media only screen and (max-width: 600px) {

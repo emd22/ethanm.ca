@@ -95,7 +95,6 @@ body h2 {
 img,
 video {
   border-radius: 15px;
-  width: 100% !important;
   border: 2px solid black;
   max-height: 350px;
   max-width: 350px;

@@ -11,6 +11,7 @@
   --onPrimary: black;
   --onSecondary: black;
   --primaryColor: #3abb23;
+  --postedOnColor: #666666;
 
   --navLinkColor: #2b3b3b;
   /*--colorTitle: linear-gradient(
@@ -40,6 +41,8 @@
   --lightBackground: #4d9a97;
   --primaryColor: #44b075;
   --navLinkColor: #cbebeb;
+
+  --postedOnColor: #999999;
 
   --onSecondary: white;
   --onBackground: white;
@@ -370,11 +373,24 @@ a {
   }
 
   .hp-app-header {
-    width: 95%;
+    width: 90%;
   }
 
   .hp-main-content {
     width: 95%;
+  }
+
+  .hp-title-chunky {
+    font-size: 2.2em !important;
+  }
+
+  .hp-section-title {
+    text-align: center;
+  }
+
+  .hp-profile-container {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
@@ -480,7 +496,6 @@ pre {
 .hp-section-title {
   padding-top: 40px;
   padding-bottom: 10px;
-  font-size: 2.75em;
 }
 
 .hp-color-title {
@@ -517,10 +532,6 @@ pre {
   gap: 20px;
 }
 
-.hp-project-card {
-  /* inherits hp-dark-container */
-}
-
 .hp-title-description-box {
   display: flex;
   flex: 1;
@@ -550,13 +561,16 @@ pre {
 }
 
 @media only screen and (max-width: 600px) {
-  .hp-project-card-content img {
+  .hp-project-card-content img,
+  video {
     width: 100%;
   }
 }
 
 .hp-posted-on {
-  color: #666666;
+  margin: 0px;
+  margin-bottom: 15px;
+  color: var(--postedOnColor);
 }
 
 .hp-project-card-content img,

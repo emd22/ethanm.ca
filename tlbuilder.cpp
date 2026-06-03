@@ -108,6 +108,13 @@ private:
             if (line.ends_with("cpp")) {
                 language_spec = "language-cpp";
             }
+            else if (line.ends_with("armasm")) {
+                language_spec = "language-armasm";
+            }
+            else if (line.ends_with("x86asm")) {
+                language_spec = "language-x86asm";
+            }
+
 
             std::string prefix = "";
             // If a paragraph was active, we must close it before starting a code block

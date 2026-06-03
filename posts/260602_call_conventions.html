@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="../index.css" />
     <link rel="icon" href="../public/icon.ico" />
 
-    <link rel="stylesheet" href="../styles/base16/chalk.css">
+    <link rel="stylesheet" href="../highlight-styles/base16/chalk.css">
     <script src="../highlight.min.js"></script>
 
     <script src="../languages/cpp.min.js"></script>
+    <script src="../languages/armasm.min.js"></script>
+    <script src="../languages/x86asm.min.js"></script>
 
     <script>hljs.highlightAll({});</script>
   </head>
@@ -79,7 +81,7 @@
 
 
 <!-- -->
-<h1 class="hp-title-chunky hp-no-margin hp-section-title">Unconventional: Calling Conventions</h1>
+<h1 class="hp-title-chunky hp-no-margin">Unconventional: Calling Conventions</h1>
 
 
 <!-- -->
@@ -149,7 +151,7 @@ Because of this design, loading values from the stack pointer (<span class="hp-i
 <p>
 For example:
 </p>
-<pre><code class="">; int test(int a, int b)
+<pre><code class="language-x86asm">; int test(int a, int b)
 test:
   ; Setup stack frame
   push  rbp
@@ -192,7 +194,7 @@ Using a register for return addresses greatly reduces latency as there is no nee
 <p>
 For example:
 </p>
-<pre><code class="">; Leaf function, no need to preserve any values or locations
+<pre><code class="language-armasm">; Leaf function, no need to preserve any values or locations
 F_Leaf:
   mov     w0, #5
 

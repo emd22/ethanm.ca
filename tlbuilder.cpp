@@ -1,4 +1,5 @@
 #include <chrono>
+#include <ctime>
 #include <filesystem>
 #include <format>
 #include <fstream>
@@ -9,6 +10,7 @@
 #include <vector>
 
 namespace fs = std::filesystem;
+using namespace std::chrono_literals;
 
 static const char* spCurrentPath = nullptr;
 
@@ -328,6 +330,41 @@ std::string LoadTemplate(const std::string& name, const std::vector<std::string>
     return ProcessHTML(ss.str(), args);
 }
 
+enum class eDateFormat
+{
+    Simple,
+    Detail,
+};
+
+static std::string GetFileDatestamp(const std::string& path, eDateFormat format)
+{
+    using namespace std::chrono;
+
+    if (!fs::exists(path)) {
+        return "DNE";
+    }
+
+    const auto fs_time = std::filesystem::last_write_time(path);
+
+    if (format == eDateFormat::Simple) {
+        return std::format("{0:%F}", fs_time);
+    }
+
+    // Apparently AppleClang does not support clock_cast, so this is a mess!
+
+    const time_t md_time = system_clock::to_time_t(
+        time_point_cast<system_clock::duration>(file_clock::to_sys(fs_time)));
+
+    std::tm* tm_info = std::localtime(&md_time);
+
+    year_month_day time_c { year { tm_info->tm_year + 1900 }, month { static_cast<unsigned>(tm_info->tm_mon + 1) },
+                            day { static_cast<unsigned>(tm_info->tm_mday) } };
+
+    // Output in the format of June 2nd, 2026
+    return std::format("{:L%B} {}{}, {:%Y}", time_c.month(), static_cast<unsigned int>(time_c.day()),
+                       GetDaySuffix(tm_info->tm_mday), time_c.year());
+}
+
 // Substitutes {{N}} placeholders and expands %%component(args)%% macros
 std::string ProcessHTML(const std::string& content, const std::vector<std::string>& args)
 {
@@ -390,6 +427,41 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
                 std::string date_result = TimeStringFromPostPath(next_args[0]);
                 result.replace(pos, end - pos + 2, date_result);
                 pos += date_result.size();
+
+                continue;
+            }
+        }
+
+        else if (name == "mdmoddate") {
+            std::string current_path = std::string(spCurrentPath);
+            std::string trimmed_path = current_path.substr(current_path.find_last_of('/') + 1);
+            trimmed_path = trimmed_path.substr(0, trimmed_path.find_last_of('.')) + ".md";
+
+            std::cout << "\nGetting date for MD pages/posts/markdown/" << trimmed_path << "\n";
+            std::string date = GetFileDatestamp("pages/posts/markdown/" + trimmed_path, eDateFormat::Detail);
+
+            std::cout << "result : " << date << "\n\n";
+            result.replace(pos, end - pos + 2, date);
+            pos += date.size();
+
+            continue;
+        }
+
+        else if (name == "mdpathmoddate") {
+            if (next_args.size() < 1) {
+                std::cerr << "getpathdate requires path\n";
+            }
+            else {
+                std::string def_path = next_args[0];
+                std::string trimmed_path = def_path.substr(def_path.find_last_of('/') + 1);
+                trimmed_path = trimmed_path.substr(0, trimmed_path.find_last_of('.')) + ".md";
+
+                std::cout << "\nGetting date for MD pages/posts/markdown/" << trimmed_path << "\n";
+                std::string date = GetFileDatestamp("pages/posts/markdown/" + trimmed_path, eDateFormat::Detail);
+
+                std::cout << "result : " << date << "\n\n";
+                result.replace(pos, end - pos + 2, date);
+                pos += date.size();
 
                 continue;
             }
@@ -484,9 +556,41 @@ void BuildFile(const char* path, const std::string& output_path)
     output_file << output;
 }
 
+
+void BuildSitemap(const std::vector<std::string>& filenames)
+{
+    std::ofstream xml_file("./docs/sitemap.xml");
+    if (!xml_file.is_open()) {
+        std::cerr << "Failed to open sitemap file\n";
+        return;
+    }
+
+    xml_file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    xml_file << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+
+
+    for (const std::string& path : filenames) {
+        fs::path p(path);
+
+        // Skip files that don't actually exist to avoid empty/broken tags
+        if (!fs::exists(p)) {
+            std::cerr << "Warning: File not found, skipping: " << path << "\n";
+            continue;
+        }
+
+        xml_file << "  <url>\n";
+        xml_file << "    <loc>https://ethanm.ca/" << p.lexically_relative(*p.begin()).c_str() << "</loc>\n";
+        xml_file << "    <lastmod>" << GetFileDatestamp(path, eDateFormat::Simple) << "</lastmod>\n";
+        xml_file << "  </url>\n";
+    }
+    xml_file << "</urlset>\n";
+}
+
 void CompileAllInFolder(const char* folder_path)
 {
     auto it = std::filesystem::recursive_directory_iterator(folder_path);
+
+    std::vector<std::string> file_paths;
 
     for (const fs::directory_entry& entry : it) {
         if (entry.is_directory()) {
@@ -501,8 +605,11 @@ void CompileAllInFolder(const char* folder_path)
         // root/posts/something.html -> posts/something.html
         fs::path local_path = "docs" / entry.path().lexically_relative(*entry.path().begin());
 
+        file_paths.push_back(entry.path());
         BuildFile(entry.path().c_str(), local_path.c_str());
     }
+
+    BuildSitemap(file_paths);
 }
 
 int main(int argc, char* argv[])

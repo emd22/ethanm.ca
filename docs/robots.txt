@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-Allow: /posts/
-Disallow /assets/
+Sitemap: https://ethanm.ca/sitemap.xml

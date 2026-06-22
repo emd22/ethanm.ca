@@ -1,7 +1,10 @@
-<div class="App">
+<!doctype html>
+
+<html lang="en">
   <head>
     <link rel="stylesheet" href="./resume.css" />
   </head>
+
   <header class="resume-header-container">
     <h1>Ethan MacDonald</h1>
     <h1 class="sub">Programmer</h1>
@@ -35,7 +38,7 @@
     <section class="section">
       <h1 class="sub section-title">Education</h1>
       %% resume/experience( Bachelor of Computer Science $ Post-secondary
-      Education $ 2022 – 2026 $ resume/subtitle(Dalhousie University) $
+      Education $ 2022 — 2026 $ resume/subtitle(Dalhousie University) $
       <ul>
         <li>Completed courses at Dalhousie University</li>
         <li>Received Future Tech Leaders Award</li>
@@ -98,7 +101,7 @@
   <!-- Projects -->
 
   %%resume/section_begin(Projects)%%
-    %% resume/experience( Foxtrot Engine $ Personal Project $ March 2025 – Present $ null $
+    %% resume/experience( Foxtrot Engine $ Personal Project $ March 2025 — Present $ null $
       <p>
         Foxtrot is an in-development FPS game with a purpose-built game engine.
       </p>
@@ -112,7 +115,7 @@
       )
     %%
 
-    %% resume/experience( Satellite Visualization $ University Project $ February 2026 – April 2026 $ null $
+    %% resume/experience( Satellite Visualization $ University Project $ February 2026 — April 2026 $ null $
       <p>
           <ul>
               <li>Renders 40,000+ interactive satellites in realtime</li>
@@ -126,7 +129,7 @@
       )
     %%
 
-    %% resume/experience( Godot Demos $ Learning Exercises $ 2023 – 2025 $ null $
+    %% resume/experience( Godot Demos $ Learning Exercises $ 2023 — 2025 $ null $
       <p>
           From 2023 to 2025, I was mainly building small games in Godot using the C# api. <br />
           Each one of these demos were to test out a new graphics technique or game feature that I hadn't had experience with previously.
@@ -184,180 +187,7 @@
     </table>
   %%resume/section_end%%
 
-
-
-    <!--
-
-    <Section title={"Experience"}>
-        <Experience
-            title={"InteGolf"}
-            description={"Summer Internship"}
-            date={"Summer 2024 and Summer 2025"}
-        >
-            <ul>
-                <li>
-                    Attended virtual meetings and worked closely with the development team overseas.
-                </li>
-                <li>
-                    Built new interfaces and features from user stories and wireframes
-                </li>
-                <li>
-                    Developed new customer-facing features and overhauled existing systems
-                </li>
-                <li>
-                    Developed a multithreaded web crawler to reduce data collection taking a full day to 10 minutes.
-                </li>
-                <li>
-                    Created a fully-featured automated blackbox testing library for testing new releases of the app
-                </li>
-            </ul>
-        </Experience>
-        <Experience
-            title={"Chido Inc."}
-            description={"Contract Full-Time"}
-            date={"April 2023 — October 2023"}
-        >
-            <ul>
-                <li>
-                    Full stack development for virtual real
-                    estate walkthroughs and sales.
-                </li>
-                <li>
-                    Developed plugins and projects using{" "}
-                    Unreal Engine 5 for
-                    virtual walkthroughs.
-                </li>
-                <li>Created a smart order time estimation system.</li>
-                <li>
-                    Made a responsive level editor in Three.js and WebGL.
-                </li>
-            </ul>
-        </Experience>
-        {/* <ul > */}
-        {/* <b>*/}
-        {/* <i>*/}
-        <p>I have also worked in fast food and retail; contact me for more details</p>
-        {/* </i>*/}
-        {/* </b>*/}
-        {/* </ul> */}
-    </Section>
-
-
-    <Section title={"Projects"}>
-        <Experience
-            title={"Foxtrot"}
-            description={ "Personal Project"}
-            date={"March 2025 - Present"}
-        >
-            <p>
-
-                Foxtrot is a constantly evolving game with a purpose-built game engine. <br />
-                <ul>
-                    <li>Deferred renderer with Vulkan backend</li>
-                    <li>Math library optimized for AVX and Neon</li>
-                    <li>Scripting language with bytecode compiler and VM</li>
-                    <li>Integration with Jolt Physics</li>
-                </ul>
-            </p>
-            {/* <ul>
-                <li>
-                    Math library optimized with SSE+AVX and Arm Neon
-                </li>
-                <li>
-                    Integration with Jolt Physics and DXC
-                </li>
-                <li>
-                    Homegrown scripting language (custom lexer, parser, bytecode compiler and vm)
-                </li>
-
-                <li>
-                    Custom memory pool and a custom core library
-                </li>
-            </ul>*/}
-        </Experience>
-
-
-        <Experience
-            title={"Satellite Visualization"}
-            description={ "University Project"}
-            date={"February 2026 - April 2026"}
-        >
-            <p>
-                <ul>
-                    <li>Renders 40,000+ interactive satellites in realtime</li>
-                    <li>Written in C++ and integrates Dear ImGui and Raylib</li>
-                    <li>Uses real satellite data from Celestrak and Spacebook, decoded using SGP4</li>
-                    <li>Heavily optimized to reduce frame time, CPU usage and memory footprint</li>
-                    <li>Precalculates, caches and interpolates data to reduce CPU load by 90%.</li>
-                    <li>Modified raylib rendering routines to improve performance from ~10fps to over 200fps on a mid-range laptop.</li>
-                </ul>
-            </p>
-        </Experience>
-
-        <Experience
-            title={"Godot Demos"}
-            description={ "Learning Exercises"}
-            date={"2023 - 2025"}
-        >
-            <p>
-                From 2023 to 2025, I was mainly building small games in Godot using the C# api. <br />
-                Each one of these demos were to test out a new graphics technique or game feature that I hadn't had experience with previously.
-                <ul>
-                    <li>FPS Interaction demo – Physics based doors, object interaction and a modular first person controller</li>
-                    <li>Water demo – Multiple player movement systems for ladders, swimming, and walking. I built a chunked terrain system and built fog and particle effects to capture the style of deep-sea underwater camera footage.</li>
-                </ul>
-            </p>
-        </Experience>
-
-
-        <Experience
-            title={"Unity Game Project"}
-            description={ "University Project"}
-            date={"2024"}
-        >
-            <ul>
-                <li>Selected to work with a team of 3 other students</li>
-                <li>Developed custom player controller with grappling hook and swinging mechanics</li>
-                <li>Optimized assets and code from other team members to increase performance</li>
-                <li>Built weapon system and shooting mechanics</li>
-                <li>Added state-driven enemy AI</li>
-            </ul>
-        </Experience>
-
-    </Section>
-
-
-    <Section title={"Skills"}>
-        <table>
-            <tr>
-                <td><>Languages</></td>
-                <td>C++, C#, C, Python, Javascript, Typescript, Dart, HLSL, GLSL, Slang</td>
-            </tr>
-
-            <tr>
-                <td><>Graphics APIs/Engines</></td>
-                <td>Vulkan, OpenGL, Unreal Engine 5, Unity, Godot</td>
-            </tr>
-
-            <tr>
-                <td>Systems</td>
-                <td>Physics, Animation, Multithreading, SIMD, Memory allocators, Scripting language systems</td>
-            </tr>
-
-            <tr>
-                <td>Profiling/Debugging</td>
-                <td>RenderDoc, Nsight, Visual Studio, LLDB, Xcode, Valgrind</td>
-            </tr>
-
-            <tr>
-                <td>App/Web</td>
-                <td>React, React Native, Flutter, Selenium, MongoDB, MySQL, PostgreSQL, SQLite</td>
-            </tr>
-        </table>
-    </Section>-->
-
-    <footer>
-      <span class="references"> References available upon request </span>
-    </footer>
-  </div>
-</div>
+  <footer>
+    <span class="references"> References available upon request </span>
+  </footer>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="./resume.css" />
+  </head>
+
+  <header class="resume-header-container">
+    <h1>Ethan MacDonald</h1>
+    <h1 class="sub">Programmer</h1>
+  </header>
+
+  <section class="contact-card">
+    <div class="contact-container">
+      %%resume/contact_phone_field(Phone$+1 (902) 304-4201)%%
+      %%resume/contact_field(Website$ethanm.ca$https://ethanm.ca/)%%
+      %%resume/contact_field(Email$e@ethanm.ca$mailto:e@ethanm.ca)%%
+      %%resume/contact_field(Github$@emd22$https://github.com/emd22)%%
+      %%resume/contact_field(Linkedin$@emd22$https://linkedin.com/in/emd22)%%
+    </div>
+  </section>
+
+  <div class="description">
+    <p>
+      Hi, I'm Ethan!
+      <br />
+      <br />
+      I have finished my final year in university and am awaiting my degree
+      certificate. Writing high-performance and quality code is something i'm
+      passionate about and show in many of my projects throughout the years, a
+      few of which are outlined below.<br />
+    </p>
+  </div>
+  <div class="dual-section-container">
+    <section class="section">
+      <h1 class="sub section-title">Education</h1>
+      %% resume/experience( Bachelor of Computer Science $ Post-secondary
+      Education $ 2022 — 2026 $ resume/subtitle(Dalhousie University) $
+      <ul>
+        <li>Completed courses at Dalhousie University</li>
+        <li>Received Future Tech Leaders Award</li>
+        <li>
+          Completed all required courses (awaiting the diploma/certificate)
+        </li>
+      </ul>
+      ) %%
+    </section>
+  </div>
+
+  <!-- Work Experience -->
+
+  %%resume/section_begin(Experience)%%
+    %% resume/experience( Integolf $ Summer Internship $ Summer 2024 and
+      Summer 2025 $ null $
+        <ul>
+          <li>
+            Attended virtual meetings and worked closely with the development team
+            overseas.
+          </li>
+          <li>
+            Built new interfaces and features from user stories and wireframes
+          </li>
+          <li>
+            Developed new customer-facing features and overhauled existing systems
+          </li>
+          <li>
+            Developed a multithreaded web crawler to reduce data collection taking
+            a full day to 10 minutes.
+          </li>
+          <li>
+            Created a fully-featured automated blackbox testing library for
+            testing new releases of the app
+          </li>
+        </ul>
+      )
+    %%
+
+    %% resume/experience( Chido Inc. $ Contract Full-Time $ April 2023 — October 2023 $ null $
+        <ul>
+            <li>
+                Full stack development for virtual real
+                estate walkthroughs and sales.
+            </li>
+            <li>
+                Developed plugins and projects using
+                Unreal Engine 5 for
+                virtual walkthroughs.
+            </li>
+            <li>Created a smart order time estimation system.</li>
+            <li>
+                Made a responsive level editor in Three.js and WebGL.
+            </li>
+        </ul>
+      )
+    %%
+  %%resume/section_end%%
+
+  <!-- Projects -->
+
+  %%resume/section_begin(Projects)%%
+    %% resume/experience( Foxtrot Engine $ Personal Project $ March 2025 — Present $ null $
+      <p>
+        Foxtrot is an in-development FPS game with a purpose-built game engine.
+      </p>
+
+      <ul>
+          <li>Deferred renderer with Vulkan backend</li>
+          <li>Math library optimized for AVX and Neon</li>
+          <li>Custom scripting language with bytecode compiler and VM</li>
+          <li>Integration with Jolt Physics</li>
+      </ul>
+      )
+    %%
+
+    %% resume/experience( Satellite Visualization $ University Project $ February 2026 — April 2026 $ null $
+      <p>
+          <ul>
+              <li>Renders 40,000+ interactive satellites in realtime</li>
+              <li>Written in C++ and integrates Dear ImGui and Raylib</li>
+              <li>Uses real satellite data from Celestrak and Spacebook, decoded using SGP4</li>
+              <li>Heavily optimized to reduce frame time, CPU usage and memory footprint</li>
+              <li>Precalculates, caches and interpolates data to reduce CPU load by 90%.</li>
+              <li>Modified raylib rendering routines to improve performance from ~10fps to over 200fps on a mid-range laptop.</li>
+          </ul>
+      </p>
+      )
+    %%
+
+    %% resume/experience( Godot Demos $ Learning Exercises $ 2023 — 2025 $ null $
+      <p>
+          From 2023 to 2025, I was mainly building small games in Godot using the C# api. <br />
+          Each one of these demos were to test out a new graphics technique or game feature that I hadn't had experience with previously.
+          <ul>
+              <li>FPS Interaction demo – Physics based doors, object interaction and a modular first person controller</li>
+              <li>Water demo – Multiple player movement systems for ladders, swimming, and walking. I built a chunked terrain system and built fog and particle effects to capture the style of deep-sea underwater camera footage.</li>
+          </ul>
+      </p>
+      )
+    %%
+
+    %% resume/experience( Unity Game Project $ University Project $ 2024 $ null $
+      <p>
+        <ul>
+            <li>Selected to work with a team of 3 other students</li>
+            <li>Developed custom player controller with grappling hook and swinging mechanics</li>
+            <li>Optimized assets and code from other team members to increase performance</li>
+            <li>Built weapon system and shooting mechanics</li>
+            <li>Added state-driven enemy AI</li>
+        </ul>
+      </p>
+      )
+    %%
+  %%resume/section_end%%
+
+
+  <!-- Skills -->
+
+  %%resume/section_begin(Projects)%%
+    <table>
+        <tr>
+            <td>Languages</td>
+            <td>C++, C#, C, Python, Javascript, Typescript, Dart, Golang, Zig</td>
+        </tr>
+
+        <tr>
+            <td>Graphics APIs/Engines</td>
+            <td>Vulkan, OpenGL, Unreal Engine 5, Unity, Godot</td>
+        </tr>
+
+        <tr>
+            <td>Systems</td>
+            <td>Physics, Animation, Multithreading, SIMD, Memory allocators, Scripting language systems</td>
+        </tr>
+
+        <tr>
+            <td>Profiling/Debugging</td>
+            <td>RenderDoc, Nsight, Visual Studio, LLDB, Xcode, Valgrind</td>
+        </tr>
+
+        <tr>
+            <td>App/Web</td>
+            <td>React, React Native, Flutter, Selenium, MongoDB, MySQL, PostgreSQL, SQLite</td>
+        </tr>
+    </table>
+  %%resume/section_end%%
+
+  <footer>
+    <span class="references"> References available upon request </span>
+  </footer>
+</html>

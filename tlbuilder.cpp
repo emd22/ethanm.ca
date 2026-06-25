@@ -532,6 +532,12 @@ void BuildFile(const char* path, const std::string& output_path)
 {
     spCurrentPath = path;
 
+    {
+        std::string dir_path = output_path.substr(0, output_path.find_last_of("\\/"));
+        std::filesystem::create_directories(dir_path);
+    }
+
+
     std::cout << "Building " << path << " to " << output_path << '\n';
 
     std::ifstream input_file(path);

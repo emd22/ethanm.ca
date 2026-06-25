@@ -1,2 +1,3 @@
 User-agent: *
 Sitemap: https://ethanm.ca/sitemap.xml
+Disallow: /alt_resumes/

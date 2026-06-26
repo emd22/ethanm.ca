@@ -55,8 +55,13 @@
   --isLight: 0;
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("Roboto-Regular.ttf");
+}
 * {
   box-sizing: border-box;
+  font-family: "Roboto";
 }
 
 body {
@@ -548,13 +553,6 @@ pre {
   }
 }
 
-.hp-project-card-content img {
-  width: auto;
-  max-width: 400px;
-  max-height: 400px;
-  justify-self: center;
-}
-
 @media only screen and (max-width: 600px) {
   .hp-project-card-content img,
   video {
@@ -570,6 +568,8 @@ pre {
 
 .hp-project-card-content img,
 video {
+  width: 100%;
+
   max-height: 350px;
   max-width: 350px;
   justify-self: center;
@@ -592,6 +592,8 @@ video {
 .hp-double-images {
   gap: 20px;
   align-content: center;
+}
+.hp-double-images img video {
 }
 
 /* Helpers */

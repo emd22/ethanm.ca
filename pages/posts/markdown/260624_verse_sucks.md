@@ -22,7 +22,7 @@ function Initialize(int NumberOfBots)
 }
 ```
 
-Conversely, the same basic script in Verse looks like this:
+ConVersely, the same basic script in Verse looks like this:
 
 ```
 Initialize(NumberOfBots : int) : int =
@@ -116,3 +116,5 @@ And to make matters worse, the if statements require that logic operations end w
 if (ThisIsStupid?):
     DoWhatever()
 ```
+
+[IR Generator](https://github.com/EpicGames/UnrealEngine/blob/release/Engine/Source/Runtime/VerseCompiler/Private/uLang/SemanticAnalyzer/IRGenerator.cpp)

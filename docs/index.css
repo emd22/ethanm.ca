@@ -59,9 +59,30 @@
   font-family: "Roboto";
   src: url("Roboto-Regular.ttf");
 }
+
+@font-face {
+  font-family: "RobotoMed";
+  src: url("Roboto-Medium.ttf");
+}
+
 * {
   box-sizing: border-box;
+}
+
+p,
+td,
+li,
+i,
+a {
   font-family: "Roboto";
+}
+
+b,
+h1,
+h2,
+h3,
+h4 {
+  font-family: "RobotoMed";
 }
 
 body {
@@ -73,7 +94,7 @@ body {
     background-color 0.2s,
     color 0.2s;
 
-  font-family: Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
 }
 
 body h1,
@@ -345,6 +366,7 @@ h1 {
   font-weight: 550;
   text-decoration: none;
   color: var(--navLinkColor);
+  font-family: "RobotoMed";
 }
 
 .hp-nav-item:hover {
@@ -461,6 +483,12 @@ pre {
    -webkit-text-fill-color: transparent;*/
 }
 
+h2 {
+  padding: 10px 0 0 0;
+  margin-bottom: 0;
+  border-bottom: 2px gray solid;
+}
+
 /* Icons */
 .hp-social-link {
   padding-right: 10px;
@@ -509,6 +537,7 @@ pre {
   max-width: 400px;
   width: auto;
   justify-self: left;
+  font-style: bold;
   align-self: start;
   padding-right: 5px;
   justify-content: space-between;

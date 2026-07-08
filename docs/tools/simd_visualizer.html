@@ -147,23 +147,15 @@
       }
     }
     .block-card {
-      border: 1px solid var(--border);
-      border-radius: 9px;
+      border: none;
       padding: 12px 0px 12px 0px;
-      cursor: grab;
-      transition:
-        border-color 0.15s,
-        box-shadow 0.15s;
     }
-    .block-card.dragging {
+    .block-topbar.dragging {
+      cursor: grab;
       opacity: 0.4;
     }
     .block-card.drag-over {
-      border-color: black;
-    }
-    .block-card.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent-dim) inset;
+      background: #ddd;
     }
     .block-head {
       align-items: center;
@@ -255,7 +247,6 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--text-faint);
       opacity: 0.5;
     }
     .reg-name {
@@ -607,9 +598,9 @@
 
         card.addEventListener("dragend", () => {
           card.classList.remove("dragging");
-          document
-            .querySelectorAll(".block-card")
-            .forEach((c) => c.classList.remove("drag-over"));
+          document.querySelectorAll(".block-card").forEach((c) => {
+            c.classList.remove("drag-over");
+          });
         });
 
         card.addEventListener("dragover", (e) => {

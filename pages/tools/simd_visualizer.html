@@ -1,0 +1,696 @@
+%%post_template_begin%%
+
+<div class="site-tool">
+  <header class="topbar">
+    <h1>SIMD Visualizer</h1>
+
+    <div class="toolbar">
+      <button id="addButton">Add Operation</button>
+      <button id="clearButton">Clear all</button>
+      <button id="runButton">Re-run</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Instructions</h2>
+        </div>
+      </div>
+      <div id="blockList" class="block-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Registers</h2>
+        </div>
+        <div class="reg-controls">
+          <div class="stepper">
+            <button id="prevButton">Step -</button>
+            <span id="stepLabel" class="step-label">–</span>
+            <button id="nextButton">Step +</button>
+          </div>
+          <button id="hexToggle">Toggle Hex</button>
+        </div>
+      </div>
+      <div id="regBank" class="reg-bank"></div>
+    </section>
+  </main>
+
+  <style>
+    .block-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .field input[type="text"] {
+        width: 110px;
+      }
+    }
+    .block-card {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 0px 12px 0px;
+      cursor: grab;
+      transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
+    }
+    .block-card.dragging {
+      opacity: 0.4;
+    }
+    .block-card.drag-over {
+      border-color: black;
+    }
+    .block-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-dim) inset;
+    }
+    .block-head {
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .block-topbar {
+      background-color: gray;
+      height: 5px;
+      width: 100%;
+      margin: 5px 0 5px 0;
+    }
+    .block-index {
+      font-size: 12px;
+      color: var(--text-faint);
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .block-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-left: 28px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .field label {
+      font-size: 9.5px;
+      letter-spacing: 0.5px;
+    }
+    .field select,
+    .field input {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text);
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 5px 7px;
+      width: 88px;
+    }
+    .field input[type="text"] {
+      width: 110px;
+    }
+    .field select:focus,
+    .field input:focus {
+      outline: 1px solid var(--accent-2);
+      border-color: var(--accent-2);
+    }
+
+    .reg-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-label {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text-dim);
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .reg-bank {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .reg-row {
+      display: grid;
+      grid-template-columns: 44px repeat(4, 1fr);
+      gap: 6px;
+      align-items: stretch;
+      border-bottom: 1px solid black;
+    }
+    .reg-row::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-faint);
+      opacity: 0.5;
+    }
+    .reg-name {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      padding-left: 6px;
+      border: 1px solid var(--border-soft);
+      border-radius: 6px 0 0 6px;
+      border-right: none;
+    }
+    .lane {
+      font-family: var(--mono);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 4px;
+      border-radius: 4px;
+    }
+    .reg-row.changed .lane {
+    }
+    .reg-row:last-child .lane,
+    .reg-row .lane {
+    }
+  </style>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const REG_COUNT = 8;
+      const LANES = 4;
+
+      function getRegisterIndex(regName) {
+        return parseInt(regName.slice(1), 10);
+      }
+      function parseVals(str) {
+        const parts = String(str)
+          .split(",")
+          .map((s) => s.trim())
+          .filter((s) => s.length);
+        const out = [];
+        for (let i = 0; i < LANES; i++) {
+          const n = parseInt(parts[i], 10);
+          out.push(Number.isFinite(n) ? n : 0);
+        }
+        return out;
+      }
+      function makeRegisterList(selected) {
+        let html = "";
+        for (let i = 0; i < REG_COUNT; i++) {
+          const v = "v" + i;
+          html += `<option value="${v}" ${v === selected ? "selected" : ""}>${v}</option>`;
+        }
+        return html;
+      }
+
+      function zeroAllRegisters() {
+        return Array.from({ length: REG_COUNT }, () => Array(LANES).fill(0));
+      }
+
+      function copyRegisters(r) {
+        return r.map((row) => row.slice());
+      }
+
+      function getRegisterValue(v, hex) {
+        if (!hex) return String(v);
+        return "0x" + v.toString(16).padStart(8, "0");
+      }
+
+      // Operations
+      const OPS = {
+        LOAD: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v0" },
+            {
+              key: "vals",
+              type: "text",
+              label: "Values",
+              placeholder: "1,2,3,4",
+              default: "1,2,3,4",
+            },
+          ],
+          run(p, regs) {
+            regs[getRegisterIndex(p.dst)] = parseVals(p.vals);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        MOV: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v1" },
+            { key: "src", type: "reg", label: "Src", default: "v0" },
+          ],
+          run(p, regs) {
+            regs[getRegisterIndex(p.dst)] =
+              regs[getRegisterIndex(p.src)].slice();
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        DUP: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v2" },
+            {
+              key: "val",
+              type: "text",
+              label: "Scalar",
+              placeholder: "5",
+              default: "5",
+            },
+          ],
+          run(p, regs) {
+            const v = parseInt(p.val, 10) || 0;
+            regs[getRegisterIndex(p.dst)] = [v, v, v, v];
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        ADD: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v2" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => x + b[i]);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        SUB: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v3" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => x - b[i]);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        MUL: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v4" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => x * b[i]);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        AND: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v5" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => x & b[i]);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        SHUFFLE: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v3" },
+            { key: "src", type: "reg", label: "Src", default: "v0" },
+            {
+              key: "indices",
+              type: "text",
+              label: "Lane order",
+              placeholder: "2,0,3,1",
+              default: "2,0,3,1",
+            },
+          ],
+          run(p, regs) {
+            const src = regs[getRegisterIndex(p.src)];
+            const order = parseVals(p.indices).map(
+              (n) => ((n % LANES) + LANES) % LANES,
+            );
+            regs[getRegisterIndex(p.dst)] = order.map((k) => src[k]);
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        ZIP1: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v5" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = [a[0], b[0], a[1], b[1]];
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+        ZIP2: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v6" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = [a[2], b[2], a[3], b[3]];
+            return [getRegisterIndex(p.dst)];
+          },
+        },
+      };
+      const OP_NAMES = Object.keys(OPS);
+
+      let blocks = [];
+      let idSeed = 1;
+      let history = null;
+      let currentStep = -1; // -1 = initial all-zero state
+      let shouldDisplayHex = false;
+      let dragId = null;
+
+      function defaultParams(op) {
+        const p = {};
+        OPS[op].fields.forEach((f) => {
+          p[f.key] = f.default;
+        });
+        return p;
+      }
+
+      function createBlock(op) {
+        op = op || "LOAD";
+        return { id: idSeed++, op, params: defaultParams(op) };
+      }
+
+      function invalidate() {
+        history = null;
+        currentStep = -1;
+        updateRegisters();
+        updateStepText();
+      }
+
+      const blockListEl = document.getElementById("blockList");
+
+      function makeBlocks() {
+        blockListEl.innerHTML = "";
+
+        if (blocks.length === 0) {
+          const hint = document.createElement("div");
+          hint.className = "empty-hint";
+          hint.textContent = "No instructions";
+          blockListEl.appendChild(hint);
+          return;
+        }
+
+        blocks.forEach((block, i) => {
+          blockListEl.appendChild(makeInstructionBlock(block, i));
+        });
+      }
+
+      function makeInstructionBlock(block, i) {
+        const card = document.createElement("div");
+        card.className = "block-card";
+        card.draggable = true;
+        card.dataset.id = block.id;
+
+        const head = document.createElement("div");
+        head.className = "block-head";
+
+        const opSelect = document.createElement("select");
+        opSelect.className = "op-select";
+
+        const opTopbar = document.createElement("div");
+        opTopbar.className = "block-topbar";
+
+        opSelect.innerHTML = OP_NAMES.map(
+          (name) =>
+            `<option value="${name}" ${name === block.op ? "selected" : ""}>${name}</option>`,
+        ).join("");
+
+        opSelect.addEventListener("change", () => {
+          block.op = opSelect.value;
+          block.params = defaultParams(block.op);
+          invalidate();
+          makeBlocks();
+        });
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove-btn";
+        removeButton.textContent = "remove";
+        removeButton.title = "Remove instruction";
+        removeButton.addEventListener("click", () => {
+          blocks = blocks.filter((b) => b.id !== block.id);
+          invalidate();
+          makeBlocks();
+        });
+
+        head.append(opTopbar, opSelect, removeButton);
+
+        // Add the instruction's fields
+        const fieldsWrap = document.createElement("div");
+        fieldsWrap.className = "block-fields";
+
+        OPS[block.op].fields.forEach((f) => {
+          const field = document.createElement("div");
+          field.className = "field";
+          const label = document.createElement("label");
+          label.textContent = f.label;
+          field.appendChild(label);
+
+          let input;
+          if (f.type === "reg") {
+            input = document.createElement("select");
+            input.innerHTML = makeRegisterList(block.params[f.key]);
+          } else {
+            input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = f.placeholder || "";
+            input.value = block.params[f.key];
+          }
+          input.addEventListener("input", () => {
+            block.params[f.key] = input.value;
+            invalidate();
+          });
+          input.addEventListener("change", () => {
+            block.params[f.key] = input.value;
+            invalidate();
+
+            executeBlocks();
+          });
+          field.appendChild(input);
+          fieldsWrap.appendChild(field);
+        });
+
+        card.append(head, fieldsWrap);
+
+        // Block drag and drop
+        card.addEventListener("dragstart", (e) => {
+          dragId = block.id;
+          card.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+        });
+
+        card.addEventListener("dragend", () => {
+          card.classList.remove("dragging");
+          document
+            .querySelectorAll(".block-card")
+            .forEach((c) => c.classList.remove("drag-over"));
+        });
+
+        card.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          if (block.id !== dragId) card.classList.add("drag-over");
+        });
+
+        card.addEventListener("dragleave", () => {
+          card.classList.remove("drag-over");
+        });
+
+        card.addEventListener("drop", (e) => {
+          e.preventDefault();
+          card.classList.remove("drag-over");
+
+          if (dragId === null || dragId === block.id) {
+            return;
+          }
+
+          const fromIdx = blocks.findIndex((b) => b.id === dragId);
+
+          let toIdx = blocks.findIndex((b) => b.id === block.id);
+
+          if (fromIdx === -1 || toIdx === -1) {
+            return;
+          }
+
+          const rect = card.getBoundingClientRect();
+          const after = e.clientY - rect.top > rect.height / 2;
+          const [moved] = blocks.splice(fromIdx, 1);
+
+          toIdx = blocks.findIndex((b) => b.id === block.id);
+          blocks.splice(after ? toIdx + 1 : toIdx, 0, moved);
+
+          dragId = null;
+
+          invalidate();
+          makeBlocks();
+        });
+
+        return card;
+      }
+
+      const regBankEl = document.getElementById("regBank");
+      const stepLabelEl = document.getElementById("stepLabel");
+      const stepPreviousButton = document.getElementById("prevButton");
+      const stepNextButton = document.getElementById("nextButton");
+      const toggleHexButton = document.getElementById("hexToggle");
+
+      function currentRegs() {
+        if (currentStep === -1 || !history) return zeroAllRegisters();
+        return history[currentStep].regs;
+      }
+      function currentChanged() {
+        if (currentStep === -1 || !history) return [];
+        return history[currentStep].changed;
+      }
+
+      function updateRegisters() {
+        regBankEl.innerHTML = "";
+        const regs = currentRegs();
+        const changed = currentChanged();
+        for (let r = 0; r < REG_COUNT; r++) {
+          const row = document.createElement("div");
+          row.className = "reg-row" + (changed.includes(r) ? " changed" : "");
+
+          const name = document.createElement("div");
+          name.className = "reg-name";
+          name.textContent = "v" + r;
+          row.appendChild(name);
+
+          for (let l = 0; l < LANES; l++) {
+            const lane = document.createElement("div");
+            lane.className = "lane";
+            lane.textContent = getRegisterValue(regs[r][l], shouldDisplayHex);
+            row.appendChild(lane);
+          }
+          regBankEl.appendChild(row);
+        }
+      }
+
+      function updateStepText() {
+        if (!history || history.length === 0) {
+          stepLabelEl.textContent = "- / -";
+          stepPreviousButton.disabled = true;
+          stepNextButton.disabled = true;
+        } else {
+          stepLabelEl.textContent = `${currentStep + 1} / ${history.length}`;
+          stepPreviousButton.disabled = currentStep <= -1;
+          stepNextButton.disabled = currentStep >= history.length - 1;
+        }
+        document.querySelectorAll(".block-card").forEach((card, i) => {
+          card.classList.toggle("active", history && i === currentStep);
+        });
+      }
+
+      function executeBlocks() {
+        if (blocks.length === 0) {
+          invalidate();
+          return;
+        }
+        const regs = zeroAllRegisters();
+        const historyBlocks = [];
+
+        blocks.forEach((block) => {
+          let changed = [];
+
+          try {
+            changed = OPS[block.op].run(block.params, regs) || [];
+          } catch (e) {
+            changed = [];
+          }
+
+          historyBlocks.push({
+            changed,
+            regs: copyRegisters(regs),
+          });
+        });
+
+        history = historyBlocks;
+        currentStep = historyBlocks.length - 1;
+
+        updateRegisters();
+        updateStepText();
+      }
+
+      document.getElementById("addButton").addEventListener("click", () => {
+        blocks.push(createBlock("LOAD"));
+        invalidate();
+        makeBlocks();
+      });
+
+      document.getElementById("clearButton").addEventListener("click", () => {
+        blocks = [];
+        invalidate();
+        makeBlocks();
+      });
+
+      document
+        .getElementById("runButton")
+        .addEventListener("click", executeBlocks);
+
+      stepPreviousButton.addEventListener("click", () => {
+        if (!history) return;
+        currentStep = Math.max(-1, currentStep - 1);
+        updateRegisters();
+        updateStepText();
+      });
+
+      stepNextButton.addEventListener("click", () => {
+        if (!history) return;
+        currentStep = Math.min(history.length - 1, currentStep + 1);
+        updateRegisters();
+        updateStepText();
+      });
+
+      toggleHexButton.addEventListener("click", () => {
+        shouldDisplayHex = !shouldDisplayHex;
+        toggleHexButton.classList.toggle("active", shouldDisplayHex);
+        updateRegisters();
+      });
+
+      // Creates the default state for the tool
+      function setupExampleState() {
+        const b1 = createBlock("LOAD");
+        b1.params = { dst: "v0", vals: "1,2,3,4" };
+        const b2 = createBlock("ADD");
+        b2.params = { dst: "v2", src1: "v0", src2: "v0" };
+        blocks = [b1, b2];
+      }
+
+      setupExampleState();
+      makeBlocks();
+      updateRegisters();
+      updateStepText();
+    })();
+  </script>
+</div>
+
+<!---->
+
+%%post_template_end%%

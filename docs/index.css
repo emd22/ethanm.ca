@@ -262,6 +262,7 @@ button:active {
   background-color: transparent;
   color: var(--onBackground);
   border: none;
+  box-shadow: none;
   display: flex;
   align-items: center;
   cursor: pointer;

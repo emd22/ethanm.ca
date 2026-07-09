@@ -22,31 +22,33 @@
       <div id="blockList" class="block-list"></div>
     </section>
 
-    <section class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Registers</h2>
-        </div>
-        <div class="reg-controls">
-          <div class="stepper">
-            <button id="prevButton">Step -</button>
-            <span id="stepLabel" class="step-label">–</span>
-            <button id="nextButton">Step +</button>
+    <div class="output-container hp-phone-flex-col hp-tablet-flex-row">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Registers</h2>
           </div>
-          <button id="hexToggle">Toggle Hex</button>
+          <div class="reg-controls">
+            <div class="stepper">
+              <button id="prevButton">Step -</button>
+              <span id="stepLabel" class="step-label">–</span>
+              <button id="nextButton">Step +</button>
+            </div>
+            <button id="hexToggle">Toggle Hex</button>
+          </div>
         </div>
-      </div>
-      <div id="regBank" class="reg-bank"></div>
-    </section>
+        <div id="regBank" class="reg-bank"></div>
+      </section>
 
-    <section class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>AVX Source</h2>
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>AVX Source</h2>
+          </div>
         </div>
-      </div>
-      <pre><code id="avxSource" class="language-cpp"></code></pre>
-    </section>
+        <pre><code id="avxSource" class="language-cpp"></code></pre>
+      </section>
+    </div>
   </main>
 
   <style>
@@ -77,6 +79,7 @@
       margin-bottom: 5px;
       box-shadow: 2px 2px var(--shadowColor);
     }
+
     .block-head {
       align-items: center;
       gap: 8px;
@@ -173,6 +176,17 @@
     }
     .reg-row:last-child .lane,
     .reg-row .lane {
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .output-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
     }
   </style>
 
@@ -698,6 +712,10 @@
 
         document.getElementById("avxSource").textContent =
           textBlocks.join("\n");
+
+        delete document.getElementById("avxSource").dataset.highlighted;
+
+        hljs.highlightAll({});
       }
 
       function executeBlocks() {

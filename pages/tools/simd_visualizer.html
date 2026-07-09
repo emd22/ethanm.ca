@@ -54,6 +54,10 @@
       display: inline-block;
       float: right;
     }
+    .block-text {
+      float: right;
+      display: inline-block;
+    }
     .block-card {
       padding: 12px 0px 12px 0px;
       border: 2px solid gray;
@@ -233,6 +237,9 @@
             regs[getRegisterIndex(p.dst)] = parseVals(p.vals);
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            return `Load [${p.vals}] into ${p.dst}`;
+          },
         },
         MOV: {
           fields: [
@@ -243,6 +250,9 @@
             regs[getRegisterIndex(p.dst)] =
               regs[getRegisterIndex(p.src)].slice();
             return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            return `Move [${regs[getRegisterIndex(p.src)]}] to ${p.dst}`;
           },
         },
         DUP: {
@@ -261,6 +271,9 @@
             regs[getRegisterIndex(p.dst)] = [v, v, v, v];
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            return `Load [${[p.val, p.val, p.val, p.val]}] into ${p.dst}`;
+          },
         },
         ADD: {
           fields: [
@@ -273,6 +286,9 @@
               b = regs[getRegisterIndex(p.src2)];
             regs[getRegisterIndex(p.dst)] = a.map((x, i) => x + b[i]);
             return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            return `Add [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
           },
         },
         SUB: {
@@ -287,6 +303,9 @@
             regs[getRegisterIndex(p.dst)] = a.map((x, i) => x - b[i]);
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            return `Subtract [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
+          },
         },
         MUL: {
           fields: [
@@ -300,6 +319,9 @@
             regs[getRegisterIndex(p.dst)] = a.map((x, i) => x * b[i]);
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            return `Multiply [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
+          },
         },
         AND: {
           fields: [
@@ -312,6 +334,9 @@
               b = regs[getRegisterIndex(p.src2)];
             regs[getRegisterIndex(p.dst)] = a.map((x, i) => x & b[i]);
             return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            return `AND [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
           },
         },
         SHUFFLE: {
@@ -334,8 +359,16 @@
             regs[getRegisterIndex(p.dst)] = order.map((k) => src[k]);
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            const src = regs[getRegisterIndex(p.src)];
+            const order = parseVals(p.indices).map(
+              (n) => ((n % LANES) + LANES) % LANES,
+            );
+            const result = order.map((k) => src[k]);
+            return `Shuffle [${regs[getRegisterIndex(p.src)]}] by [${p.indices}], store [${result}] in ${p.dst}`;
+          },
         },
-        ZIP1: {
+        UNPACKLO: {
           fields: [
             { key: "dst", type: "reg", label: "Dst", default: "v5" },
             { key: "src1", type: "reg", label: "Src1", default: "v0" },
@@ -347,8 +380,14 @@
             regs[getRegisterIndex(p.dst)] = [a[0], b[0], a[1], b[1]];
             return [getRegisterIndex(p.dst)];
           },
+          getText(p, regs) {
+            const v1 = regs[getRegisterIndex(p.src1)].slice(0, 2);
+            const v2 = regs[getRegisterIndex(p.src2)].slice(0, 2);
+            const interleave = [v1[0], v2[0], v1[1], v2[1]];
+            return `Take low halves [${v1}] and [${v2}], interleave into [${interleave}]`;
+          },
         },
-        ZIP2: {
+        UNPACKHI: {
           fields: [
             { key: "dst", type: "reg", label: "Dst", default: "v6" },
             { key: "src1", type: "reg", label: "Src1", default: "v0" },
@@ -359,6 +398,12 @@
               b = regs[getRegisterIndex(p.src2)];
             regs[getRegisterIndex(p.dst)] = [a[2], b[2], a[3], b[3]];
             return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            const v1 = regs[getRegisterIndex(p.src1)].slice(2);
+            const v2 = regs[getRegisterIndex(p.src2)].slice(2);
+            const interleave = [v1[0], v2[0], v1[1], v2[1]];
+            return `Take high halves [${v1}] and [${v2}], interleave into [${interleave}]`;
           },
         },
       };
@@ -469,6 +514,7 @@
           block.params = defaultParams(block.op);
           invalidate();
           makeBlocks();
+          executeBlocks();
         });
 
         const removeButton = document.createElement("button");
@@ -504,6 +550,7 @@
         opObject.fields.forEach((f) => {
           const field = document.createElement("div");
           field.className = "field";
+
           const label = document.createElement("label");
           label.textContent = f.label;
           field.appendChild(label);
@@ -518,21 +565,29 @@
             input.placeholder = f.placeholder || "";
             input.value = block.params[f.key];
           }
+
           input.addEventListener("input", () => {
             block.params[f.key] = input.value;
             invalidate();
           });
+
           input.addEventListener("change", () => {
             block.params[f.key] = input.value;
             invalidate();
-
             executeBlocks();
           });
+
           field.appendChild(input);
+
           fieldsWrap.appendChild(field);
         });
 
-        card.append(head, fieldsWrap);
+        const opText = document.createElement("span");
+        opText.id = "blockText";
+        opText.className = "block-text";
+        opText.innerText = "Waiting for run";
+
+        card.append(head, fieldsWrap, opText);
 
         return card;
       }
@@ -585,6 +640,7 @@
           stepPreviousButton.disabled = currentStep <= -1;
           stepNextButton.disabled = currentStep >= history.length - 1;
         }
+
         document.querySelectorAll(".block-card").forEach((card, i) => {
           card.classList.toggle("active", history && i === currentStep);
         });
@@ -595,17 +651,24 @@
           invalidate();
           return;
         }
+
         const regs = zeroAllRegisters();
         const historyBlocks = [];
 
         blocks.forEach((block) => {
           let changed = [];
 
-          try {
-            changed = OPS[block.op].run(block.params, regs) || [];
-          } catch (e) {
-            changed = [];
+          if (OPS[block.op].getText) {
+            const text = OPS[block.op].getText(block.params, regs) || "";
+
+            const textElement = document.querySelector(
+              `div[data-id="${block.id}"] span`,
+            );
+
+            textElement.innerText = text;
           }
+
+          changed = OPS[block.op].run(block.params, regs) || [];
 
           historyBlocks.push({
             changed,

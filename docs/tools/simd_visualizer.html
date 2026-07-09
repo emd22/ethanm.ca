@@ -141,36 +141,33 @@
     .block-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
       .field input[type="text"] {
         width: 110px;
       }
     }
+    .remove-btn {
+      margin-left: 15px;
+    }
+    .move-container {
+      display: inline-block;
+      float: right;
+    }
     .block-card {
-      border: none;
       padding: 12px 0px 12px 0px;
-    }
-    .block-topbar.dragging {
-      cursor: grab;
-      opacity: 0.4;
-    }
-    .block-card.drag-over {
-      background: #ddd;
+      border: 2px solid gray;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      box-shadow: 2px 2px var(--shadowColor);
     }
     .block-head {
       align-items: center;
       gap: 8px;
       margin-bottom: 9px;
     }
-    .block-topbar {
-      background-color: gray;
-      height: 5px;
-      width: 100%;
-      margin: 5px 0 5px 0;
-    }
     .block-index {
       font-size: 12px;
-      color: var(--text-faint);
       width: 20px;
       flex-shrink: 0;
     }
@@ -250,18 +247,15 @@
       opacity: 0.5;
     }
     .reg-name {
-      font-family: var(--mono);
       font-size: 12.5px;
       font-weight: 600;
       display: flex;
       align-items: center;
       padding-left: 6px;
-      border: 1px solid var(--border-soft);
       border-radius: 6px 0 0 6px;
       border-right: none;
     }
     .lane {
-      font-family: var(--mono);
       font-size: 13px;
       display: flex;
       align-items: center;
@@ -356,8 +350,8 @@
               key: "val",
               type: "text",
               label: "Scalar",
-              placeholder: "5",
-              default: "5",
+              placeholder: "0",
+              default: "0",
             },
           ],
           run(p, regs) {
@@ -480,11 +474,30 @@
         OPS[op].fields.forEach((f) => {
           p[f.key] = f.default;
         });
+
+        p["dst"] = findDefaultDstRegister();
+
         return p;
+      }
+
+      function findDefaultDstRegister() {
+        if (blocks.length == 0) {
+          return "v0";
+        }
+
+        const dstBlock = blocks[blocks.length - 1].params;
+        console.log("blocks length: ", dstBlock);
+
+        if (!dstBlock) {
+          return "v0";
+        }
+
+        return dstBlock.dst;
       }
 
       function createBlock(op) {
         op = op || "LOAD";
+
         return { id: idSeed++, op, params: defaultParams(op) };
       }
 
@@ -513,10 +526,26 @@
         });
       }
 
+      function moveBlock(block, offset) {
+        const fromIdx = blocks.findIndex((b) => b.id === block.id);
+        const toIdx = fromIdx + offset;
+
+        if (toIdx < 0 || toIdx >= blocks.length) {
+          return;
+        }
+
+        const [movedBlock] = blocks.splice(fromIdx, 1);
+        blocks.splice(toIdx, 0, movedBlock);
+
+        dragId = null;
+
+        invalidate();
+        makeBlocks();
+      }
+
       function makeInstructionBlock(block, i) {
         const card = document.createElement("div");
         card.className = "block-card";
-        card.draggable = true;
         card.dataset.id = block.id;
 
         const head = document.createElement("div");
@@ -542,7 +571,7 @@
 
         const removeButton = document.createElement("button");
         removeButton.className = "remove-btn";
-        removeButton.textContent = "remove";
+        removeButton.innerHTML = "&times;";
         removeButton.title = "Remove instruction";
         removeButton.addEventListener("click", () => {
           blocks = blocks.filter((b) => b.id !== block.id);
@@ -550,13 +579,27 @@
           makeBlocks();
         });
 
-        head.append(opTopbar, opSelect, removeButton);
+        const moveUpButton = document.createElement("button");
+        moveUpButton.innerHTML = "&uarr;";
+        moveUpButton.addEventListener("click", () => moveBlock(block, -1));
+
+        const moveDownButton = document.createElement("button");
+        moveDownButton.innerHTML = "&darr;";
+        moveDownButton.addEventListener("click", () => moveBlock(block, 1));
+
+        const moveContainer = document.createElement("div");
+        moveContainer.className = "move-container";
+        moveContainer.append(moveDownButton, moveUpButton, removeButton);
+
+        head.append(opTopbar, opSelect, moveContainer);
 
         // Add the instruction's fields
         const fieldsWrap = document.createElement("div");
         fieldsWrap.className = "block-fields";
 
-        OPS[block.op].fields.forEach((f) => {
+        let opObject = OPS[block.op];
+
+        opObject.fields.forEach((f) => {
           const field = document.createElement("div");
           field.className = "field";
           const label = document.createElement("label");
@@ -588,58 +631,6 @@
         });
 
         card.append(head, fieldsWrap);
-
-        // Block drag and drop
-        card.addEventListener("dragstart", (e) => {
-          dragId = block.id;
-          card.classList.add("dragging");
-          e.dataTransfer.effectAllowed = "move";
-        });
-
-        card.addEventListener("dragend", () => {
-          card.classList.remove("dragging");
-          document.querySelectorAll(".block-card").forEach((c) => {
-            c.classList.remove("drag-over");
-          });
-        });
-
-        card.addEventListener("dragover", (e) => {
-          e.preventDefault();
-          if (block.id !== dragId) card.classList.add("drag-over");
-        });
-
-        card.addEventListener("dragleave", () => {
-          card.classList.remove("drag-over");
-        });
-
-        card.addEventListener("drop", (e) => {
-          e.preventDefault();
-          card.classList.remove("drag-over");
-
-          if (dragId === null || dragId === block.id) {
-            return;
-          }
-
-          const fromIdx = blocks.findIndex((b) => b.id === dragId);
-
-          let toIdx = blocks.findIndex((b) => b.id === block.id);
-
-          if (fromIdx === -1 || toIdx === -1) {
-            return;
-          }
-
-          const rect = card.getBoundingClientRect();
-          const after = e.clientY - rect.top > rect.height / 2;
-          const [moved] = blocks.splice(fromIdx, 1);
-
-          toIdx = blocks.findIndex((b) => b.id === block.id);
-          blocks.splice(after ? toIdx + 1 : toIdx, 0, moved);
-
-          dragId = null;
-
-          invalidate();
-          makeBlocks();
-        });
 
         return card;
       }
@@ -768,7 +759,7 @@
         const b1 = createBlock("LOAD");
         b1.params = { dst: "v0", vals: "1,2,3,4" };
         const b2 = createBlock("ADD");
-        b2.params = { dst: "v2", src1: "v0", src2: "v0" };
+        b2.params = { dst: "v1", src1: "v0", src2: "v0" };
         blocks = [b1, b2];
       }
 

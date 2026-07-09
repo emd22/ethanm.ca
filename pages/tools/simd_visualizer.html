@@ -94,23 +94,15 @@
     }
     .field select,
     .field input {
-      font-family: var(--mono);
       font-size: 14px;
-      color: var(--text);
-      border: 1px solid black;
       border-radius: 5px;
       padding: 5px 7px;
       width: 88px;
     }
+
     .field input[type="text"] {
       width: 110px;
     }
-    .field select:focus,
-    .field input:focus {
-      outline: 1px solid var(--accent-2);
-      border-color: var(--accent-2);
-    }
-
     .reg-controls {
       display: flex;
       align-items: center;
@@ -122,9 +114,7 @@
       gap: 6px;
     }
     .step-label {
-      font-family: var(--mono);
       font-size: 11.5px;
-      color: var(--text-dim);
       min-width: 44px;
       text-align: center;
     }
@@ -140,7 +130,7 @@
       grid-template-columns: 44px repeat(4, 1fr);
       gap: 6px;
       align-items: stretch;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid var(--shadowColor);
     }
     .reg-row::before {
       content: "";

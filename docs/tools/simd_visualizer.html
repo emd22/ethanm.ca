@@ -102,11 +102,18 @@
   <header class="topbar">
     <h1>SIMD Visualizer</h1>
 
+    <p>
+      There is a limited number of online SIMD visualizers, so I built this one.
+      Write an algorithm using simple blocks to see the emulated register values
+      and SSE source code. Note that this visualizer only supports 128-bit
+      vectors.
+    </p>
+
     <div class="toolbar">
       <button id="addButton">Add Instruction</button>
       <button id="loadDefaultButton">Load Default</button>
       <button id="clearButton">Clear</button>
-      <button id="runButton">Run</button>
+      <button id="runButton">Update</button>
     </div>
   </header>
 
@@ -141,7 +148,7 @@
       <section class="panel">
         <div class="panel-head">
           <div>
-            <h2>AVX Source</h2>
+            <h2>SSE Source</h2>
           </div>
         </div>
         <pre><code id="avxSource" class="language-cpp"></code></pre>
@@ -199,6 +206,7 @@
       flex-direction: column;
       gap: 3px;
     }
+
     .field label {
       font-size: 9.5px;
       letter-spacing: 0.5px;
@@ -209,6 +217,10 @@
       border-radius: 5px;
       padding: 5px 7px;
       width: 88px;
+    }
+
+    p {
+      font-size: 0.9em;
     }
 
     .field input[type="text"] {
@@ -605,6 +617,10 @@
 
       const blockListEl = document.getElementById("blockList");
 
+      function saveState() {
+        localStorage.setItem("simdVisualizerState", JSON.stringify(blocks));
+      }
+
       function makeBlocks() {
         blockListEl.innerHTML = "";
 
@@ -852,6 +868,7 @@
         updateRegisters();
         updateStepText();
         generateAvxSource(regs);
+        saveState();
       }
 
       document.getElementById("addButton").addEventListener("click", () => {
@@ -901,14 +918,55 @@
 
       // Creates the default state for the tool
       function setupExampleState() {
-        const b1 = createBlock("LOAD");
-        b1.params = { dst: "v0", vals: "1,2,3,4" };
-        const b2 = createBlock("ADD");
-        b2.params = { dst: "v1", src1: "v0", src2: "v0" };
-        blocks = [b1, b2];
+        objects = [
+          {
+            id: 1,
+            op: "LOAD",
+            params: {
+              dst: "v0",
+              vals: "1,2,3,4",
+            },
+          },
+          {
+            id: 2,
+            op: "DUP",
+            params: {
+              dst: "v1",
+              val: "2",
+            },
+          },
+          {
+            id: 3,
+            op: "MUL",
+            params: {
+              dst: "v1",
+              src1: "v0",
+              src2: "v1",
+            },
+          },
+          {
+            id: 4,
+            op: "UNPACKLO",
+            params: {
+              dst: "v2",
+              src1: "v0",
+              src2: "v1",
+            },
+          },
+        ];
       }
 
-      setupExampleState();
+      function initialSetup() {
+        if (!localStorage.getItem("simdVisualizerState")) {
+          setupExampleState();
+        } else {
+          const visState = localStorage.getItem("simdVisualizerState");
+          blocks = JSON.parse(visState);
+          console.log(blocks);
+        }
+      }
+
+      initialSetup();
       makeBlocks();
       updateRegisters();
       updateStepText();

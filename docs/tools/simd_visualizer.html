@@ -152,7 +152,7 @@
             <h2>SSE Source</h2>
           </div>
         </div>
-        <pre><code id="avxSource" class="language-cpp"></code></pre>
+        <pre><code id="sseSource" class="language-cpp"></code></pre>
       </section>
     </div>
     <section class="panel">
@@ -203,7 +203,7 @@
       font-family: monospace;
     }
 
-    div span {
+    .block-text {
       font-size: 0.9em;
     }
 
@@ -451,6 +451,26 @@
         return "0x" + float32ToHex(v); //v.toString(16).padStart(8, "0");
       }
 
+      function toCPPFloatString(floatString) {
+        if (floatString.length <= 0) {
+          return;
+        }
+
+        const floatVal = parseFloat(floatString);
+
+        if (floatVal == Math.trunc(floatVal)) {
+          floatString = floatVal.toFixed(1) + 'f';
+        }
+
+        if (floatString[floatString.length -1] != 'f') {
+          floatString += 'f';
+        }
+
+        return floatString;
+      }
+
+
+
       // Operations
       const OPS = {
         LOAD: {
@@ -479,10 +499,12 @@
               if (i < vl) {
                 values[i] = values[i].trim();
                 if (values[i].length > 0) {
+                  values[i] = toCPPFloatString(values[i]);
                   continue;
                 }
+
               }
-              values.push(0);
+              values.push('0.0f');
             }
 
             return [
@@ -528,7 +550,7 @@
             return `Load [${[p.val, p.val, p.val, p.val]}] into ${p.dst}`;
           },
           getSource(p, regs) {
-            return [`${p.dst} = _mm_set1_ps(${p.val});`];
+            return [`${p.dst} = _mm_set1_ps(${toCPPFloatString(p.val)});`];
           },
         },
         ADD: {
@@ -588,6 +610,25 @@
             return [`${p.dst} = _mm_mul_ps(${p.src1}, ${p.src2});`];
           },
         },
+        DIV: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v4" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)],
+              b = regs[getRegisterIndex(p.src2)];
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => x / b[i]);
+            return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            return `Divide [${regs[getRegisterIndex(p.src1)]}] by [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
+          },
+          getSource(p, regs) {
+            return [`${p.dst} = _mm_div_ps(${p.src1}, ${p.src2});`];
+          },
+        },
         AND: {
           fields: [
             { key: "dst", type: "reg", label: "Dst", default: "v5" },
@@ -608,6 +649,76 @@
           },
           getSource(p, regs) {
             return [`${p.dst} = _mm_and_ps(${p.src1}, ${p.src2});`];
+          },
+        },
+        CMPLT: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v5" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => (x < b[i]) ? 0xFFFFFFFF : 0x00);
+
+            return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+            return `Compare [${a}] < [${b}]`;
+          },
+          getSource(p, regs) {
+            return [`${p.dst} = _mm_cmplt_ps(${p.src1}, ${p.src2});`];
+          },
+        },
+        CMPGT: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v5" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => (x > b[i]) ? 0xFFFFFFFF : 0x00);
+
+            return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+            return `Compare [${a}] > [${b}]`;
+          },
+          getSource(p, regs) {
+            return [`${p.dst} = _mm_cmpgt_ps(${p.src1}, ${p.src2});`];
+          },
+        },
+
+        ANDNOT: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v5" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+          ],
+          run(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+
+            regs[getRegisterIndex(p.dst)] = a.map((x, i) => ((~x) & b[i]));
+
+            return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+            return `Negate [${a}], bitwise AND [${b}]`;
+          },
+          getSource(p, regs) {
+            return [`${p.dst} = _mm_andnot_ps(${p.src1}, ${p.src2});`];
           },
         },
         PERMUTE: {
@@ -642,6 +753,48 @@
             const varr = parseVals(p.indices).reverse();
             return [
               `${p.dst} = _mm_permute_ps(${p.src}, _MM_SHUFFLE(${varr.join(", ")}));`,
+            ];
+          },
+        },
+        BLEND: {
+          fields: [
+            { key: "dst", type: "reg", label: "Dst", default: "v3" },
+            { key: "src1", type: "reg", label: "Src1", default: "v0" },
+            { key: "src2", type: "reg", label: "Src2", default: "v1" },
+            { key: "blendv", type: "reg", label: "Blend", default: "v2" },
+
+          ],
+          run(p, regs) {
+            const src1 = regs[getRegisterIndex(p.src1)];
+            const src2 = regs[getRegisterIndex(p.src2)];
+
+            const result = regs[getRegisterIndex(p.blendv)].map(
+              (n, idx) => (n != 0) ? src1[idx] : src2[idx],
+            );
+            regs[getRegisterIndex(p.dst)] = result;
+            return [getRegisterIndex(p.dst)];
+          },
+          getText(p, regs) {
+            const src1 = regs[getRegisterIndex(p.src1)];
+            const src2 = regs[getRegisterIndex(p.src2)];
+
+            const blendValues = regs[getRegisterIndex(p.blendv)];
+
+            const result = blendValues.map(
+              (n, idx) => (n != 0) ? src1[idx] : src2[idx],
+            );
+
+            const rn = (idx) => {
+              return `${(blendValues[idx] != 0) ? p.src1 : p.src2}`;
+            }
+
+            regs[getRegisterIndex(p.dst)] = result;
+            return `Build vector [${[rn(0), rn(1), rn(2), rn(3)]}] resulting in [${result}]`;
+          },
+          getSource(p, regs) {
+            const varr = parseVals(p.indices).reverse();
+            return [
+              `${p.dst} = _mm_blendv_ps(${p.src1}, ${p.src2}, ${p.blendv});`,
             ];
           },
         },
@@ -698,6 +851,39 @@
       let currentStep = -1; // -1 = initial all-zero state
 
       let dragId = null;
+
+      function createSelectList(block) {
+
+        const op = (name) => {
+          return `<option value="${name}" ${name === block.op ? "selected" : ""}>${name}</option>`;
+        }
+
+        console.log(OPS)
+
+        const options = [
+          op("LOAD"),
+          op("MOV"),
+          op("DUP"),
+          `<hr>`,
+          op("ADD"),
+          op("SUB"),
+          op("MUL"),
+          op("DIV"),
+          `<hr>`,
+          op("AND"),
+          op("CMPLT"),
+          op("CMPGT"),
+          op("ANDNOT"),
+          `<hr>`,
+          op("PERMUTE"),
+          op("BLEND"),
+          `<hr>`,
+          op("UNPACKLO"),
+          op("UNPACKHI"),
+        ]
+
+        return options.join("");
+      }
 
       function defaultParams(op) {
         const p = {};
@@ -779,6 +965,8 @@
         makeBlocks();
       }
 
+
+
       function makeInstructionBlock(block, i) {
         const card = document.createElement("div");
         card.className = "block-card";
@@ -793,10 +981,7 @@
         const opTopbar = document.createElement("div");
         opTopbar.className = "block-topbar";
 
-        opSelect.innerHTML = OP_NAMES.map(
-          (name) =>
-            `<option value="${name}" ${name === block.op ? "selected" : ""}>${name}</option>`,
-        ).join("");
+        opSelect.innerHTML = createSelectList(block);
 
         opSelect.addEventListener("change", () => {
           block.op = opSelect.value;
@@ -825,7 +1010,7 @@
 
         const moveContainer = document.createElement("div");
         moveContainer.className = "move-container";
-        moveContainer.append(moveDownButton, moveUpButton, removeButton);
+        moveContainer.append(moveUpButton, moveDownButton, removeButton);
 
         head.append(opTopbar, opSelect, moveContainer);
 
@@ -937,7 +1122,7 @@
         });
       }
 
-      function generateAvxSource(regs) {
+      function generateSSESource(regs) {
         let textBlocks = ["__m128 v0, v1, v2, v3, v4, v5, v6, v7, v8;"];
 
         blocks.forEach((block) => {
@@ -948,10 +1133,10 @@
           }
         });
 
-        document.getElementById("avxSource").textContent =
+        document.getElementById("sseSource").textContent =
           textBlocks.join("\n");
 
-        delete document.getElementById("avxSource").dataset.highlighted;
+        delete document.getElementById("sseSource").dataset.highlighted;
 
         hljs.highlightAll({});
       }
@@ -991,7 +1176,7 @@
 
         updateRegisters();
         updateStepText();
-        generateAvxSource(regs);
+        generateSSESource(regs);
         saveState();
       }
 

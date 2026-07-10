@@ -7,29 +7,28 @@
     <h1>SIMD Visualizer</h1>
 
     <p>
-      There are a limited number of online SIMD visualizers, so I built this
-      one. Write an algorithm using simple blocks to see the emulated register
-      values and SSE source code.
+      Emulate the basics of a SIMD algorithm with blocks.
+      <ul>
+        <li><b>Bold</b> outlined register lanes denote the last changed register.</li>
+        <li>Use <b>[Step -]</b> and <b>[Step +]</b> to move back and forth in the instruction stack.</li>
+        <li><b>[As Float]</b> ensures that the value represented in the register is always a floating point value, including the proper 32-bit float hex representation.</li>
+      </ul>
     </p>
 
     <div class="toolbar">
-      <button id="addButton">Add Instruction</button>
-      <button id="loadDefaultButton">Load Default</button>
-      <button id="clearButton">Clear</button>
-      <button id="runButton">Update</button>
+      <div>
+        <button id="addButton">Add Instruction</button>
+        <button id="runButton">Update</button>
+      </div>
+
+      <div>
+        <button id="loadDefaultButton">Load Default</button>
+        <button id="clearButton">Clear</button>
+      </div>
     </div>
   </header>
 
   <main class="layout">
-    <section class="panel">
-      <div class="panel-head">
-        <div>
-          <h2>Instructions</h2>
-        </div>
-      </div>
-      <div id="blockList" class="block-list"></div>
-    </section>
-
     <div class="output-container hp-phone-flex-col hp-tablet-flex-row">
       <section class="panel">
         <div class="panel-head">
@@ -42,7 +41,18 @@
               <span id="stepLabel" class="step-label">–</span>
               <button id="nextButton">Step +</button>
             </div>
-            <button id="hexToggle">Toggle Hex</button>
+            <!--<button id="hexToggle">Toggle Hex</button>-->
+            <div class="toggleBox">
+              <div>
+                <label for="hexToggle">Display Hex</label>
+                <input type="checkbox" id="hexToggle" />
+              </div>
+
+              <div>
+                <label for="asFloat">As Float</label>
+                <input type="checkbox" id="asFloat" checked />
+              </div>
+            </div>
           </div>
         </div>
         <div id="regBank" class="reg-bank"></div>
@@ -57,6 +67,14 @@
         <pre><code id="avxSource" class="language-cpp"></code></pre>
       </section>
     </div>
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Instructions</h2>
+        </div>
+      </div>
+      <div id="blockList" class="block-list"></div>
+    </section>
   </main>
 
   <style>
@@ -74,9 +92,34 @@
       display: inline-block;
       float: right;
     }
+    .toggleBox {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      justify-content: center;
+
+      align-content: center;
+    }
+    select {
+      font-family: monospace;
+    }
+
+    div span {
+      font-size: 0.9em;
+    }
+
+    .toggleBox div {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      text-align: center;
+      justify-content: center;
+    }
     .block-text {
       float: right;
       display: inline-block;
+      padding-top: 8px;
+      font-family: monospace;
     }
     .block-card {
       padding: 12px 0px 12px 0px;
@@ -110,6 +153,11 @@
       gap: 3px;
     }
 
+    p,
+    label {
+      font-size: 0.9em;
+    }
+
     .field label {
       font-size: 9.5px;
       letter-spacing: 0.5px;
@@ -122,7 +170,7 @@
       width: 88px;
     }
 
-    p {
+    p, li {
       font-size: 0.9em;
     }
 
@@ -133,16 +181,32 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      margin: 10px 0 10px 0;
+      align-content: center;
+      justify-content: space-between;
     }
     .stepper {
       display: flex;
       align-items: center;
+      flex-direction: row;
       gap: 6px;
     }
     .step-label {
-      font-size: 11.5px;
       min-width: 44px;
       text-align: center;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      max-width: 350px;
+    }
+
+    .toolbar div {
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
     }
 
     .reg-bank {
@@ -151,6 +215,12 @@
       gap: 6px;
       margin-bottom: 6px;
     }
+
+    .reg-row.changed .lane {
+      outline: 2px black solid;
+      font-weight: bold;
+    }
+
     .reg-row {
       display: grid;
       grid-template-columns: 44px repeat(4, 1fr);
@@ -158,6 +228,7 @@
       align-items: stretch;
       border-bottom: 1px solid var(--shadowColor);
     }
+
     .reg-row::before {
       content: "";
       position: absolute;
@@ -184,6 +255,7 @@
       justify-content: center;
       padding: 9px 4px;
       border-radius: 4px;
+      font-family: monospace;
     }
     .reg-row.changed .lane {
     }
@@ -200,6 +272,12 @@
       display: flex;
       justify-content: space-between;
       gap: 20px;
+      flex: auto;
+    }
+    @media screen and (max-width: 850px) {
+      .output-container {
+        flex-direction: column;
+      }
     }
   </style>
 
@@ -209,6 +287,16 @@
 
       const REG_COUNT = 8;
       const LANES = 4;
+
+      function float32ToHex(f32) {
+        const getHex = (i) => ("00" + i.toString(16)).slice(-2);
+        let view = new DataView(new ArrayBuffer(4));
+        view.setFloat32(0, f32);
+
+        return Array.apply(null, { length: 4 })
+          .map((_, i) => getHex(view.getUint8(i)))
+          .join("");
+      }
 
       function getRegisterIndex(regName) {
         return parseInt(regName.slice(1), 10);
@@ -220,7 +308,7 @@
           .filter((s) => s.length);
         const out = [];
         for (let i = 0; i < LANES; i++) {
-          const n = parseInt(parts[i], 10);
+          const n = parseFloat(parts[i], 10);
           out.push(Number.isFinite(n) ? n : 0);
         }
         return out;
@@ -243,8 +331,24 @@
       }
 
       function getRegisterValue(v, hex) {
-        if (!hex) return String(v);
-        return "0x" + v.toString(16).padStart(8, "0");
+        const showFloat = document.getElementById("asFloat").checked;
+
+        if (!showFloat) {
+          v = Math.trunc(v);
+        }
+
+        if (!hex) {
+          if (showFloat && v == Math.trunc(v)) {
+            return v.toFixed(1);
+          }
+          return v.toString(10);
+        }
+
+        if (!showFloat) {
+          return "0x" + v.toString(16).padStart(8, "0");
+        }
+
+        return "0x" + float32ToHex(v); //v.toString(16).padStart(8, "0");
       }
 
       // Operations
@@ -268,8 +372,21 @@
             return `Load [${p.vals}] into ${p.dst}`;
           },
           getSource(p, regs) {
+            let values = p.vals.split(",");
+            const vl = values.length;
+
+            for (let i = 0; i < 4; i++) {
+              if (i < vl) {
+                values[i] = values[i].trim();
+                if (values[i].length > 0) {
+                  continue;
+                }
+              }
+              values.push(0);
+            }
+
             return [
-              `const float ${p.dst}_values[] = {${p.vals}};`,
+              `const float ${p.dst}_values[] = {${values.slice(0, 4).join(", ")}};`,
               `${p.dst} = _mm_load_ps(${p.dst}_values);`,
             ];
           },
@@ -384,7 +501,10 @@
             return [getRegisterIndex(p.dst)];
           },
           getText(p, regs) {
-            return `AND [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store result in ${p.dst}`;
+            const a = regs[getRegisterIndex(p.src1)];
+            const b = regs[getRegisterIndex(p.src2)];
+            const result = a.map((x, i) => x & b[i]);
+            return `AND [${regs[getRegisterIndex(p.src1)]}] and [${regs[getRegisterIndex(p.src2)]}], store [${result}] in ${p.dst}`;
           },
           getSource(p, regs) {
             return [`${p.dst} = _mm_and_ps(${p.src1}, ${p.src2});`];
@@ -476,7 +596,7 @@
       let idSeed = 1;
       let history = null;
       let currentStep = -1; // -1 = initial all-zero state
-      let shouldDisplayHex = false;
+
       let dragId = null;
 
       function defaultParams(op) {
@@ -691,7 +811,10 @@
           for (let l = 0; l < LANES; l++) {
             const lane = document.createElement("div");
             lane.className = "lane";
-            lane.textContent = getRegisterValue(regs[r][l], shouldDisplayHex);
+            lane.textContent = getRegisterValue(
+              regs[r][l],
+              document.getElementById("hexToggle").checked,
+            );
             row.appendChild(lane);
           }
           regBankEl.appendChild(row);
@@ -720,8 +843,6 @@
         blocks.forEach((block) => {
           if (OPS[block.op].getSource) {
             textBlocks = textBlocks.concat(
-              [""],
-
               OPS[block.op].getSource(block.params, regs) || [],
             );
           }
@@ -813,9 +934,13 @@
         updateStepText();
       });
 
+      document.getElementById("asFloat").addEventListener("click", () => {
+        updateRegisters();
+      });
+
       toggleHexButton.addEventListener("click", () => {
-        shouldDisplayHex = !shouldDisplayHex;
-        toggleHexButton.classList.toggle("active", shouldDisplayHex);
+        // shouldDisplayHex = !shouldDisplayHex;
+        // toggleHexButton.classList.toggle("active", shouldDisplayHex);
         updateRegisters();
       });
 

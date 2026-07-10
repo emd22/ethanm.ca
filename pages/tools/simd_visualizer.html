@@ -690,7 +690,6 @@
               return `${(blendValues[idx] != 0) ? p.src1 : p.src2}`;
             }
 
-            regs[getRegisterIndex(p.dst)] = result;
             return `Build vector [${[rn(0), rn(1), rn(2), rn(3)]}] resulting in [${result}]`;
           },
           getSource(p, regs) {

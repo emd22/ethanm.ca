@@ -858,8 +858,6 @@
           return `<option value="${name}" ${name === block.op ? "selected" : ""}>${name}</option>`;
         }
 
-        console.log(OPS)
-
         const options = [
           op("LOAD"),
           op("MOV"),
@@ -1174,6 +1172,8 @@
         history = historyBlocks;
         currentStep = historyBlocks.length - 1;
 
+        console.log(blocks);
+
         updateRegisters();
         updateStepText();
         generateSSESource(regs);
@@ -1267,6 +1267,8 @@
             },
           },
         ];
+
+        idSeed = blocks[blocks.length - 1].id + 1;
       }
 
       function initialSetup() {
@@ -1275,7 +1277,7 @@
         } else {
           const visState = localStorage.getItem("simdVisualizerState");
           blocks = JSON.parse(visState);
-          console.log(blocks);
+          idSeed = blocks[blocks.length - 1].id + 1;
         }
       }
 

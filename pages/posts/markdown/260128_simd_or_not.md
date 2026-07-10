@@ -1,3 +1,5 @@
+-- NEW! Try out my [SIMD visualizer tool](/tools/simd_visualizer.html)! --
+
 ## Introduction
 
 Welcome to my new blog on C++, Graphics, and SIMD!

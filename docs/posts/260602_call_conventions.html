@@ -104,10 +104,13 @@
 
 
 <!-- -->
-<p class="hp-posted-on">Modified June 3rd, 2026 by emd22</p>
+<p class="hp-posted-on">
+  Created June 2nd, 2026 by emd22 <br />
+  Modified July 10th, 2026 by emd22
+</p>
 
 <!-- Load the markdown with the same filename -->
-<h1>Introduction</h1>
+<h2>Introduction</h2>
 <p>
 When programming, how can we call a function and ensure that we get back to the same place?
 </p>
@@ -152,8 +155,8 @@ FUNCTION Caller
   CALL Callee
 END FUNCTION
 </code></pre>
-<h1>Native code calling conventions</h1>
-<h2>x86 and x64: "We have return addresses at home"</h2>
+<h2>Native code calling conventions</h2>
+<h3>x86 and x64: "We have return addresses at home"</h3>
 <p>
 When calling a function, parameters are placed firstly into registers and then spill over onto the stack when the registers run out.
 </p>
@@ -194,7 +197,7 @@ test:
 <p>
 An easy to make mistake when programming x64 assembler is using a wrong offset when accessing memory. If the value at <span class="hp-inl-code">[rbp]</span> was modified as opposed to <span class="hp-inl-code">[rbp - 4]</span>, then the return address would be clobbered and likely leading to an interrupt being thrown.
 </p>
-<h2>ARM64: 2 Fast 2 Hard to compile</h2>
+<h3>ARM64: 2 Fast 2 Hard to compile</h3>
 <p>
 ARM takes a similar method to x64 when it comes to parameters, with <span class="hp-inl-code">x0</span> to <span class="hp-inl-code">x7</span> being used for parameter passing and result regiters, but keeping the additional <span class="hp-inl-code">x9</span> to <span class="hp-inl-code">x15</span> to use for scratch registers.
 </p>
@@ -202,7 +205,7 @@ ARM takes a similar method to x64 when it comes to parameters, with <span class=
 The largest difference is that ARM64 tries to keep commonly modified and accessed values in registers at all times. This leads to the <b>Link Register</b>.
 </p>
 <p>
-ARM64 also brings in the idea of optimizing **Leaf functions** – functions that do not call other functions – to always use the link register (<span class="hp-inl-code">LR</span>, or <span class="hp-inl-code">X30</span>) to store the return adddress, and forego the stack altogether.
+ARM64 also brings in the idea of optimizing **Leaf functions** – functions that do not call other functions – to always use the link register (<span class="hp-inl-code">LR</span>, or <span class="hp-inl-code">X30</span>) to store the return adddress, and forego the stack altogether.
 </p>
 <p>
 When calling a function that does call another function, the return address and frame pointer are pushed to the stack when setting up the stack frame and popped during destruction. This is often done through two specialized instructions Load Pair (<span class="hp-inl-code">ldp</span>) and Store Pair (<span class="hp-inl-code">stp</span>) to modify both values in one instruction.
@@ -235,7 +238,7 @@ F_NotLeaf:
   ldp     x29, x30, [sp], #16
   ret
 </code></pre>
-<h1>Scripting Languages: POP Rocks?</h1>
+<h2>Scripting Languages: POP Rocks?</h2>
 <p>
 Many scripting languages such as Python or Lua take a simple path to dealing with return addresses.
 </p>
@@ -257,7 +260,7 @@ Fragmentation for dynamically allocated queues</li>
 </ul><p>
 Although this is a good solution for rewinding stack frames and memory, it can be more fragmented and potentially slower than other solutions.
 </p>
-<h1>A Specialized Solution</h1>
+<h2>A Specialized Solution</h2>
 <p>
 Since my scripting language is very purpose built, I wanted to go for a hybrid approach to reduce complexity in the bytecode compiler and improve on what general purpose scripting languages do.
 </p>
@@ -270,7 +273,7 @@ Building onto this, I defined the top few KiB of the script's stack would be des
 <p>
 Separately, parameters are pushed onto the lower portion of the script stack as per normal. This means that all of those values are stored closely together, while avoiding offsetting pointers (in the case of x64), dealing with leaf functions (for ARM64), or high memory usage, fragmentation or poor cache locality of other scripting languages.
 </p>
-<h1>Conclusion</h1>
+<h2>Conclusion</h2>
 <p>
 In conclusion, calling and returning are among the most frequently executed instructions in a computer. Your CPU does a great job of making sure they are fast, and scripting languages have a separate purpose for their calling convention – holding internal states, data and ensuring no memory can be leaked.
 </p>

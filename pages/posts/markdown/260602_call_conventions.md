@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 When programming, how can we call a function and ensure that we get back to the same place?
 
@@ -41,9 +41,9 @@ FUNCTION Caller
 END FUNCTION
 ```
 
-# Native code calling conventions
+## Native code calling conventions
 
-## x86 and x64: "We have return addresses at home"
+### x86 and x64: "We have return addresses at home"
 
 When calling a function, parameters are placed firstly into registers and then spill over onto the stack when the registers run out.
 
@@ -81,13 +81,13 @@ test:
 
 An easy to make mistake when programming x64 assembler is using a wrong offset when accessing memory. If the value at `[rbp]` was modified as opposed to `[rbp - 4]`, then the return address would be clobbered and likely leading to an interrupt being thrown.
 
-## ARM64: 2 Fast 2 Hard to compile
+### ARM64: 2 Fast 2 Hard to compile
 
 ARM takes a similar method to x64 when it comes to parameters, with `x0` to `x7` being used for parameter passing and result regiters, but keeping the additional `x9` to `x15` to use for scratch registers.
 
 The largest difference is that ARM64 tries to keep commonly modified and accessed values in registers at all times. This leads to the **Link Register**.
 
-ARM64 also brings in the idea of optimizing **Leaf functions** – functions that do not call other functions – to always use the link register (`LR`, or `X30`) to store the return adddress, and forego the stack altogether.
+ARM64 also brings in the idea of optimizing **Leaf functions** – functions that do not call other functions – to always use the link register (`LR`, or `X30`) to store the return adddress, and forego the stack altogether.
 
 When calling a function that does call another function, the return address and frame pointer are pushed to the stack when setting up the stack frame and popped during destruction. This is often done through two specialized instructions Load Pair (`ldp`) and Store Pair (`stp`) to modify both values in one instruction.
 
@@ -119,7 +119,7 @@ F_NotLeaf:
   ret
 ```
 
-# Scripting Languages: POP Rocks?
+## Scripting Languages: POP Rocks?
 
 Many scripting languages such as Python or Lua take a simple path to dealing with return addresses.
 
@@ -136,7 +136,7 @@ There are a few (minor) issues with this approach:
 
 Although this is a good solution for rewinding stack frames and memory, it can be more fragmented and potentially slower than other solutions.
 
-# A Specialized Solution
+## A Specialized Solution
 
 Since my scripting language is very purpose built, I wanted to go for a hybrid approach to reduce complexity in the bytecode compiler and improve on what general purpose scripting languages do.
 
@@ -146,7 +146,7 @@ Building onto this, I defined the top few KiB of the script's stack would be des
 
 Separately, parameters are pushed onto the lower portion of the script stack as per normal. This means that all of those values are stored closely together, while avoiding offsetting pointers (in the case of x64), dealing with leaf functions (for ARM64), or high memory usage, fragmentation or poor cache locality of other scripting languages.
 
-# Conclusion
+## Conclusion
 
 In conclusion, calling and returning are among the most frequently executed instructions in a computer. Your CPU does a great job of making sure they are fast, and scripting languages have a separate purpose for their calling convention – holding internal states, data and ensuring no memory can be leaked.
 

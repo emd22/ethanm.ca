@@ -81,6 +81,7 @@
 }
 
 p,
+label,
 td,
 li,
 i,
@@ -264,6 +265,21 @@ button {
   border-radius: 4px;
   min-height: 25px;
   min-width: 30px;
+  box-shadow: 1.5px 1.5px var(--shadowColor);
+}
+label {
+  padding-top: 2px;
+}
+
+input[type="checkbox"] {
+  border: 1px solid var(--shadowColor);
+  background-color: var(--projectContainerBackground);
+  color: var(--onBackground);
+  vertical-align: middle;
+
+  border-radius: 4px;
+  min-height: 15px;
+  min-width: 15px;
   box-shadow: 1.5px 1.5px var(--shadowColor);
 }
 

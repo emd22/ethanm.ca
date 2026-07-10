@@ -37,10 +37,25 @@ std::string GetDaySuffix(int day)
     }
 }
 
+static bool IsStringNumber(const std::string& str)
+{
+    for (const char ch : str) {
+        if (!isnumber(ch)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::string TimeStringFromPostPath(const std::string& path)
 {
     using namespace std::chrono;
     std::string date_str = path.substr(0, path.find_first_of('_'));
+
+    if (!IsStringNumber(date_str)) {
+        return "";
+    }
 
     // Convert 260702 to 26, 07, 02
     int yy = std::stoi(date_str.substr(0, 2));
@@ -472,6 +487,12 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
             std::string trimmed_date_path = current_path.substr(current_path.find_last_of('/') + 1);
 
             std::string date_result = TimeStringFromPostPath(trimmed_date_path);
+            if (date_result.length() < 1) {
+                result.replace(pos, end - pos + 2, "-");
+                ++pos;
+                continue;
+            }
+
             result.replace(pos, end - pos + 2, date_result);
             pos += date_result.size();
 
@@ -481,6 +502,7 @@ std::string ProcessHTML(const std::string& content, const std::vector<std::strin
         else if (name == "loadlinkedmd") {
             std::string current_path = std::string(spCurrentPath);
             std::string trimmed_path = current_path.substr(current_path.find_last_of('/') + 1);
+
             trimmed_path = trimmed_path.substr(0, trimmed_path.find_last_of('.')) + ".md";
 
             Md2Html md2html;

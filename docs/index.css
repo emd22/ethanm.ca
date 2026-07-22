@@ -48,7 +48,7 @@
   --primarySolid: #5da2ab;
   --onPrimary: black;
 
-  --shadowColor: #8f9f9f;
+  --shadowColor: #8f8f8f;
   --borderPrimary: var(--shadowColor);
   --borderOnColor: #3b7b8b;
 
@@ -475,6 +475,7 @@ button:active {
 
 .hp-header-link {
   color: var(--onSecondary);
+  font-family: "RobotoMed";
   text-decoration: none;
 }
 

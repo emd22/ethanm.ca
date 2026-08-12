@@ -632,6 +632,10 @@ h2 {
   video {
     width: 100%;
   }
+
+  .hp-project-codeblock {
+    width: 100%;
+  }
 }
 
 .hp-posted-on {
@@ -647,6 +651,27 @@ video {
   max-height: 350px;
   max-width: 350px;
   justify-self: center;
+}
+
+.hp-project-codeblock {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  max-height: 350px;
+  max-width: 350px;
+  justify-self: center;
+  border: 2px solid var(--borderPrimary);
+  border-radius: 10px;
+
+  overflow-y: auto;
+}
+
+.hp-project-codeblock pre {
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-size: 0.7rem;
 }
 
 .hp-width-100 {

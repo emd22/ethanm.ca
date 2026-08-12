@@ -1,0 +1,26 @@
+<pre><code class="language-strata">import weapons/rifle_base;
+
+struct BobValue { float x; float y; };
+
+/* Links to C functions (or engine impls) */
+extern BobValue get_bob();
+
+/* Basic example of mutating values through `ref` */
+void on_run_anim(ref float3 position)
+{
+    BobValue bob = get_bob();
+    float3 offset = float3(bob.x, bob.y, 0.0f);
+
+    /* Modify the provided float3 */
+    position += offset;
+}
+
+float demo()
+{
+    /* `box` is an implicitly moving reference */
+    box&lt;float3&gt; test = float3(10.0f, 20.0f, 30.0f);
+
+    /* Permute between vectors (even `box`d!) */
+    float3 result = test.zyx + float3(10.0f);
+    return result.x;
+}</code></pre>

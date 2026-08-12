@@ -1,4 +1,9 @@
   <title>Ethan MacDonald</title>
+  <link rel="stylesheet" href="highlight-styles/base16/chalk.css">
+  <script src="highlight.min.js"></script>
+  <script src="languages/strata.js"></script>
+
+  <script>hljs.highlightAll({});</script>
 
   <section>
     <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
@@ -162,6 +167,15 @@
         </div>
       </div>
     </div>
+
+    %%
+      project(
+        Strata Language
+        $ link_gh(https://github.com/StrataLanguage/stratac)
+        $ mainpage/strata
+        $ project_codeblock(codeblocks/strata)
+      )
+    %%
 
     %%
       project(

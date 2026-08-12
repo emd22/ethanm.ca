@@ -617,7 +617,8 @@ h2 {
   flex-direction: column;
   margin: auto;
   margin-top: 20px;
-  align-items: center;
+  margin-bottom: 20px;
+  align-items: end;
   width: 100%;
 }
 
@@ -648,9 +649,13 @@ h2 {
 video {
   width: 100%;
 
-  max-height: 350px;
-  max-width: 350px;
+  max-height: 400px;
+  max-width: 400px;
   justify-self: center;
+}
+
+.hp-media-text {
+  text-align: center;
 }
 
 .hp-project-codeblock {
@@ -658,8 +663,8 @@ video {
   padding: 0;
   margin: 0;
 
-  max-height: 350px;
-  max-width: 350px;
+  max-height: 400px;
+  max-width: 400px;
   justify-self: center;
   border: 2px solid var(--borderPrimary);
   border-radius: 10px;
@@ -691,8 +696,10 @@ video {
 .hp-double-images {
   gap: 20px;
   align-content: center;
+  align-items: center;
 }
-.hp-double-images img video {
+.hp-double-images .hp-project-card-content {
+  align-items: center;
 }
 
 /* Helpers */

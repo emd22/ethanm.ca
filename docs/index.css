@@ -124,7 +124,8 @@ body h2 {
 .hp-double-images {
   img,
   video {
-    /*border-radius: 15px;*/
+    border-radius: 10px;
+
     /*border: 2px solid var(--borderPrimary);
   max-height: 350px;
   max-width: 350px;*/
@@ -662,6 +663,7 @@ video {
   max-height: 350px;
   max-width: 350px;*/
   justify-self: center;
+  border-radius: 10px;
 }
 
 .hp-media-text {

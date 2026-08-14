@@ -121,12 +121,17 @@ body h2 {
   font-size: 1.5em;
 }
 
-img,
-video {
-  /*border-radius: 15px;*/
-  /*border: 2px solid var(--borderPrimary);
+.hp-double-images {
+  img,
+  video {
+    /*border-radius: 15px;*/
+    /*border: 2px solid var(--borderPrimary);
   max-height: 350px;
   max-width: 350px;*/
+    max-width: 450px;
+    max-height: 400px;
+    object-fit: cover;
+  }
 }
 
 p,
@@ -701,10 +706,10 @@ video {
 }
 
 @media only screen and (max-width: 768px) {
-  .hp-double-images img,
+  img,
   video {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 450px;
+    max-height: 400px;
   }
 }
 

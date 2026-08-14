@@ -366,7 +366,7 @@ button:active {
 .hp-dark-container {
   width: 100%;
   border-radius: 15px;
-  padding: 20px 35px;
+  padding: 10px 25px;
   /*color: white;*/
   border: 2px var(--borderPrimary) solid;
   z-index: 1;
@@ -428,7 +428,7 @@ button:active {
   width: 100%;
   border-radius: 15px;
   border: var(--borderOnColor) 2px solid;
-  padding: 20px 35px;
+  padding: 10px 25px;
   z-index: 1;
   overflow: hidden;
   position: relative;

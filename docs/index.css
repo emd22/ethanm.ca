@@ -48,7 +48,7 @@
   --primarySolid: #5da2ab;
   --onPrimary: black;
 
-  --shadowColor: #8f8f8f;
+  --shadowColor: #9f9f9f;
   --borderPrimary: var(--shadowColor);
   --borderOnColor: #3b7b8b;
 
@@ -58,9 +58,9 @@
   --colorTitle: #7dd2db;
   --projectContainerBackground: linear-gradient(
     -15deg,
-    rgb(43, 42, 42) 10%,
+    rgb(53, 52, 52) 30%,
     40%,
-    rgb(69, 70, 74) 100%
+    rgb(82, 84, 88) 100%
   );
   --isDark: 1;
   --isLight: 0;
@@ -128,8 +128,8 @@ body h2 {
     /*border: 2px solid var(--borderPrimary);
   max-height: 350px;
   max-width: 350px;*/
-    max-width: 450px;
-    max-height: 400px;
+    max-width: 400px;
+    max-height: 350px;
     object-fit: cover;
   }
 }
@@ -247,7 +247,7 @@ h1 {
 /* Header */
 .hp-app-header {
   text-align: start;
-  font-size: 1.4em;
+  font-size: 1.2em;
   max-width: 1024px;
   line-height: 0.8;
   padding-top: 0.5em;
@@ -309,6 +309,7 @@ button:active {
   display: flex;
   flex-direction: column;
   width: 100%;
+  font-size: 0.85em;
 }
 
 .hp-main-content {
@@ -453,7 +454,7 @@ button:active {
   }
 
   .hp-title-chunky {
-    font-size: 2.2em !important;
+    font-size: 2em !important;
   }
 
   .hp-section-title {
@@ -481,6 +482,9 @@ button:active {
 .hp-header-link {
   color: var(--onSecondary);
   font-family: "RobotoMed";
+
+  font-size: 0.95em;
+
   text-decoration: none;
 }
 
@@ -568,12 +572,12 @@ h2 {
 
 /* Font gubbins */
 .hp-title-chunky {
-  font-size: 2.4em;
+  font-size: 2em;
 }
 
 .hp-section-title {
-  padding-top: 40px;
-  padding-bottom: 10px;
+  padding-top: 30px;
+  padding-bottom: 5px;
 }
 
 .hp-color-title {

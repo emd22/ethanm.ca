@@ -26,12 +26,13 @@
       Hi, I'm Ethan!
       <br />
       <br />
-      I have finished my final year in university and am awaiting my graduation in the fall. Writing performant, low-level code is something i'm
-      passionate about and show in many of my projects throughout the years, a
-      few of which are outlined below.<br />
+      I work on a variety of projects, with a focus on game technologies. Most of my projects are C, C++ or C#, with
+      professional experience working with JS and Typescript.
+
+      I enjoy writing SIMD optimized code (Neon, SSE/AVX) and working on renderers and engine systems.
       <br />
-      I have many years of experience with systems level programming and working
-      on or with game engines, as well as programming with SIMD.
+      <br />
+      I have completed my Bachelor's degree and I am currently awaiting my graduation in October.
     </p>
   </div>
   <div class="dual-section-container">
@@ -53,12 +54,12 @@
   <!-- Work Experience -->
 
   %%resume/section_begin(Experience)%%
-    %% resume/experience( Integolf $ Summer Internship $ Summer 2024 and
+    %% resume/experience( Integolf, Full-Stack Developer $ Summer Internship $ Summer 2024 and
       Summer 2025 $ null $
         <ul>
           <li>
             Attended virtual meetings and worked closely with the development team
-            overseas.
+            globally.
           </li>
           <li>
             Built new interfaces and features from user stories and wireframes
@@ -78,7 +79,7 @@
       )
     %%
 
-    %% resume/experience( Chido Inc. $ Contract Full-Time $ April 2023 — October 2023 $ null $
+    %% resume/experience( Chido Inc., Full-Stack Developer $ Contract Full-Time $ April 2023 — October 2023 $ null $
         <ul>
             <li>
                 Full stack development for virtual real
@@ -107,11 +108,26 @@
       </p>
 
       <ul>
-          <li>Deferred renderer with Vulkan backend</li>
-          <li>Math library optimized for AVX and Neon</li>
+          <li>Forward+ renderer with Vulkan backend</li>
+          <li>PBR lighting pipeline with ambient occlusion</li>
+          <li>Math library optimized for SSE and Neon and custom STL replacements</li>
           <li>Custom scripting language with bytecode compiler and VM</li>
           <li>Integration with Jolt Physics</li>
       </ul>
+      )
+    %%
+
+
+    %% resume/experience( Strata Language $ Collaborative Project $ July 2026 — Present $ null $
+      <p>
+          <ul>
+		        <li>Native scripting language (supports AOT and JIT) designed for games, written in C</li>
+            <li>Developed with 2 other programmers from the AAA game space</li>
+            <li>Added first-class SIMD vector support (a la HLSL's float3/floatN)</li>
+            <li>Worked on the LLVM backend and original TCC backend</li>
+            <li>Built the CLI argument parser for the AOT compiler</li>
+          </ul>
+      </p>
       )
     %%
 
@@ -158,7 +174,7 @@
 
   <!-- Skills -->
 
-  %%resume/section_begin(Projects)%%
+  %%resume/section_begin(Skills)%%
     <table>
         <tr>
             <td>Languages</td>
@@ -167,12 +183,12 @@
 
         <tr>
             <td>Graphics APIs/Engines</td>
-            <td>Vulkan, OpenGL, Unreal Engine 5, Unity, Godot</td>
+            <td>Vulkan, OpenGL, Unreal Engine 5, Unity, Godot, Forward+, Deferred Rendering</td>
         </tr>
 
         <tr>
             <td>Systems</td>
-            <td>Physics, Animation, Multithreading, SIMD, Memory allocators, Scripting language systems</td>
+            <td>Physics, Animation, Multithreading, SSE, Arm Neon, Memory allocators, Scripting language systems</td>
         </tr>
 
         <tr>

@@ -107,30 +107,52 @@
 
 <!-- Projects -->
 <section class="hp-project-section">
-	%%heading(Projects)%% %% project( Foxtrot $
-	link_gh(https://github.com/emd22/foxtrot) $ mainpage/foxtrot $ project_video(
-	foxtrotx.webm $ Demo of player movement and blockout generation in Foxtrot $
-	Demo of player movement and blockout generation ) ) %% %% project( Strata
-	Language $ link_gh(https://github.com/StrataLanguage/stratac) $
-	mainpage/strata $ project_codeblock(codeblocks/strata) ) %% %% project(
-	Satellite Visualization $ link_gh(https://github.com/emd22/satellite) $
-	mainpage/satellite $ project_video( SatelliteVis.webm $ Earth with a
-	visualization of satellites and debris orbiting $ Visualization of debris and
-	satellites ) ) %% %% project( Godot Water Demo $ null $
-	mainpage/godot_water_demo $ project_video( watermovement3.webm $ Demo of an
-	FPS player controller with openable doors and a flashlight $ Showing off
-	movement types, particles and water effects ) ) %% %% project( Godot FPS
-	Movement $ null $ mainpage/godot_fps_demo $ project_video( godot-movement.webm
-	$ Demo of an FPS player controller with openable doors and a flashlight $
-	Movement demo with interactable objects and a crude blockout ) ) %% %%
-	project( Hyperion Engine $ link_gh(https://github.com/ajmd17/hyperion-engine)
-	$ mainpage/hyperion-engine $ project_image( ddgi.gif $ Demo of the realtime
-	DDGI in Hyperion engine $ Andrew showing off the realtime DDGI system in
-	Hyperion ) ) %% %% project( Acheron Engine $
-	link_gh(https://github.com/emd/acheron) $ mainpage/acheron-engine $
-	project_image( acheron-tunnel.png $ Multiple point lights around a normal
-	mapped cube in a train tunnels $ Acheron with multiple lights and normal
-	mapping ) ) %%
+	%%heading(Projects)%%
+
+	<!---->
+	%% project( Foxtrot $ link_gh(https://github.com/emd22/foxtrot) $
+	mainpage/foxtrot $ project_video( foxtrot-editor.webm $ Demo of level builder
+	$ Demo of level builder ) ) %%
+
+	<!---->
+	%%project_dual_media( Foxtrot $ link_gh(https://github.com/emd22/foxtrot) $
+	mainpage/foxtrot $ project_video( foxtrot-editor.webm $ Demo of level builder
+	$ Demo of level builder ) $ project_image( foxtrot-gi.png $ Probe based global
+	illumination $ Probe based global illumination ) )%%
+
+	<!---->
+	%% project( Strata Language $
+	link_gh(https://github.com/StrataLanguage/stratac) $ mainpage/strata $
+	project_codeblock(codeblocks/strata) ) %%
+
+	<!---->
+	%% project( Satellite Visualization $
+	link_gh(https://github.com/emd22/satellite) $ mainpage/satellite $
+	project_video( SatelliteVis.webm $ Earth with a visualization of satellites
+	and debris orbiting $ Visualization of debris and satellites ) ) %%
+	<!---->
+	%% project( Godot Water Demo $ null $ mainpage/godot_water_demo $
+	project_video( watermovement3.webm $ Demo of an FPS player controller with
+	openable doors and a flashlight $ Showing off movement types, particles and
+	water effects ) ) %%
+
+	<!---->
+	%% project( Godot FPS Movement $ null $ mainpage/godot_fps_demo $
+	project_video( godot-movement.webm $ Demo of an FPS player controller with
+	openable doors and a flashlight $ Movement demo with interactable objects and
+	a crude blockout ) ) %%
+
+	<!---->
+	%% project( Hyperion Engine $
+	link_gh(https://github.com/ajmd17/hyperion-engine) $ mainpage/hyperion-engine
+	$ project_image( ddgi.gif $ Demo of the realtime DDGI in Hyperion engine $
+	Andrew showing off the realtime DDGI system in Hyperion ) ) %%
+
+	<!---->
+	%% project( Acheron Engine $ link_gh(https://github.com/emd/acheron) $
+	mainpage/acheron-engine $ project_image( acheron-tunnel.png $ Multiple point
+	lights around a normal mapped cube in a train tunnels $ Acheron with multiple
+	lights and normal mapping ) ) %%
 </section>
 
 <!-- Other things -->
@@ -206,7 +228,19 @@
 		</div>
 	</div>
 
-	<!-- X16 Macro Assembler -->
+	<!---->
+
+	%%project_dual_media( X16 Macro Assembler $
+	link_gh(https://github.com/emd22/x16) $ mainpage/macro-assembler $
+	project_image( asm-code-screenshot2.png $ Full program written in the custom
+	assembler language $ Andrew showing off the realtime DDGI system in Hyperion )
+	$ project_video( vm-hello-world.webm $ Demo of the VM running with a slow step
+	speed printing "Hello, World"! $ Andrew showing off the realtime DDGI system
+	in Hyperion ))%%
+
+	<!---->
+
+	<!--
 	<div class="hp-dark-container hp-project-card">
 		<div class="hp-flex-col hp-tablet-flex-col">
 			<div class="hp-flex-col hp-title-description-box">
@@ -224,18 +258,7 @@
 						</a>
 					</div>
 				</div>
-				<div>
-					<p>
-						A custom CPU architecture, macro assembler, and VM written as a
-						challenge to write the smallest assembler and VM that is still easy
-						to program for.
-					</p>
-					<p>
-						For this project, the assembler is programmed in Python, and the VM
-						is programmed in C. It runs blazingly fast, and has a bunch of cool
-						features!
-					</p>
-				</div>
+				<div></div>
 			</div>
 			<div>
 				<div class="hp-flex-row hp-double-images">
@@ -268,6 +291,7 @@
 			</div>
 		</div>
 	</div>
+	-->
 
 	%% project( 3D Modelling $ null $ mainpage/3d-modelling $ project_image(
 	pistol-model.png $ An image of a modelled pistol $ Viewport screenshot ) ) %%

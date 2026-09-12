@@ -173,23 +173,23 @@
 				<h1>About Me</h1>
 				<p>
 					I am a programmer from Nova Scotia, Canada, currently waiting for my
-					graduation for a Bachelor of Computer Science. I spend most of my time
-					working on my FPS game
-					<a href="https://github.com/emd22/foxtrot">Foxtrot</a> and its custom
-					game engine, as well as
-					<a href="https://github.com/notomorrow/hyperion-engine"
-						>Hyperion Engine</a
+					graduation for a Bachelor of Computer Science (October 20th!). I spend
+					most of my time working on an FPS game in my engine
+					<a href="https://github.com/emd22/RaptorEngine">Raptor Engine</a>, as
+					well as working on the compiler for the
+					<a href="https://github.com/StrataLanguage/stratac"
+						>Strata scripting language</a
 					>
 					with my brother.
 				</p>
 				<p>
-					I am passionate about graphics and low-level programming, and
-					experienced with writing optimized C++.
+					I am passionate about graphics and low-level programming, experienced
+					with writing optimized C++, and love playing games.
 				</p>
 				<p>
-					For example, this website is
+					Fun fact, this website is
 					<a href="https://github.com/emd22/ethanm.ca/blob/main/tlbuilder.cpp"
-						>built using a custom system</a
+						>generated using a custom templating system</a
 					>
 					I wrote in C++!
 				</p>
@@ -197,21 +197,29 @@
 				<h1>Skills</h1>
 				<ul>
 					<li>
-						Developed <b>game engines</b>, <b>programming languages</b>,
-						<b>operating systems</b> as well as <b>virtual machines</b> for
-						personal projects, and to expand my learning.
+						Working on game engines (well versed with Vulkan and OpenGL),
+						writing <b>Deferred and Forward+ renderers</b> and building super
+						fast systems to support engines.
 					</li>
 					<li>
-						Very experienced with <b>Godot engine</b>, and used <b>Unity</b> for
-						game development courses in university.
+						I am a very performance focused programmer. I like writing things
+						fast, and making things go fast where it matters; I enjoy writing
+						some SSE and Neon optimized code and hate on per-frame allocations.
 					</li>
 					<li>
-						Experienced with many programming languages including
-						<b>C++</b>, <b>C#</b>, <b>Zig</b>, and <b>Golang</b>.
+						Built quite a bit with <b>Godot engine</b> (C# api is king), and
+						<b>Unity</b>.
 					</li>
+					<li>
+						Proficient with many programming languages including
+						<b>C++</b>, <b>C#</b>, <b>Zig</b>, <b>Python</b> and
+						<b>the web stuff</b>.
+					</li>
+					<li>Tabs are better than spaces</li>
 					<li>
 						Work experience as a <b>full-stack web developer</b>, as well as
-						developing <b>Unreal Engine 4 and 5 plugins and tools</b>.
+						developing <b>Unreal Engine 4 and 5 plugins and tools</b>, and
+						<b>GUI tools in Python</b>.
 					</li>
 				</ul>
 			</div>
@@ -229,8 +237,8 @@
 	<div class="hp-flex-col hp-tablet-flex-col">
 		<div class="hp-flex-col hp-title-description-box">
 			<div class="hp-flex-col">
-				<h1 class="hp-title-chunky hp-color-title">Foxtrot</h1>
-				<div class="hp-flex-row"><a href="https://github.com/emd22/foxtrot" class="hp-social-link">
+				<h1 class="hp-title-chunky hp-color-title">Raptor Engine</h1>
+				<div class="hp-flex-row"><a href="https://github.com/emd22/RaptorEngine" class="hp-social-link">
   <img
     class="hp-link-icon-dark"
     src="./assets/github-mark/github-mark.svg"
@@ -242,30 +250,32 @@
 </div>
 			</div>
 			<div><p>
-	Foxtrot is an in-development FPS with a custom game engine written in C++. It
-	has a Vulkan backend, multithreaded asset loading and integrates with Jolt
-	physics. Assets are streamed in the background, and the blockout is hot
-	reloadable and generated on the fly from config files.
+	Raptor Engine is a Vulkan game engine written in C++ with components in
+	Strata. The renderer is very customizable and is currently Tiled Forward+ and
+	includes with dynamic shadows, SSAO, and probe-based global illumination.
 </p>
 <p>
-	The renderer is super modular and is currently tiled Forward+. The renderer
-	has dynamic shadows and SSAO.
-</p>
-	As well, Foxtrot has an in-house scripting language (now has Strata scripting
-	integrated!) and a SSE+AVX and Arm NEON optimized math library.
-
+	Raptor has many cool features, including custom shader binding generation,
+	fast level building with the prototype system, and a SIMD optimized math
+	library. Raptor uses Strata as a scripting language (JIT compiled!), with the
+	<a
+		href="https://github.com/emd22/RaptorEngine/blob/main/Scripts/editor/prototype_editor.strata"
+		>entire level prototyping system</a
+	>
+	being written in it.
 </p>
 </div>
 		</div>
 		<div>
 			<div class="hp-flex-row hp-double-images">
-				<div class="hp-project-card-content hp-center-x"><video src="./assets/foxtrot-editor.webm" loop playsinline autoplay muted alt="Demo of level builder"></video>
-<p class="hp-media-text"><i>Demo of level builder</i></p>
+				<div class="hp-project-card-content hp-center-x"><video src="./assets/raptor_prototyping.webm" loop playsinline autoplay muted alt="Demo of level prototyping"></video>
+<p class="hp-media-text"><i>Demo of
+	level prototyping</i></p>
 </div>
 				<div class="hp-project-card-content hp-center-x"><img src="./assets/foxtrot-gi.png" alt="Probe based global
 	illumination" />
 <p class="hp-media-text">
-  <i>Probe based global illumination</i>
+  <i>Probe based global illumination (still WIP)</i>
 </p>
 </div>
 			</div>
@@ -292,43 +302,45 @@
 </div>
       </div>
       <div><p>
-  Strata is an embeddable native scripting language with rust-like semantics
-  designed for game engines. It features JIT and AOT compilation with both
-  TinyCC and LLVM backends, as well as the ability to transpile to C.
+	Strata is an embeddable native scripting language with rust-like semantics
+	designed for game engines. It features JIT and AOT compilation with an LLVM
+	backend.
 </p>
 <p>
-  This language is being developed with a group of 2 other programmers, where
-  i've added first-class support for SIMD accelerated vectors, as well as added
-  features and fixes across multiple backends.
+	This language is being developed with two other programmers. I've added
+	first-class support for SIMD accelerated vectors (with HLSL adjacent syntax),
+	and heavily contributed to the compiler.
 </p>
 <p></p>
 </div>
     </div>
-    <div class="hp-project-card-content"><div class="hp-project-codeblock"><pre><code class="language-strata">import weapons/rifle_base;
+    <div class="hp-project-card-content"><div class="hp-project-codeblock"><pre><code class="language-strata">import ../common;
 
-struct BobValue { float x; float y; };
-
-/* Links to C functions (or engine impls) */
-extern BobValue get_bob();
-
-/* Basic example of mutating values through `ref` */
-void on_run_anim(ref float3 position)
+/* A type-safe pointer type, exposed as void* to C. */
+handle OBJECT;
+impl OBJECT
 {
-    BobValue bob = get_bob();
-    float3 offset = float3(bob.x, bob.y, 0.0f);
+	/* Define in-engine */
+	extern void set_position(OBJECT obj, float3 position);
+	extern float3 get_position(OBJECT obj);
 
-    /* Modify the provided float3 */
-    position += offset;
+	property float3 position {
+		get = OBJECT_get_position;
+		set = OBJECT_move_to;
+	}
 }
 
-float demo()
-{
-    /* `box` is an implicitly moving reference */
-    box&lt;float3&gt; test = float3(10.0f, 20.0f, 30.0f);
+const float SPEED = 0.5f;
 
-    /* Permute between vectors (even `box`d!) */
-    float3 result = test.zyx + float3(10.0f);
-    return result.x;
+void called_from_cpp(OBJECT obj, float3 camera_forward)
+{
+	const float3 up_dir = float3(0.0, 1.0, 0.0);
+	// In-compiler vector intrinsics!
+	float3 right_dir = cross(camera_forward, up_dir);
+
+	// Get and set positions using properties
+	float3 new_position = (obj.position + (right_dir * SPEED));
+	obj.position = new_position;
 }</code></pre>
 </div>
 </div>
@@ -441,12 +453,14 @@ float demo()
 </div>
       </div>
       <div><p>
-  A modern Vulkan game engine. Supports multithreaded rendering, VCT, DDGI,
-  raytracing, and much more.
+	A modern Vulkan game engine. Supports multithreaded rendering, VCT, DDGI,
+	raytracing, and much more.
 </p>
 <p>
-  Built with my brother Andrew(<a href="https://github.com/ajmd17">@ajmd17</a>),
-  we are currently working towards building a game with Hyperion.
+	I worked on this engine with my brother Andrew(<a
+		href="https://github.com/ajmd17"
+		>@ajmd17</a
+	>) and worked on developing the original Vulkan backend.
 </p>
 </div>
     </div>
@@ -606,13 +620,12 @@ float demo()
 				<div class="hp-project-card-content hp-center-x"><img src="./assets/asm-code-screenshot2.png" alt="Full program written in the custom
 	assembler language" />
 <p class="hp-media-text">
-  <i>Andrew showing off the realtime DDGI system in Hyperion</i>
+  <i>Compilable program in the custom assembler</i>
 </p>
 </div>
 				<div class="hp-project-card-content hp-center-x"><video src="./assets/vm-hello-world.webm" loop playsinline autoplay muted alt="Demo of the VM running with a slow step
 	speed printing "Hello, World"!"></video>
-<p class="hp-media-text"><i>Andrew showing off the realtime DDGI system
-	in Hyperion</i></p>
+<p class="hp-media-text"><i>Demo of the VM running with a slow step speed</i></p>
 </div>
 			</div>
 		</div>
@@ -702,33 +715,35 @@ float demo()
 </div>
 
 
-	<!-- Belter -->
+	<!-- -->
+
 	<div class="hp-dark-container hp-project-card">
-		<div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
-			<div class="hp-flex-col hp-title-description-box">
-				<div class="hp-flex-col">
-					<h1 class="hp-title-chunky hp-color-title">Belter</h1>
-				</div>
-				<div>
-					<p>
-						Belter was a fun side project to try out Dart and Golang. It was an
-						audio-focused social network that allowed you to share audio clips
-						with friends.
-					</p>
-				</div>
-			</div>
-			<!--<div class="hp-project-card-content">
-          <video
-            src="./assets/belter-video.mp4"
-            autoplay
-            loop
-            muted
-            alt="demo of the belter app, signing in and going through multiple menus, and scrolling through posts."
-          ></video>
-          <p><i>Demo of Belter on macOS</i></p>
-        </div>-->
-		</div>
-	</div>
+  <div class="hp-flex-row hp-tablet-flex-col hp-hero-box">
+    <div class="hp-flex-col hp-title-description-box">
+      <div class="hp-flex-col">
+        <h1 class="hp-title-chunky hp-color-title">Belter</h1>
+        <div class="hp-flex-row"><a href="github.com/emd22/belter" class="hp-social-link">
+  <img
+    class="hp-link-icon-dark"
+    src="./assets/github-mark/github-mark.svg"
+    width="30px"
+    height="30px"
+    alt="GitHub"
+  />
+</a>
+</div>
+      </div>
+      <div><p>
+	Belter was a fun side project to try out Dart and Golang. It was an
+	audio-focused social network that allowed you to share audio clips with
+	friends.
+</p>
+</div>
+    </div>
+    <div class="hp-project-card-content"></div>
+  </div>
+</div>
+
 </section>
 
 <!-- Footer -->

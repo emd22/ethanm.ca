@@ -1,26 +1,28 @@
-<pre><code class="language-strata">import weapons/rifle_base;
+<pre><code class="language-strata">import ../common;
 
-struct BobValue { float x; float y; };
-
-/* Links to C functions (or engine impls) */
-extern BobValue get_bob();
-
-/* Basic example of mutating values through `ref` */
-void on_run_anim(ref float3 position)
+/* A type-safe pointer type, exposed as void* to C. */
+handle OBJECT;
+impl OBJECT
 {
-    BobValue bob = get_bob();
-    float3 offset = float3(bob.x, bob.y, 0.0f);
+	/* Define in-engine */
+	extern void set_position(OBJECT obj, float3 position);
+	extern float3 get_position(OBJECT obj);
 
-    /* Modify the provided float3 */
-    position += offset;
+	property float3 position {
+		get = OBJECT_get_position;
+		set = OBJECT_move_to;
+	}
 }
 
-float demo()
-{
-    /* `box` is an implicitly moving reference */
-    box&lt;float3&gt; test = float3(10.0f, 20.0f, 30.0f);
+const float SPEED = 0.5f;
 
-    /* Permute between vectors (even `box`d!) */
-    float3 result = test.zyx + float3(10.0f);
-    return result.x;
+void called_from_cpp(OBJECT obj, float3 camera_forward)
+{
+	const float3 up_dir = float3(0.0, 1.0, 0.0);
+	// In-compiler vector intrinsics!
+	float3 right_dir = cross(camera_forward, up_dir);
+
+	// Get and set positions using properties
+	float3 new_position = (obj.position + (right_dir * SPEED));
+	obj.position = new_position;
 }</code></pre>

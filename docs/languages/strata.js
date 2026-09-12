@@ -4,7 +4,7 @@
   'use strict';
 
   /*
-  Language: C++
+  Language: Strata
   Category: common, system
   Website: https://isocpp.org
   */
@@ -147,7 +147,11 @@
       'return',
       'sizeof',
       'struct',
+      'impl',
+      'property',
       'switch',
+      'get',
+      'set',
       'true',
       'while',
     ];
@@ -198,7 +202,6 @@
       'recursive_mutex',
       'recursive_timed_mutex',
       'scoped_lock',
-      'set',
       'shared_future',
       'shared_lock',
       'shared_mutex',

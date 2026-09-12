@@ -26,10 +26,9 @@
       Hi, I'm Ethan!
       <br />
       <br />
-      I work on a variety of projects, with a focus on game technologies. Most of my projects are C, C++ or C#, with
-      professional experience working with JS and Typescript.
-
-      I enjoy writing SIMD optimized code (Neon, SSE/AVX) and working on renderers and engine systems.
+      I am proficient in C, C++, C# and programming for web, and have many open source projects that show my work.
+      I work on a variety of projects, with a focus on games;
+      anything from Just-In-Time (JIT) compilers, Vulkan game engines, SSE and ARM Neon optimized math libraries, and scripting languages.
       <br />
       <br />
       I have completed my Bachelor's degree and I am currently awaiting my graduation in October.
@@ -102,16 +101,17 @@
   <!-- Projects -->
 
   %%resume/section_begin(Projects)%%
-    %% resume/experience( Foxtrot Engine $ Personal Project $ March 2025 — Present $ null $
+    %% resume/experience( Raptor Engine $ Personal Project $ March 2025 — Present $ null $
       <p>
-        Foxtrot is an in-development FPS game with a purpose-built game engine.
+        Raptor is a custom game engine being developed for an FPS game, with a Vulkan renderer backend.
       </p>
 
       <ul>
-          <li>Forward+ renderer with Vulkan backend</li>
+          <li>Forward+ renderer with GPU light culling. Previously used standard Deferred rendering, and still employ a depth and normal prepass for screen-space effects.</li>
+          <li>Fast level prototyping editor</li>
           <li>Probe-based GI</li>
           <li>PBR lighting pipeline with ambient occlusion</li>
-          <li>Math library optimized for SSE and Neon, custom STL replacements</li>
+          <li>Math library optimized for SSE and Neon, and a custom core library</li>
           <li>Scripts written in Strata scripting language, JIT compiled</li>
           <li>Integration with Jolt Physics</li>
       </ul>
@@ -123,8 +123,8 @@
       <p>
           <ul>
 		        <li>Native scripting language (supports AOT and JIT) designed for games, written in C</li>
-            <li>Developed with 2 other programmers from the AAA game space</li>
-            <li>I work on the compiler and added first class vector support(a la HLSL's float3/floatN)</li>
+            <li>with 2 other programmers from the AAA game space</li>
+            <li>I work on language features in the compiler(LLVM backend) and added first class vector support(a la HLSL's float3/floatN)</li>
           </ul>
       </p>
       )

@@ -116,6 +116,12 @@ body h2 {
 	font-size: 1.5em;
 }
 
+svg {
+	fill: var(--onSecondary);
+	height: 75px;
+	width: 200px;
+}
+
 .hp-double-images {
 	img,
 	video {

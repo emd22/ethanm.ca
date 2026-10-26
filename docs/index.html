@@ -215,7 +215,6 @@
 						<b>C++</b>, <b>C#</b>, <b>Zig</b>, <b>Python</b> and
 						<b>the web stuff</b>.
 					</li>
-					<li>Tabs are better than spaces</li>
 					<li>
 						Work experience as a <b>full-stack web developer</b>, as well as
 						developing <b>Unreal Engine 4 and 5 plugins and tools</b>, and
@@ -430,31 +429,50 @@
 			</div>
 			<div><p>
 	Raptor Engine is a Vulkan game engine written in C++ with components in
-	Strata. The renderer is very customizable and is currently Tiled Forward+ and
-	includes with dynamic shadows, SSAO, and probe-based global illumination.
+	Strata. Raptor has a brush-style editor, map compiler (with a lightmapper and
+	face discard), froxel-based volumetric lighting, probe based GI for dynamic
+	objects, data-driven particle and material systems, as well as a few unique
+	ways of culling objects.
 </p>
 <p>
-	Raptor has many cool features, including custom shader binding generation,
-	fast level building with the prototype system, and a SIMD optimized math
-	library. Raptor uses Strata as a scripting language (JIT compiled!), with the
+	The first cull pass in Raptor is a frustum pass the world grid - a collection
+	of tiles that objects are binned into - which takes out the majority of
+	objects before the next culling passes. The next pass is a simple frustum
+	culling pass, followed by portal culling.
+</p>
+<p>
+	Each map has an editable state called its <i>Prototype</i>. Prototypes are
+	compiled into final maps using a separate map compiler tool (with CLI and GUI)
+	which removes polygons facing the void, the intersections between objects,
+	bakes. Compiling a prototype allows batching connected objects together and
+	keeping only what will be visible to a player, while making every map look
+	better than if it was fully dynamic. Currently, map compilation takes a few
+	seconds up to a few minutes depending on the quality preset chosen and the
+	number of CPU cores available.
+</p>
+<p>
+	Raptor further includes custom shader binding generation with preprocessing, a
+	SIMD optimized math library, and data streaming through a purpose built config
+	language. Raptor uses
 	<a
 		href="https://github.com/emd22/RaptorEngine/blob/main/Scripts/editor/prototype_editor.strata"
-		>entire level prototyping system</a
+		>Strata</a
 	>
-	being written in it.
+	as a scripting language (JIT compiled!)
 </p>
 </div>
 		</div>
 		<div>
 			<div class="hp-flex-row hp-double-images">
-				<div class="hp-project-card-content hp-center-x"><video src="./assets/raptor-spotlights3.mp4" loop playsinline autoplay muted alt="Spotlights and global illumination"></video>
-<p class="hp-media-text"><i>Spotlights, shadow atlas and global illumination</i></p>
-</div>
-				<div class="hp-project-card-content hp-center-x"><img src="./assets/raptor-lighting.png" alt="Probe based global illumination" />
+				<div class="hp-project-card-content hp-center-x"><img src="./assets/raptor-editor2.png" alt="World editor and probe GI" />
 <p class="hp-media-text">
-  <i>Probe based global
-	illumination</i>
+  <i>World editor
+	and probe GI</i>
 </p>
+</div>
+				<div class="hp-project-card-content hp-center-x"><video src="./assets/raptor-culling.webm" loop playsinline autoplay muted alt="Volumetric fog and
+	culling systems"></video>
+<p class="hp-media-text"><i>Volumetric fog and culling systems</i></p>
 </div>
 			</div>
 		</div>

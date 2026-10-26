@@ -1,15 +1,33 @@
 <p>
 	Raptor Engine is a Vulkan game engine written in C++ with components in
-	Strata. The renderer is very customizable and is currently Tiled Forward+ and
-	includes with dynamic shadows, SSAO, and probe-based global illumination.
+	Strata. Raptor has a brush-style editor, map compiler (with a lightmapper and
+	face discard), froxel-based volumetric lighting, probe based GI for dynamic
+	objects, data-driven particle and material systems, as well as a few unique
+	ways of culling objects.
 </p>
 <p>
-	Raptor has many cool features, including custom shader binding generation,
-	fast level building with the prototype system, and a SIMD optimized math
-	library. Raptor uses Strata as a scripting language (JIT compiled!), with the
+	The first cull pass in Raptor is a frustum pass the world grid - a collection
+	of tiles that objects are binned into - which takes out the majority of
+	objects before the next culling passes. The next pass is a simple frustum
+	culling pass, followed by portal culling.
+</p>
+<p>
+	Each map has an editable state called its <i>Prototype</i>. Prototypes are
+	compiled into final maps using a separate map compiler tool (with CLI and GUI)
+	which removes polygons facing the void, the intersections between objects,
+	bakes. Compiling a prototype allows batching connected objects together and
+	keeping only what will be visible to a player, while making every map look
+	better than if it was fully dynamic. Currently, map compilation takes a few
+	seconds up to a few minutes depending on the quality preset chosen and the
+	number of CPU cores available.
+</p>
+<p>
+	Raptor further includes custom shader binding generation with preprocessing, a
+	SIMD optimized math library, and data streaming through a purpose built config
+	language. Raptor uses
 	<a
 		href="https://github.com/emd22/RaptorEngine/blob/main/Scripts/editor/prototype_editor.strata"
-		>entire level prototyping system</a
+		>Strata</a
 	>
-	being written in it.
+	as a scripting language (JIT compiled!)
 </p>

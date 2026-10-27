@@ -54,19 +54,13 @@
 			var progress = text.match(/\((\d+)\/(\d+)\)/);
 
 			if (progress && Number(progress[2]) > 0) {
+				// Progress is cacked since it doesn't give us the uncompressed size. Ignoring the download percentage for now as the files are small enough that it likely wont matter.
 				var loaded = Number(progress[1]);
 				var total = Number(progress[2]);
 				var toMB = function (bytes) {
 					return (bytes / 1000000).toFixed(1);
 				};
-				text =
-					"Loading satellite data... " +
-					Math.floor((loaded / total) * 100) +
-					"% (" +
-					toMB(loaded) +
-					" / " +
-					toMB(total) +
-					" MB)";
+				text = "Loading satellite data... ";
 			}
 
 			statusElement.textContent = text;

@@ -92,22 +92,14 @@
 <!-- Content -->
 <title>Satellite Visualization</title>
 
-<section class="hp-project-section">
-	<div class="hp-dark-container hp-project-card">
-		<div class="hp-flex-col">
-			<h1 class="hp-title-chunky hp-color-title">Satellite Visualization</h1>
-
-			<div class="space-viewer">
-				<canvas
-					id="canvas"
-					oncontextmenu="event.preventDefault()"
-					tabindex="-1"
-				></canvas>
-				<div id="status">Loading satellite data...</div>
-			</div>
-		</div>
-	</div>
-</section>
+<div class="space-viewer">
+	<canvas
+		id="canvas"
+		oncontextmenu="event.preventDefault()"
+		tabindex="-1"
+	></canvas>
+	<div id="status">Loading satellite data...</div>
+</div>
 
 <style>
 	.space-viewer {
@@ -116,7 +108,6 @@
 		aspect-ratio: 1;
 		overflow: hidden;
 		background: #000;
-		border-radius: 8px;
 	}
 
 	#canvas {
@@ -124,6 +115,8 @@
 		width: 100%;
 		height: 100%;
 		outline: none;
+		/* Touch gestures (pinch to zoom, drag to rotate) are handled by the visualization, not the page */
+		touch-action: none;
 	}
 
 	#status {

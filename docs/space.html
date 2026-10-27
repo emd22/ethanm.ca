@@ -142,6 +142,25 @@
 		},
 
 		setStatus: function (text) {
+			// Emscripten reports download progress in bytes, but we should display the progress + mb value. Bytes don't mean much to a user lol
+			var progress = text.match(/\((\d+)\/(\d+)\)/);
+
+			if (progress && Number(progress[2]) > 0) {
+				var loaded = Number(progress[1]);
+				var total = Number(progress[2]);
+				var toMB = function (bytes) {
+					return (bytes / 1000000).toFixed(1);
+				};
+				text =
+					"Loading satellite data... " +
+					Math.floor((loaded / total) * 100) +
+					"% (" +
+					toMB(loaded) +
+					" / " +
+					toMB(total) +
+					" MB)";
+			}
+
 			statusElement.textContent = text;
 			statusElement.style.display = text ? "flex" : "none";
 		},

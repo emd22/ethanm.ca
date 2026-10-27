@@ -1,0 +1,77 @@
+<title>Satellite Visualization</title>
+
+<section class="hp-project-section">
+	<div class="hp-dark-container hp-project-card">
+		<div class="hp-flex-col">
+			<h1 class="hp-title-chunky hp-color-title">Satellite Visualization</h1>
+
+			<div class="space-viewer">
+				<canvas
+					id="canvas"
+					oncontextmenu="event.preventDefault()"
+					tabindex="-1"
+				></canvas>
+				<div id="status">Loading satellite data...</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.space-viewer {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 1;
+		overflow: hidden;
+		background: #000;
+		border-radius: 8px;
+	}
+
+	#canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+		outline: none;
+	}
+
+	#status {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #ccc;
+		font: 16px sans-serif;
+		pointer-events: none;
+	}
+</style>
+
+<script>
+	var statusElement = document.getElementById("status");
+
+	var Module = {
+		canvas: document.getElementById("canvas"),
+
+		locateFile: function (path) {
+			return "space/" + path;
+		},
+
+		setStatus: function (text) {
+			statusElement.textContent = text;
+			statusElement.style.display = text ? "flex" : "none";
+		},
+		print: function (text) {
+			console.log(text);
+		},
+		printErr: function (text) {
+			console.error(text);
+		},
+	};
+
+	window.addEventListener("error", function () {
+		statusElement.textContent =
+			"An error occurred, see the console for details.";
+		statusElement.style.display = "flex";
+	});
+</script>
+<script async type="text/javascript" src="space/space.js"></script>
